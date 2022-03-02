@@ -1,0 +1,16 @@
+{
+  "name": "is215-esd",
+  "version": "1.0.0",
+  "description": "Game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "firebase": "^9.6.7",
+    "firebase-admin": "^10.0.2"
+  }
+}

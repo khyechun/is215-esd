@@ -20,13 +20,13 @@ exports.db = getFirestore();
 const app = express();  
 
 
-const game_api = require('./apis/game_api');
+const game_api = require('./game_api');
 
 
 
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/apis/game_api', game_api);
+app.use('/api/game_api', game_api);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

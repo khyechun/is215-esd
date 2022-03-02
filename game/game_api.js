@@ -1,7 +1,7 @@
 const express = require('express');
 // const res = require('express/lib/response');
 const router = express.Router();
-const db = require("../server")
+const db = require("./game")
 const firestore = db.db
 
 
@@ -35,6 +35,7 @@ router.get("/getGame", async (req,res) => {
     catch(error){
         res.send('fuck u')
     }
+
 })
 
 

@@ -10,12 +10,6 @@ dotenv.config();
 process.env.TOKEN_SECRET;
 
 
-
-
-// router.get("/hosehbo", function (req,res){
-//     res.send("hosehbo")
-// })
-
 router.get("/AuthenticateUser", function (req,res){
     //1. get steamID
     let steam_id = req.query['openid.identity'].split("/")[5]

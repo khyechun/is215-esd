@@ -42,8 +42,6 @@ router.get("/getUser", async (req,res)=> {
 
 //3. update user
 router.post("/updateUser", async (req,res)=>{
-
-
     //1.  get email, tradeID, steamID from user 
     // let email = req.body.email
     // let tradeID=req.body.tradeURL
@@ -64,6 +62,20 @@ router.post("/updateUser", async (req,res)=>{
     }
     catch{
         res.send("Error")
+    }
+})
+
+
+//4. get user email -> for email microservice
+router.get('/getUserEmail', async (req,res)=> {
+
+    let userID= '12354697'
+    let user = await firestore.collection('Users').doc(userID).get()
+    if(user.exists){
+        res.send(user.data().email)
+    }
+    else{
+        res.send("No User Found")
     }
 })
 

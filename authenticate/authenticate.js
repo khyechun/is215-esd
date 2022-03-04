@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-const port = process.env.PORT || '8080';
+const port = process.env.PORT || '8082';
 app.set('port', port);
 // app.use(function(req, res, next) {
 //   res.header("Access-Control-Allow-Origin", "https://localhost:8080"); // update to match the domain you will make the request from

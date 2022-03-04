@@ -20,7 +20,8 @@ router.get("/getAllUser", async (req, res) => {
 //2. get a user
 router.get("/getUser", async (req,res)=> {
     // let userID = req.query['openid.identity'].split("/")[5]
-    let userID='12354697'
+    // let userID='12354697'
+    const userID = req.query.userId
     let user = await firestore.collection('Users').doc(userID).get()
 
     let data={
@@ -30,7 +31,8 @@ router.get("/getUser", async (req,res)=> {
 
     if(!user.exists){
         await firestore.collection("Users").doc(userID).set(data);
-        res.send("New User has been created")
+        // res.send("New User has been created")
+        res.send(userID)
     }
     else{
         res.send(userID)

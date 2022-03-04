@@ -32,10 +32,10 @@ router.get("/getUser", async (req,res)=> {
     if(!user.exists){
         await firestore.collection("Users").doc(userID).set(data);
         // res.send("New User has been created")
-        res.send(userID)
+        res.send({newUser: true})
     }
     else{
-        res.send(userID)
+        res.send({newUser:false})
     }
 
 })

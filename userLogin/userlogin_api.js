@@ -26,10 +26,15 @@ router.get("/steamUserLogin", async function (req, res) {
             userId: steam_id
         }
     });
+    // Checks whether it is a first time user
     const userIdData = userIdRequest.data
 
     // 3. res.send JWT token
-    res.send(jwtToken)
+    var responseObj = {
+        jwtToken : jwtToken,
+        firstTimeUser: userIdData.newUser
+    }
+    res.send(responseObj)
 })
 
 

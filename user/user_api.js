@@ -41,16 +41,14 @@ router.get("/getUser", async (req,res)=> {
 })
 
 //3. update user
-router.post("/updateUser", async (req,res)=>{
+router.put("/updateUser", async (req,res)=>{
     //1.  get email, tradeID, steamID from user 
-    // let email = req.body.email
-    // let tradeID=req.body.tradeURL
-    // let steamID = req.body.
-    let userID='12354697'
+    const email = req.body.email
+    const tradeID = req.body.tradeID
+    const userID = req.body.userID
+    // let userID='12354697'
 
-    let email = 'hehe@gmail.com'
-    let tradeID='45678';
-    data={
+    const data={
         email: email,
         tradeID: tradeID
     }

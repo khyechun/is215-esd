@@ -11,15 +11,7 @@ const bodyParser = require('body-parser');
 const app = express();  
 
 
-const serviceAccount = require('./ServiceAccountKey.json');
 
-initializeApp({
-  credential: cert(serviceAccount)
-});
-
-
-const db = getFirestore();
-exports.db = getFirestore();
 
 
 const email_api = require('./email_api');

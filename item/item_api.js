@@ -35,6 +35,20 @@ router.get("/getAllItems", async (req,res) => {
 
 // 2nd API: GET specific item 
 
+router.get("/getItem/:itemID", async (req,res) => {
+    var id = req.params.itemID;
+
+    db.collection('csgoitems').findOne({itemID: id}, function(err, result) {
+        console.log(result);
+        if(result == null) {
+            db.collection('dotaitems').findOne({itemID: id}, function(err, result) {
+                res.send(result)
+            })
+        } else {
+            res.send(result)
+        }
+    })
+})
 
 
 module.exports = router;

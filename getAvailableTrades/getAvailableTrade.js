@@ -38,7 +38,7 @@ app.use('/graphql', graphqlHTTP({
         type Trades {
             _id: String
             offerItems: [Int]
-            userId: Int
+            steamId: Int
             receiveItems: [Int]
             status: Boolean
             
@@ -57,7 +57,7 @@ app.use('/graphql', graphqlHTTP({
                 var data = JSON.stringify({query: `mutation {
                     tradeItems(items: [11]) {
                       _id
-                      userId
+                      steamId
                       status
                       offerItems
                       receiveItems

@@ -23,7 +23,8 @@ app.use((req, res, next)=>{
 })
 
 
-const tradeURL = 'http://localhost:8085/graphql'
+const tradeURL = 'http://localhost:8085/graphql';
+const authenticateURL = 'http://localhost:8082/api/authenticate_api/authenticateToken'
 
 app.use('/graphql', graphqlHTTP({
     schema: buildSchema(`
@@ -38,7 +39,7 @@ app.use('/graphql', graphqlHTTP({
         input Trade {
             receiveItems: [Int]
             offerItems: [Int]
-            userId: Int
+            tokenId: String
         }
 
         
@@ -49,23 +50,24 @@ app.use('/graphql', graphqlHTTP({
         }
     `),
     rootValue: {
-        getTrades: async (args)=>{
+        createTrade: async (args)=>{
             const {items} = args;
-            const {receiveItems, offerItems, userId} = args.trade;
+            const {receiveItems, offerItems, token} = args.trade;
             try {
+                var res = await axios.get(authenticateURL, setHeader(token));
+                var steamId = res.userId
                 var data = JSON.stringify({query: `mutation {
-                    createTrade(receiveItems: ${receiveItems}, offerItems: ${offerItems}, userId: ${userId})
-                  
+                    createTrade(receiveItems: ${receiveItems}, offerItems: ${offerItems}, steamId: ${steamId})
                   }`})
                   
-                var trades = await axios.post(tradeURL, data, setHeader());
-                return trades.data.data.tradeItems
+                var status = await axios.post(tradeURL, data, setHeader());
+                return status.data.data.createTrade
                 
                 
         
             } catch (err) {
                 console.log(err)
-                return "Failed";
+                return false;
             }
             
         },
@@ -74,10 +76,11 @@ app.use('/graphql', graphqlHTTP({
     graphiql: true
 }));
 
-const setHeader = ()=>{
+const setHeader = (token)=>{
     return {
       headers:{
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer '+ token
               }
     }
 }

@@ -40,13 +40,13 @@ app.use('/graphql', graphqlHTTP({
         input Trade {
             receiveItems: [Int]
             offerItems: [Int]
-            userId: Int
+            steamId: Int
         }
 
         type Trades {
             _id: String
             offerItems: [Int]
-            userId: Int
+            steamId: Int
             receiveItems: [Int]
             status: Boolean
             
@@ -66,7 +66,7 @@ app.use('/graphql', graphqlHTTP({
                 var new_trades = []
                 for (var trade of trades){
                     
-                    new_trades.push({_id: trade._id, userId: trade.userId, offerItems: trade.offerItems, receiveItems: trade.receiveItems, status: trade.status})
+                    new_trades.push({_id: trade._id, steamId: trade.userId, offerItems: trade.offerItems, receiveItems: trade.receiveItems, status: trade.status})
                 }
                 console.log(new_trades)
                 return new_trades
@@ -114,11 +114,11 @@ app.use('/graphql', graphqlHTTP({
         },
         createTrade: async (args)=>{
             console.log(args)
-            const {receiveItems, offerItems, userId} = args.trade;
+            const {receiveItems, offerItems, steamId} = args.trade;
             console.log(userId)
             try {
                 
-                const trades = await Trade.insertMany({ userId, receiveItems, offerItems, "status": false })
+                const trades = await Trade.insertMany({ steamId, receiveItems, offerItems, "status": false })
                 return true
                 
 

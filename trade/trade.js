@@ -19,6 +19,9 @@ app.use(bodyParser.json())
 
 app.use((req, res, next)=>{
     console.log(`${req.method} - ${req.url}`)
+    console.log(req.body)
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8093')
+    res.setHeader('Acess-Control-Allow-Methods', 'POST, GET')
     next()
 })
 
@@ -77,6 +80,7 @@ app.use('/graphql', graphqlHTTP({
             
         },
         tradeItems: async (args)=>{
+            console.log("HI")
             const {items} = args;
             try {
                 var selectedTrades = []
@@ -128,39 +132,6 @@ app.use('/graphql', graphqlHTTP({
     graphiql: true
 }));
 
-
-
-/* app.get("/trade/users", async (req, res)=>{
-    const userId = req.query.id;
-    try {
-        
-        const trades = await Trade.find({ "userId" : userId });
-        
-        res.status(200).json({trades})
-        
-
-    } catch (err) {
-        console.log(err);
-    }
-}) */
-
-
-
-/* app.post("/trade/update", async (req, res)=>{
-    const {tradeID} = req.body;
-    try {
-        
-        const trade = await Trade.find({ "_id": tradeID })
-        const filter = { "_id":userId };
-        const update = { "userId":trade.userId, "receiveItems":trade.receieveItems, "offerItems":trade.offerItems, "status": true };
-        let result = await Trade.findOneAndUpdate(filter, update);
-        res.status(200).json({message: "Success"})
-        
-
-    } catch (err) {
-        console.log(err);
-    }
-}) */
 
 
 

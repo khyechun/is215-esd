@@ -1,0 +1,20 @@
+{
+  "name": "item",
+  "version": "1.0.0",
+  "description": "",
+  "main": "item.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "express": "^4.17.3",
+    "http": "0.0.1-security",
+    "mongodb": "^4.4.1",
+    "path": "^0.12.7",
+    "process": "^0.11.10"
+  }
+}

@@ -21,6 +21,7 @@ MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, as
 
 // 1st API: GET all items (from both CSGO and Dota 2)
 router.get("/getAllItems", async (req,res) => {
+    console.log("HI")
     all_items=[];
     let csitems = await db.collection('csgoitems').find().toArray()
     let dotaitems = await db.collection('dotaitems').find().toArray()

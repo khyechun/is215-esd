@@ -2,7 +2,6 @@ FROM node:14-slim
 WORKDIR /usr/src/app
 COPY . . 
 RUN npm install 
-COPY ./game.js .
-EXPOSE 8083
-CMD [ "node", "./game.js" ]
-
+COPY ./item.js .
+EXPOSE 8088
+CMD [ "node", "./item.js" ]

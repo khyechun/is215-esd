@@ -23,10 +23,10 @@ app.use((req, res, next)=>{
 })
 
 
-const tradeURL = 'http://localhost:8085/graphql';
+const tradeURL = 'http://localhost:8085/api/trade';
 const authenticateURL = 'http://localhost:8082/api/authenticate_api/authenticateToken'
 
-app.use('/graphql', graphqlHTTP({
+app.use('/api/list_trade', graphqlHTTP({
     schema: buildSchema(`
         type rootQuery {
             getTrades(items: [Int]): [Trades]

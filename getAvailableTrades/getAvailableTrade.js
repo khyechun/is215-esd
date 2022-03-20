@@ -22,10 +22,10 @@ app.use((req, res, next)=>{
     next()
 })
 
-const itemURL = 'http://localhost:8088/getAllItems'
-const tradeURL = 'http://localhost:8085/graphql'
+const itemURL = 'http://localhost:8088/getItems'
+const tradeURL = 'http://localhost:8085/api/trade'
 
-app.use('/graphql', graphqlHTTP({
+app.use('/api/get_available_trades', graphqlHTTP({
     schema: buildSchema(`
         type rootQuery {
             getTrades(items: [Int]): [Trades]
@@ -65,9 +65,20 @@ app.use('/graphql', graphqlHTTP({
                   
                   }`})
                   
-                var trades = await axios.post(tradeURL, data, setHeader());
-                return trades.data.data.tradeItems
-                
+                var data = await axios.post(tradeURL, data, setHeader());
+                var trades = data.data.data.tradeItems
+                var query_arr = []
+                for (var trade of trades){
+                    var offer = trade.offerItems
+                    var receive = trade.receiveItems
+                    offer = offer.join(".")
+                    receive = receive.join(".")
+                    var trade_query = offer + "," + receive;
+                    query_arr.push(trade_query)
+                }
+                var query = query_arr.join("|");
+                var url = itemURL + `?arr=${query}`
+                var trades = await axios.get(url, setHeader());
                 
         
             } catch (err) {

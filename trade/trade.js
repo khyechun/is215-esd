@@ -6,10 +6,8 @@ const {buildSchema} = require('graphql')
 const mongoose = require("mongoose");
 const Trade = require("./model/trade")
 const bodyParser = require('body-parser');
-const trade = require('./model/trade');
 
 const app = express();
-var jsonParser = bodyParser.json()
 app.use(cors())
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -19,13 +17,13 @@ app.use(bodyParser.json())
 
 app.use((req, res, next)=>{
     console.log(`${req.method} - ${req.url}`)
-    console.log(req.body)
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8093')
+    
+    res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Acess-Control-Allow-Methods', 'POST, GET')
     next()
 })
 
-app.use('/graphql', graphqlHTTP({
+app.use('/api/trade', graphqlHTTP({
     schema: buildSchema(`
         type rootQuery {
             trades: [Trades]

@@ -38,6 +38,7 @@ router.get("/getAllItems", async (req,res) => {
 
 router.get("/getItem/:itemID", async (req,res) => {
     var id = req.params.itemID;
+    
 
     db.collection('csgoitems').findOne({itemID: id}, function(err, result) {
         console.log(result);
@@ -49,6 +50,30 @@ router.get("/getItem/:itemID", async (req,res) => {
             res.send(result)
         }
     })
+})
+
+
+// 3rd API: GET specific item(s)
+
+router.get("/getItems", async (req,res) => {
+    var ids = req.query.arr;
+    var ids = ids.split(',');
+    var items = [];
+    for (i=0; i < ids.length; i++) {
+        id = ids[i];
+        console.log(ids[i]);
+        db.collection('csgoitems').findOne({itemID: id}, function(err, result) {
+            console.log(result);
+            if(result == null) {
+                db.collection('dotaitems').findOne({itemID: id}, function(err, result) {
+                    items.push(result);
+                })
+            } else {
+                items.push(result);
+            }
+        })
+    }
+    res.send(items);
 })
 
 

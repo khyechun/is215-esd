@@ -3,11 +3,6 @@ const router = express.Router();
 var cors = require('cors')
 
 
-// JWT TOKEN 
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-dotenv.config();
-process.env.TOKEN_SECRET;
 
 
 router.get("/AuthenticateUser", function (req, res) {

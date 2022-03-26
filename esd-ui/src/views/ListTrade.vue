@@ -5,7 +5,7 @@
         <div class="custom-container background-secondary top-container">
           <div class="row">
             <div class="col-6">You Offer</div>
-            <div class="col-6 text-end">Clear</div>
+            <div class="col-6 text-end"><button class="btn">Clear</button></div>
           </div>
         </div>
       </div>
@@ -13,7 +13,7 @@
         <div class="custom-container background-secondary top-container">
           <div class="row">
             <div class="col-6">You Get</div>
-            <div class="col-6 text-end">Clear</div>
+            <div class="col-6 text-end"><button class="btn">Clear</button></div>
           </div>
         </div>
       </div>

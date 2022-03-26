@@ -6,11 +6,6 @@ const firestore = db.db
 
 
 
-router.get("/hosehbo", function (req, res) {
-    res.send("hosehbo")
-})
-
-
 
 //1st api: get all games 
 router.get("/getAllGames", async (req,res) => {
@@ -19,7 +14,20 @@ router.get("/getAllGames", async (req,res) => {
     games.forEach(doc=>{
         all_games.push(doc.data())
     })
-    res.send(all_games);
+
+    if(res.statusCode==200){
+        res.send({
+            "code": res.statusCode,
+            "game_titles": all_games
+        })
+    }
+    else{
+        res.send(
+            {"error_code": res.statusCode,
+            "message": "An error: 400 occurred while trying to authenticate the user. Please try again."
+        })
+    }
+
 })
 
 
@@ -29,11 +37,18 @@ router.get("/getGame", async (req,res) => {
     let gameID='500'
     try{
         let game = await firestore.collection('Games').doc(gameID).get()
-        res.send(game.data().gameTitle)
+        let game_title = game.data().gameTitle
+        res.send({
+            "code": res.statusCode,
+            "game_title": game_title
+        })
 
     }
     catch(error){
-        res.send('fuck u')
+        res.send(
+            {"error_code": res.statusCode,
+            "message": "An error: 400 occurred while trying to authenticate the user. Please try again."
+        })
     }
 
 })

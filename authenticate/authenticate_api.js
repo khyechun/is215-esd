@@ -5,7 +5,7 @@ var cors = require('cors')
 
 
 
-router.get("/AuthenticateUser", function (req, res) {
+router.get("/authenticateUser", function (req, res) {
     //1. get steamID
     // let steam_id = req.query['openid.identity'].split("/")[5]
     // console.log(steam_id)
@@ -18,12 +18,21 @@ router.get("/AuthenticateUser", function (req, res) {
         return jwt.sign(steamID, process.env.TOKEN_SECRET);
     }
     const token = generateAccessToken(steam_id);
-    res.send(token);
+    if(res.statusCode==200){
+        res.send(token)
+    }
+    else{
+        res.send(
+            {"error_code": res.statusCode,
+            "message": "An error: 400 occurred while trying to authenticate the user. Please try again."
+        })
+    }
 })
 
 router.get("/authenticateToken", authenticateToken,function (req,res){
     // console.log(req)
     const responseObj = req.responseObj 
+    console.log(responseObj)
     res.send(responseObj)
 })
 

@@ -38,6 +38,7 @@ router.get("/getAllItems", async (req,res) => {
 
 router.get("/getItem/:itemID", async (req,res) => {
     var id = req.params.itemID;
+    
 
     db.collection('csgoitems').findOne({itemID: id}, function(err, result) {
         console.log(result);
@@ -49,6 +50,51 @@ router.get("/getItem/:itemID", async (req,res) => {
             res.send(result)
         }
     })
+})
+
+
+// 3rd API: GET specific item(s)
+
+router.get("/getItems", async (req,res) => {
+    var ids = req.query.arr;
+    var ids = ids.split('|');
+    var result = [];
+    for (i=0; i < ids.length; i++) {
+        var items = ids[i];
+        var id_arr = items.split(",")
+        var offer = id_arr[0]
+        var receive = id_arr[1]
+        var offer_arr = []
+        var receive_arr = []
+        for (id of offer.split(".")){
+            db.collection('csgoitems').findOne({itemID: id}, function(err, result) {
+                console.log(result);
+                if(result == null) {
+                    db.collection('dotaitems').findOne({itemID: id}, function(err, result) {
+                        offer_arr.push(result);
+                    })
+                } else {
+                    offer_arr.push(result);
+                }
+            })
+        }
+
+        for (id of receive.split(".")){
+            db.collection('csgoitems').findOne({itemID: id}, function(err, result) {
+                console.log(result);
+                if(result == null) {
+                    db.collection('dotaitems').findOne({itemID: id}, function(err, result) {
+                        receive_arr.push(result);
+                    })
+                } else {
+                    receive_arr.push(result);
+                }
+            })
+        }
+        result.push({offer: offer_arr, receive: receive_arr})
+        
+    }
+    res.send(result);
 })
 
 

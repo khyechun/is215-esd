@@ -26,6 +26,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+
 }
 
 #nav {
@@ -39,5 +40,24 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+h1, h2, h3, h4, h5, h6, p,a {
+  color:white;
+  font-family: 'Inter', sans-serif;
+}
+
+.primary-btn{
+  background-color: #595DB9;
+  color:white;
+  border-radius:10px;
+}
+
+.background-secondary{
+  background-color:#646464
+}
+
+.btn{
+  color:white;
 }
 </style>

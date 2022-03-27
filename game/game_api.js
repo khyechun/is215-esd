@@ -23,7 +23,7 @@ router.get("/getAllGames", async (req,res) => {
     }
     else{
         res.send(
-            {"error_code": res.statusCode,
+            {"code": res.statusCode,
             "message": "An error: 400 occurred while trying to authenticate the user. Please try again."
         })
     }
@@ -46,7 +46,7 @@ router.get("/getGame", async (req,res) => {
     }
     catch(error){
         res.send(
-            {"error_code": res.statusCode,
+            {"code": res.statusCode,
             "message": "An error: 400 occurred while trying to authenticate the user. Please try again."
         })
     }

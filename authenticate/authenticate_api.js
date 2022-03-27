@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 var cors = require('cors')
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+dotenv.config();
+process.env.TOKEN_SECRET;
 
 
 
@@ -18,21 +22,25 @@ router.get("/authenticateUser", function (req, res) {
         return jwt.sign(steamID, process.env.TOKEN_SECRET);
     }
     const token = generateAccessToken(steam_id);
+    
     if(res.statusCode==200){
-        res.send(token)
+        res.send({
+            "code": res.statusCode,
+            "jwt_token": token
+        })
     }
     else{
         res.send(
-            {"error_code": res.statusCode,
+            {"code": res.statusCode,
             "message": "An error: 400 occurred while trying to authenticate the user. Please try again."
         })
     }
 })
 
 router.get("/authenticateToken", authenticateToken,function (req,res){
-    // console.log(req)
+    console.log('hello')
     const responseObj = req.responseObj 
-    console.log(responseObj)
+
     res.send(responseObj)
 })
 

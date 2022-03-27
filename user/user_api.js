@@ -10,11 +10,23 @@ const firestore = db.db
 router.get("/getAllUser", async (req, res) => {
     let all_users=[]
     let users = await firestore.collection('Users').get()
-    users.forEach(doc=>{
-        all_users.push(doc.data())
-    })
 
-    res.send(all_games);
+    if(res.statusCode==200){
+        users.forEach(doc=>{
+            all_users.push(doc.data())
+        })
+    
+        console.log(all_users)
+    
+        res.send(all_users);
+    }
+    else{
+        res.send({
+            "code": res.statusCode,
+            "message": `An error: ${res.statusCode} occurred while trying to retrieve the user. Please try again`
+        })
+    }
+
 })
 
 //2. get a user
@@ -29,38 +41,68 @@ router.get("/getUser", async (req,res)=> {
         tradeID:''
     }
 
-    if(!user.exists){
-        await firestore.collection("Users").doc(userID).set(data);
-        // res.send("New User has been created")
-        res.send({newUser: true})
+    if(res.statusCode==200){
+        if(!user.exists){
+            await firestore.collection("Users").doc(userID).set(data);
+            res.send({newUser: true})
+        }
+        else{
+            res.send({newUser:false})
+        }
+
     }
+
     else{
-        res.send({newUser:false})
+        res.send({
+            "code": res.statusCode,
+            "message": `An error: ${res.statusCode} occurred while trying to retrieve the user. Please try again`
+        })
     }
+
 
 })
 
 //3. update user
 router.put("/updateUser", async (req,res)=>{
     //1.  get email, tradeID, steamID from user 
+
+
+
+
     const email = req.body.email
     const tradeID = req.body.tradeID
     const userID = req.body.userID
-    // let userID='12354697'
+
 
     const data={
         email: email,
         tradeID: tradeID
     }
 
-    try{
-        await firestore.collection('Users').doc(userID).set(data)
-        res.send("User has been updated!")
+    let user = await firestore.collection('Users').doc(userID).get()
+    if(res.statusCode==200){
+        if(user.exists){
+            await firestore.collection('Users').doc(userID).set(data)
+            res.send({
+                "code": res.statusCode,
+                "message": "User has been successfully updated!"
+            })
+        }
+        else{
+            res.send({
+                "code": res.statusCode,
+                "message": "Sorry, there is no such user."
+            })
+        }
+    }
 
+    else{
+        res.send({
+            "code": res.statusCode,
+            "message": `An error: ${res.statusCode} occurred while trying to update the user details. Please try again`
+        })
     }
-    catch{
-        res.send("Error")
-    }
+
 })
 
 
@@ -69,11 +111,28 @@ router.get('/getUserEmail', async (req,res)=> {
 
     let userID= '12354697'
     let user = await firestore.collection('Users').doc(userID).get()
-    if(user.exists){
-        res.send(user.data().email)
+
+    if(res.statusCode==200){
+        if(user.exists){
+            res.send({
+                "code": res.statusCode,
+                "email": user.data().email
+            })
+        }
+        else{
+            res.send({
+                "code": res.statusCode,
+                "email": "Sorry, there is no such user."
+            })
+        }
+
     }
+
     else{
-        res.send("No User Found")
+        res.send({
+            "code": res.statusCode,
+            "message": "An error: 400 occurred while trying to retrieve the user’s email address. Please try again."
+        })
     }
 })
 

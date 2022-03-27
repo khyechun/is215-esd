@@ -1,11 +1,23 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
+import ListTrade from "../views/ListTrade.vue";
+import Redirect from "../views/Redirect.vue";
 
 const routes = [
   {
     path: "/",
     name: "Home",
     component: Home,
+  },
+  {
+    path: "/list-trade",
+    name: "List Trade",
+    component: ListTrade,
+  },
+  {
+    path: "/redirect",
+    name: "Redirect",
+    component: Redirect,
   },
   {
     path: "/about",

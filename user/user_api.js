@@ -7,7 +7,7 @@ const firestore = db.db
 
 
 //1. get all user
-router.get("/getAllUser", async (req, res) => {
+router.get("/getAllUsers", async (req, res) => {
     let all_users=[]
     let users = await firestore.collection('Users').get()
 
@@ -16,10 +16,12 @@ router.get("/getAllUser", async (req, res) => {
             all_users.push(doc.data())
         })
     
-        console.log(all_users)
-    
-        res.send(all_users);
+        res.send({
+            "code": res.statusCode,
+            "all_users": all_users 
+        });
     }
+
     else{
         res.send({
             "code": res.statusCode,
@@ -65,9 +67,6 @@ router.get("/getUser", async (req,res)=> {
 //3. update user
 router.put("/updateUser", async (req,res)=>{
     //1.  get email, tradeID, steamID from user 
-
-
-
 
     const email = req.body.email
     const tradeID = req.body.tradeID

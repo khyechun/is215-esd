@@ -32,16 +32,32 @@ router.get("/authenticateUser", function (req, res) {
     else{
         res.send(
             {"code": res.statusCode,
-            "message": "An error: 400 occurred while trying to authenticate the user. Please try again."
+            "message": `An error: ${res.statusCode} occurred while trying to authenticate the user. Please try again.`
         })
     }
 })
 
 router.get("/authenticateToken", authenticateToken,function (req,res){
-    console.log('hello')
-    const responseObj = req.responseObj 
+    if(res.statusCode==200){
+        const responseObj = req.responseObj 
+        res.send(
+            {"code": 200, 
+            "token_object": responseObj
+        })
+    }
 
-    res.send(responseObj)
+    else if (res.statusCode==401){
+        res.send({"code": 401, "message": "Invalid Token"})
+    }
+
+    else{
+        res.send({
+            "code": res.statusCode, 
+            "message": `An error: ${res.statusCode} occurred while trying to authenticate the user. Please try again.`
+        })
+    }
+
+
 })
 
 // use this in useLogin complex microservice 
@@ -54,7 +70,7 @@ function authenticateToken(req, res, next) {
     jwt.verify(token, process.env.TOKEN_SECRET, (err, userId) => {
         var responseObj = {
             valid : true,
-            userId : ""
+            userID : ""
         }
         if (err) {
             responseObj.valid = false;

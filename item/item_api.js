@@ -25,6 +25,7 @@ router.get("/getAllItems", async (req,res) => {
     all_items=[];
     let csitems = await db.collection('csgoitems').find().toArray()
     let dotaitems = await db.collection('dotaitems').find().toArray()
+    
     csitems.forEach(doc=>{
         all_items.push(doc)
     })
@@ -38,7 +39,7 @@ router.get("/getAllItems", async (req,res) => {
 
 router.get("/getItem/:itemID", async (req,res) => {
     var id = req.params.itemID;
-    
+    console.log(id)
 
     db.collection('csgoitems').findOne({itemID: id}, function(err, result) {
         console.log(result);
@@ -71,10 +72,10 @@ router.get("/getItems", async (req,res) => {
                 console.log(result);
                 if(result == null) {
                     db.collection('dotaitems').findOne({itemID: id}, function(err, result) {
-                        offer_arr.push(result);
+                        offer_arr.push({itemID: result.itemID, itemName: result.itemName, icon_url: result.icon_url, rarity_colour: result.rarity_colour});
                     })
                 } else {
-                    offer_arr.push(result);
+                    offer_arr.push({itemID: result.itemID, itemName: result.itemName, icon_url: result.icon_url, rarity_colour: result.rarity_colour});
                 }
             })
         }
@@ -84,10 +85,10 @@ router.get("/getItems", async (req,res) => {
                 console.log(result);
                 if(result == null) {
                     db.collection('dotaitems').findOne({itemID: id}, function(err, result) {
-                        receive_arr.push(result);
+                        receive_arr.push({itemID: result.itemID, itemName: result.itemName, icon_url: result.icon_url, rarity_colour: result.rarity_colour});
                     })
                 } else {
-                    receive_arr.push(result);
+                    receive_arr.push({itemID: result.itemID, itemName: result.itemName, icon_url: result.icon_url, rarity_colour: result.rarity_colour});
                 }
             })
         }

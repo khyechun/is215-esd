@@ -2,6 +2,11 @@ const express = require('express');
 const cors = require('cors')
 const {graphqlHTTP} = require('express-graphql');
 const {buildSchema} = require('graphql')
+const {errorName} = require('./constants')
+const {errorType} = require('./constants')
+const getErrorCode = errorName =>{
+    return errorType[errorName]
+}
 
 const mongoose = require("mongoose");
 const Trade = require("./model/trade")
@@ -23,7 +28,9 @@ app.use((req, res, next)=>{
     next()
 })
 
-app.use('/api/trade', graphqlHTTP({
+app.use('/api/trade', (req,res)=>{
+
+ graphqlHTTP({
     schema: buildSchema(`
         type rootQuery {
             trades: [Trades]
@@ -66,19 +73,23 @@ app.use('/api/trade', graphqlHTTP({
                     
                     new_trades.push({_id: trade._id, steamId: trade.userId, offerItems: trade.offerItems, receiveItems: trade.receiveItems, status: trade.status})
                 }
-                console.log(new_trades)
+                if (new_trades.length == 0){
+                    throw new Error(errorName.NOTRADES)
+                }
                 return new_trades
+                
+                
                 
                 
         
             } catch (err) {
-                console.log(err);
-                return "Failed";
+                
+                throw new Error(errorName.NOTRADES)
             }
             
         },
         tradeItems: async (args)=>{
-            console.log("HI")
+            
             const {items} = args;
             try {
                 var selectedTrades = []
@@ -102,18 +113,22 @@ app.use('/api/trade', graphqlHTTP({
                         selectedTrades.push({_id: trade._id, userId: trade.userId, offerItems: trade.offerItems, receiveItems: trade.receiveItems, status: trade.status})
                     }
                 }
-                console.log(selectedTrades)
+                if (selectedTrades.length == 0){
+                    throw new Error(errorName.NOTRADES)
+                }
+                
                 return selectedTrades
                 
         
             } catch (err) {
                 console.log(err);
+                throw new Error(errorName.NOTRADES)
             }
         },
         createTrade: async (args)=>{
             console.log(args)
             const {receiveItems, offerItems, steamId} = args.trade;
-            console.log(userId)
+            
             try {
                 
                 const trades = await Trade.insertMany({ steamId, receiveItems, offerItems, "status": false })
@@ -123,12 +138,25 @@ app.use('/api/trade', graphqlHTTP({
             } catch (err) {
                 
                 console.log(err);
-                return false
+                throw new Error(errorName.CREATETRADE)
             }
         }
     },
-    graphiql: true
-}));
+    graphiql: true,
+    customFormatErrorFn: (err)=>{
+        
+        const error = getErrorCode(err.message);
+        /* return { message: error.message, statusCode: error.statusCode} */
+        try {
+            res.status(404).send({ message: error.message, statusCode: error.statusCode})
+        }catch(err){
+            res.status(404).send({ message: error.message, statusCode: error.statusCode})
+        }
+        
+    }
+    
+    })(req, res)
+});
 
 
 

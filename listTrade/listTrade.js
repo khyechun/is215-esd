@@ -42,7 +42,7 @@ app.use('/api/list_trade', (req,res)=>{
             input Trade {
                 receiveItems: [Int]
                 offerItems: [Int]
-                tokenId: String
+                token: String
             }
     
             
@@ -54,7 +54,7 @@ app.use('/api/list_trade', (req,res)=>{
         `),
         rootValue: {
             createTrade: async (args)=>{
-                const {items} = args;
+                
                 const {receiveItems, offerItems, token} = args.trade;
                 try {
                     var res = await axios.get(authenticateURL, setHeader(token));
@@ -65,7 +65,7 @@ app.use('/api/list_trade', (req,res)=>{
                       
                     var status = await axios.post(tradeURL, data, setHeader());
                     res.statusCode = 201
-                    res.send(true)
+                    res.json({status:true})
                     
                     
             

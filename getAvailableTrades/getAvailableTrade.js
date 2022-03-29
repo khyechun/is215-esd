@@ -39,15 +39,18 @@ app.use('/api/get_available_trades', (req, res)=>{
             }
     
             type Trades {
-                offerItems: [Int]
+                offerItems: [Item]
                 steamId: Int
-                receiveItems: [Int]
+                receiveItems: [Item]
                 status: Boolean
                 
             }
     
             type Item {
-    
+                itemID: Int
+                itemName: String
+                icon_url: String
+                rarity_colour: String
             }
     
             schema {
@@ -88,7 +91,7 @@ app.use('/api/get_available_trades', (req, res)=>{
                     var item = data.data;
                     var result = [];
                     for (let i=0; i<item.length; i++){
-                        result.push({steamId: trades[i].steamId, offerItems:item[i].offer, receiveItems: item[i].receive})
+                        result.push({steamId: trades[i].steamId, offerItems:item[i].offer, receiveItems: item[i].receive, status: trades[i].status})
                     }
                     res.send(result)
             

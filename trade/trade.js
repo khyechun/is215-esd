@@ -148,9 +148,9 @@ app.use('/api/trade', (req,res)=>{
         const error = getErrorCode(err.message);
         /* return { message: error.message, statusCode: error.statusCode} */
         try {
-            res.status(404).send({ message: error.message, statusCode: error.statusCode})
+            res.status(error.statusCode).send({ message: error.message, statusCode: error.statusCode})
         }catch(err){
-            res.status(404).send({ message: error.message, statusCode: error.statusCode})
+            res.status(error.statusCode).send({ message: error.message, statusCode: error.statusCode})
         }
         
     }

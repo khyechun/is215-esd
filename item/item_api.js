@@ -22,7 +22,7 @@ MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, as
 // 1st API: GET all items (from both CSGO and Dota 2)
 router.get("/getAllItems", async (req,res) => {
     var gameId = req.query.gameId
-    if (gameId == 500){
+    if (gameId == 570){
         let dotaitems = await db.collection('dotaitems').find().toArray()
         res.send(dotaitems)
     } else {

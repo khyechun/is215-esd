@@ -21,8 +21,15 @@ MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, as
 
 // 1st API: GET all items (from both CSGO and Dota 2)
 router.get("/getAllItems", async (req,res) => {
-    console.log("HI")
-    all_items=[];
+    var gameId = req.query.gameId
+    if (gameId == 500){
+        let dotaitems = await db.collection('dotaitems').find().toArray()
+        res.send(dotaitems)
+    } else {
+        let csitems = await db.collection('csgoitems').find().toArray()
+        res.send(csitems)
+    }
+   /*  all_items=[];
     let csitems = await db.collection('csgoitems').find().toArray()
     let dotaitems = await db.collection('dotaitems').find().toArray()
     
@@ -32,7 +39,7 @@ router.get("/getAllItems", async (req,res) => {
     dotaitems.forEach(doc=>{
         all_items.push(doc)
     })
-    res.send(all_items);
+    res.send(all_items); */
 })
 
 // 2nd API: GET specific item 

@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors')
 const http = require('http');
 const bodyParser = require('body-parser');
 
@@ -9,7 +10,7 @@ const app = express();
 const item_api = require('./item_api');
 
 
-
+app.use(cors())
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api/item_api', item_api);

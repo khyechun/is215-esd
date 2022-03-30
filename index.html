@@ -4,32 +4,36 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>Document</title>
 </head>
 <body>
     <button onclick="submit()">Submit</button>
 </body>
 <script>
-    function submit(){
-        fetch('http://localhost:8093/graphql', {
-            method: 'POST',
-            body: JSON.stringify({
+    const setHeader = (token)=>{
+        return {
+        headers:{
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+ token
+                }
+        }
+    }
+    async function submit(){
+        var data = JSON.stringify({
                     query: `
-                    mutation {
-                        getTrades(items: [11, 12]) {
-                        _id
-                        userId
-                        status
-                        offerItems
-                        receiveItems
+                    query{
+                        trades {
+                            _id
+                            steamId
+                            status
+                            offerItems
+                            receiveItems
                         }
-                    
                     }`
-                }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(res=>console.log(res)).catch(err=>console.log(err))
+                })
+        var res = await axios.post('http://localhost:8085/api/trade', data, setHeader());
+        console.log(res)
     }
 </script>
 </html>

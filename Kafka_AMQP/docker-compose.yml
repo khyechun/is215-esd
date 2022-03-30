@@ -15,4 +15,8 @@ services:
     environment: 
       KAFKA_ADVERTISED_HOST_NAME: localhost 
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+
+
+  
       

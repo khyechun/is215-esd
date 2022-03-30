@@ -1,4 +1,4 @@
-import pika 
+import kafka 
 
 hostname = "localhost"
 port = 8086

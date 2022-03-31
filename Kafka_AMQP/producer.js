@@ -30,6 +30,16 @@ async function produce() {
             },
         ],
     });
+    const producedDatas = await producer.send({
+        topic: "jersey1",
+        messages: [
+            {
+                //value: players[jerseyNumber],
+                value: "HElloo",
+                //partition: jerseyNumber <= 10 ? 0 : 1,
+            },
+        ],
+    });
     console.log(`Produced data ${JSON.stringify(producedData)}`);
 }
 

@@ -1,18 +1,14 @@
-from distutils.log import debug, error
-from flask import Flask, request, jsonify
-import xlsxwriter
-from sqlalchemy import true
-app = Flask(__name__)
+import json 
+from kafka import KafkaConsumer
 
-@app.route("/activity")
-def printActivity():
-    print("Activity...")
-    activity_excel = xlsxwriter.Workbook("activity.xlsx")
-    activity_worksheet = activity_excel.add_worksheet()
-    activity_worksheet.write("A1", "Activity...")
-    activity_excel.close()
-    return "Activity has been appended to the excel sheet"
+if __name__ == "__main__":
+    consumer = KafkaConsumer(
+        'activity',
+        bootstrap_servers = 'localhost:9092',
+        auto_offset_reset='earliest'
+    )
 
-
-if __name__ == '__main__':
-    app.run(port=8087, debug=true)
+    for message in consumer: 
+        
+        print(message.value)
+        """ print(json.loads(message.value)) """

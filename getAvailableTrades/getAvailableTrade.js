@@ -6,7 +6,10 @@ const {graphqlHTTP} = require('express-graphql');
 const {buildSchema} = require('graphql')
 const {errorName} = require('./constants')
 const {errorType} = require('./constants')
-
+const getErrorCode = errorName =>{
+    return errorType[errorName]
+}
+const kafka = require("./kafka")
 const bodyParser = require('body-parser');
 
 
@@ -95,10 +98,11 @@ app.use('/api/get_available_trades', (req, res)=>{
                     for (let i=0; i<item.length; i++){
                         result.push({steamId: trades[i].steamId, offerItems:item[i].offer, receiveItems: item[i].receive, status: trades[i].status})
                     }
+                    const activity = await kafka.produceActivity(`${steamId} has placed a trade offer.`)
                     res.send(result)
             
                 } catch (err) {
-                    console.log(err)
+                    const activity = await kafka.produceError(`ERROR`)
                     throw new Error(errorName.NOTRADES)
                 }
                 

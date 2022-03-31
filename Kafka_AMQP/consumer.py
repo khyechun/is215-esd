@@ -3,7 +3,7 @@ from kafka import KafkaConsumer
 
 if __name__ == "__main__":
     consumer = KafkaConsumer(
-        'messages',
+        'jesey1',
         bootstrap_servers = 'localhost:9092',
         auto_offset_reset='earliest'
     )

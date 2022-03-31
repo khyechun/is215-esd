@@ -4,9 +4,9 @@ const axios = require('axios')
 const http = require('http')
 const {graphqlHTTP} = require('express-graphql');
 const {buildSchema} = require('graphql')
-const {errorName} = require('./constants')
-const {errorType} = require('./constants')
 
+
+const kafka = require("./kafka")
 const bodyParser = require('body-parser');
 
 
@@ -32,8 +32,14 @@ const itemURL = 'http://localhost:8088/api/item_api/getAllItems'
 app.get("/api/getItems", (req,res)=>{
     var gameId = req.query.gameId
     var url = itemURL + "?gameId=" + gameId;
-    var items = await axios.get(url, setHeader());
-    res.status(200).send(items.data)
+    try {
+        var items = await axios.get(url, setHeader());
+        const activity = await kafka.produceActivity(`${steamId} has placed a trade offer.`)
+        res.status(200).send(items.data)
+    } catch (error) {
+        const activity = await kafka.produceError(`ERROR`)
+    }
+    
 })
 
 const setHeader = ()=>{

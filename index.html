@@ -20,10 +20,13 @@
       };
     };
     async function submit() {
-      
-      var res = await axios.get(
-        "http://localhost:8093/api/get_available_trades?items=3608087146,972330641",
-        
+      var data = {
+          receiveItems: [1965347148, 638245050],
+          offerItems: [3113472303,4114517977]
+      }
+      var res = await axios.post(
+        "http://localhost:8092/api/list_trade",
+        data,
         setHeader()
       );
       console.log(res.data);

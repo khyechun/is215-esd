@@ -1,7 +1,7 @@
 
 const { MongoClient } = require("mongodb");
 const { mainModule } = require("process");
-
+const gameitems = require("./model/items")
 
 const express = require('express');
 // const res = require('express/lib/response');
@@ -10,13 +10,13 @@ const router = express.Router();
 const uri = "mongodb+srv://admin:4azF5gfOoIR8hQ3P@itemdb.rwiet.mongodb.net/itemDB?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
 
-MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, async (err, database) => {
+/* MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, async (err, database) => {
     if (err) return console.log(err)
     db = database.db('itemDB');
     console.log("Item microservice is now online")
 
 
-});
+}); */
 
 
 // 1st API: GET all items for specific game
@@ -96,28 +96,51 @@ router.get("/getItems", async (req, res) => {
     var ids = req.query.arr;
     var ids = ids.split('|');
     var final = [];
-    const offer_arr = []
-    const receive_arr = []
+    
     for (i = 0; i < ids.length; i++) {
         var items = ids[i];
         var id_arr = items.split(",")
         var offer = id_arr[0]
         var receive = id_arr[1]
+        var offer_arr = []
+        var receive_arr = []
+        console.log(offer)
+        console.log(receive)
         // console.log(offer.split('.'))
         for (id of offer.split(".")) {
-            db.collection('gameitems').findOne({ itemID: id }, function (err, result) {
+            console.log(id)
+            /* db.collection('gameitems').findOne({ itemID: id }, function (err, result) {
+                console.log(id)
+                console.log(result)
                 offer_arr.push({ itemID: result['itemID'], itemName: result['itemName'], icon_url: result['icon_url'], rarity_colour: result['rarity_colour'] });
-            })
+            }) */
+            var result = await gameitems.find({ itemID: id})
+            console.log(result)
+            result = result[0]
+            offer_arr.push({ itemID: result['itemID'], itemName: result['itemName'], icon_url: result['icon_url'], rarity_colour: result['rarity_colour'] });
         }
         
         for (id of receive.split(".")) {
-            db.collection('gameitems').findOne({ itemID: id }, function (err, result) {
+            console.log(id)
+            var result = await gameitems.find({ itemID: id})
+            console.log(result)
+            result = result[0]
+            receive_arr.push({ itemID: result['itemID'], itemName: result['itemName'], icon_url: result['icon_url'], rarity_colour: result['rarity_colour'] });
+            /* db.collection('gameitems').findOne({ itemID: id }, function (err, result) {
+                console.log(id)
+                console.log(result)
                 receive_arr.push({ itemID: result['itemID'], itemName: result['itemName'], icon_url: result['icon_url'], rarity_colour: result['rarity_colour'] });
-            })
+                
+                
+            }) */
         }
+        console.log(offer_arr)
+        console.log(receive_arr)
         final.push({ offer: offer_arr, receive: receive_arr })
 
     }
+    console.log(final)
+    console.log("HIIII")
     res.send(
         {
             "code": res.statusCode,

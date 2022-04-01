@@ -16,25 +16,21 @@ app.use((req, res, next)=>{
 })
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const itemURL = 'http://localhost:8088/api/item_api/getItems'
-const tradeURL = 'http://localhost:8085/api/trade/tradeItems'
-app.get("/api/get_available_trades", async (req, res) => {
-    const {receiveItems, offerItems, token} = req.body;
-    console.log(receiveItems)
-    console.log(offerItems)
+
+const tradeURL = 'http://localhost:8085/api/trade/createTrade'
+
+app.post("/api/list_trade", async (req, res) => {
+    const {receiveItems, offerItems} = req.body;
+    
+    console.log(req.body)
     try {
-        var res = await axios.get(authenticateURL, setHeader(token));
-        var steamId = res.userId
+        /* var res = await axios.get(authenticateURL, setHeader(token));
+        var steamId = res.userId */
         
         var steamId = 76561198000003391
-        var data = JSON.stringify({query: `query{
-            trades {
-                _id: String
-                offerItems
-                steamId
-                receiveItems
-                status
-            }
+        var data = JSON.stringify({query: `mutation{
+            createTrade(trade: {receiveItems: [${receiveItems.join(", ")}],
+          offerItems: [${receiveItems.join(", ")}], steamId: ${steamId}}) 
           }`})
         console.log(data)
         var status = await axios.post(tradeURL, data, setHeader());
@@ -42,7 +38,7 @@ app.get("/api/get_available_trades", async (req, res) => {
         /* const activity = await kafka.produceActivity(`${steamId} has placed a trade offer.`) */
         
         res.statusCode = 201
-        res.json({status:true})
+        res.status(201).send({status:true})
         
         
 
@@ -63,4 +59,4 @@ const setHeader = ()=>{
 }
 
 
-app.listen(process.env.PORT || 8093, console.log("Running this app on 8093"));
+app.listen(process.env.PORT || 8092, console.log("Running this app on 8092"));

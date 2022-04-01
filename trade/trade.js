@@ -134,6 +134,7 @@ app.use('/api/trade', (req,res)=>{
             try {
                 
                 const trades = await Trade.insertMany({ userId:steamId, receiveItems, offerItems, "status": false })
+                console.log(trades)
                 return true
                 
 

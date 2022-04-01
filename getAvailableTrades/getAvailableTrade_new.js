@@ -38,7 +38,7 @@ app.get("/api/get_available_trades", async (req, res) => {
      
     var trades = await axios.post(tradeURL, data, setHeader());
     var trades = trades.data.data.tradeItems
-    
+    console.log(trades)
     var query_arr = [];
     for (var trade of trades) {
       var offer = trade.offerItems;
@@ -49,11 +49,11 @@ app.get("/api/get_available_trades", async (req, res) => {
       query_arr.push(trade_query);
     }
     var query = query_arr.join("|"); 
-    var url = itemURL + `?arr=${query}`;
-    var url = "http://localhost:8088/api/item_api/getItems?arr=4114517977.2220323820,2105178613.2220323820"
+    /* var url = itemURL + `?arr=${query}`; */
+    var url = "http://localhost:8088/api/item_api/getItems?arr=1965347148.638245050,3113472303.4114517977"
     var data = await axios.get(url, setHeader());
     var item = data.data.items;
-    
+    console.log(data.data)
     var result = [];
     for (let i = 0; i < item.length; i++) {
         
@@ -69,7 +69,7 @@ app.get("/api/get_available_trades", async (req, res) => {
     }
     
     /* const activity = await kafka.produceActivity(`${steamId} has placed a trade offer.`) */
-    res.status(200).send(trades.data.data.tradeItems);
+    res.status(200).send(result);
   } catch (err) {
     /* const activity = await kafka.produceError(`ERROR`) */
 

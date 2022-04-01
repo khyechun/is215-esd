@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors')
 const axios = require('axios')
-const http = require('http')
+
 const { Kafka } = require("kafkajs");
 const {graphqlHTTP} = require('express-graphql');
 const {buildSchema} = require('graphql')
@@ -22,8 +22,7 @@ app.use(bodyParser.json())
 
 app.use((req, res, next)=>{
     console.log(`${req.method} - ${req.url}`)
-    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    
 
     next()
 })
@@ -36,21 +35,19 @@ app.use('/api/list_trade', (req,res)=>{
     graphqlHTTP({
         schema: buildSchema(`
             type rootQuery {
-                getTrades(items: [Int]): [Trades]
+                getTrades(items: [Int]): Boolean
             }
     
             type mutationQuery {
                 createTrade(trade: Trade): Boolean
             }
-    
+
             input Trade {
-                receiveItems: [Int]
-                offerItems: [Int]
+                receiveItems: [Float]
+                offerItems: [Float]
                 token: String
             }
-    
-            
-    
+
             schema {
                 query: rootQuery
                 mutation: mutationQuery
@@ -59,16 +56,27 @@ app.use('/api/list_trade', (req,res)=>{
         rootValue: {
             createTrade: async (args)=>{
                 
-                const {receiveItems, offerItems, token} = args.trade;
+                const {receiveItems, offerItems} = args.trade;
+                console.log(receiveItems)
+                console.log(offerItems)
                 try {
                     var res = await axios.get(authenticateURL, setHeader(token));
                     var steamId = res.userId
-                    var data = JSON.stringify({query: `mutation {
-                        createTrade(receiveItems: ${receiveItems}, offerItems: ${offerItems}, steamId: ${steamId})
+                    
+                    var steamId = 76561198000003391
+                    var data = JSON.stringify({query: `query{
+                        trades {
+                            _id: String
+                            offerItems
+                            steamId
+                            receiveItems
+                            status
+                        }
                       }`})
-                      
+                    console.log(data)
                     var status = await axios.post(tradeURL, data, setHeader());
-                    const activity = await kafka.produceActivity(`${steamId} has placed a trade offer.`)
+                    console.log(status)
+                    /* const activity = await kafka.produceActivity(`${steamId} has placed a trade offer.`) */
                     
                     res.statusCode = 201
                     res.json({status:true})
@@ -76,7 +84,9 @@ app.use('/api/list_trade', (req,res)=>{
                     
             
                 } catch (err) {
-                    const activity = await kafka.produceError(`ERROR`)
+                    /* const activity = await kafka.produceError(`ERROR`) */
+                    console.log(err)
+                    console.log(errorName.CREATETRADE)
                     throw new Error(errorName.CREATETRADE)
                     
                 }
@@ -88,9 +98,9 @@ app.use('/api/list_trade', (req,res)=>{
         customFormatErrorFn: (err)=>{
             
             const error = getErrorCode(err.message);
-            /* return { message: error.message, statusCode: error.statusCode} */
+            
             try {
-                res.status(500).send({ message: error.message, statusCode: error.statusCode})
+                res.status(500).send({ message: "WRONG"})
             }catch(err){
                 res.status(500).send({ message: error.message, statusCode: error.statusCode})
             }
@@ -108,4 +118,4 @@ const setHeader = (token)=>{
     }
 }
 
-app.listen(process.env.PORT || 8092, console.log("Running this app on 8085"))
+app.listen(process.env.PORT || 8092, console.log("Running this app on 8092"))

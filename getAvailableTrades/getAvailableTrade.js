@@ -66,10 +66,10 @@ app.use('/api/get_available_trades', (req, res)=>{
         rootValue: {
             getTrades: async (args)=>{
                 const {items} = args;
-                
+                console.log(items)
                 try {
                     var data = JSON.stringify({query: `mutation {
-                        tradeItems(items: [11]) {
+                        tradeItems(items: [3608087146, 972330641]) {
                           _id
                           steamId
                           status
@@ -79,7 +79,10 @@ app.use('/api/get_available_trades', (req, res)=>{
                       
                       }`})
                       
-                    var data = await axios.post(tradeURL, data, setHeader());
+                    var url = tradeURL + "?items=3608087146,972330641"  
+                    console.log(url)
+                    var data = await axios.get(url);
+                    console.log(data)
                     var trades = data.data.data.tradeItems
                     var query_arr = []
                     for (var trade of trades){
@@ -98,11 +101,12 @@ app.use('/api/get_available_trades', (req, res)=>{
                     for (let i=0; i<item.length; i++){
                         result.push({steamId: trades[i].steamId, offerItems:item[i].offer, receiveItems: item[i].receive, status: trades[i].status})
                     }
-                    const activity = await kafka.produceActivity(`${steamId} has placed a trade offer.`)
+                    /* const activity = await kafka.produceActivity(`${steamId} has placed a trade offer.`) */
                     res.send(result)
             
                 } catch (err) {
-                    const activity = await kafka.produceError(`ERROR`)
+                    /* const activity = await kafka.produceError(`ERROR`) */
+                   
                     throw new Error(errorName.NOTRADES)
                 }
                 
@@ -132,4 +136,4 @@ const setHeader = ()=>{
     }
 }
 
-app.listen(process.env.PORT || 8093, console.log("Running this app on 8085"))
+app.listen(process.env.PORT || 8093, console.log("Running this app on 8093"))

@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const tradeURL = 'http://localhost:8084/api/trade/createTrade'
-
+const authenticateURL = "http://localhost:8082/api/authenticate_api/authenticateToken"
 app.post("/api/list_trade", async (req, res) => {
     /* const {receiveItems, offerItems} = req.body; */
     const {receiveItems, offerItems, token} = req.body;
@@ -54,10 +54,11 @@ app.post("/api/list_trade", async (req, res) => {
     }
 });
 
-const setHeader = ()=>{
+const setHeader = (token)=>{
     return {
       headers:{
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
               }
     }
 }

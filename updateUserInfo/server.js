@@ -5,12 +5,12 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 const app = express();
-
+const cors = require("cors");
 
 const userlogin_api = require('./updateuser_api');
 
 
-
+app.use(cors())
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api', userlogin_api);

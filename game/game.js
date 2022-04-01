@@ -6,6 +6,7 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
+const cors = require("cors");
 
 const serviceAccount = require('./ServiceAccountKey.json');
 
@@ -18,7 +19,7 @@ const db = getFirestore();
 exports.db = getFirestore();
 
 const app = express();  
-
+app.use(cors())
 
 const game_api = require('./game_api');
 

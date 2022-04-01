@@ -2,16 +2,16 @@ const { Kafka } = require("kafkajs");
 
 async function consume() {
     const kafka = new Kafka({
-        clientId: "player-jersey-1",
-        brokers: ["127.0.0.1:9092"],
+        clientId: "X-consumer",
+        brokers: ["localhost:9092"],
     });
 
-    const consumer = kafka.consumer({ groupId: "player-jersey" });
+    const consumer = kafka.consumer({ groupId: "X-Error" });
     await consumer.connect();
     console.log("Consumer connected");
 
     await consumer.subscribe({
-        topic: "jersey1",
+        topic: "Error",
         fromBeginning: true,
     });
 

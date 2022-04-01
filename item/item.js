@@ -28,11 +28,11 @@ app.use(express.urlencoded({ extended: true }));
 
 const port = process.env.PORT || '8088';
 app.set('port', port);
-// app.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "https://localhost:8080"); // update to match the domain you will make the request from
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", '*'); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 const url = "mongodb+srv://admin:4azF5gfOoIR8hQ3P@itemdb.rwiet.mongodb.net/itemDB?retryWrites=true&w=majority"
 mongoose.connect(url, {useUnifiedTopology: true,  useNewUrlParser: true});

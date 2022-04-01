@@ -12,6 +12,7 @@ export default {
   methods: {
     redirect() {
       const params = new URLSearchParams(window.location.search)
+      let self = this
       console.log(params)
       let id = params.get('openid.identity').split("/")[5]
       // console.log()
@@ -20,6 +21,13 @@ export default {
         .then(function (response) {
           // handle success
           console.log(response);
+          localStorage.setItem('token', response.data.jwtToken.jwt_token);
+          console.log(self.$parent)
+          // self.$parent.loggedIn = true
+          self.$emit("loginEvent", true)
+          
+          // console.log(self.$parent.loggedIn)
+          self.$router.push({ name: "List Trade"})
         })
         .catch(function (error) {
           // handle error

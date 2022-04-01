@@ -3,8 +3,8 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </div> -->
-  <Navbar />  
-  <router-view />
+  <Navbar v-bind:loggedIn="loggedIn"/>  
+  <router-view  @loginEvent="setLogin" />
   <!-- <Loader/> -->
 </template>
 
@@ -18,7 +18,22 @@ export default {
   components: {
     Navbar
   },
-
+  data(){
+    return{
+      loggedIn : false
+    }
+  },
+  methods:{
+    setLogin(loggedIn){
+      this.loggedIn = loggedIn
+      console.log("im called")
+    }
+  },
+  mounted:function(){
+    if(localStorage.getItem("token")){
+      this.loggedIn= true;
+    }
+  }
 };
 </script>
 

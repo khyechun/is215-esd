@@ -33,7 +33,7 @@
                   style="width: 100%"
                   :src="
                     'https://steamcommunity-a.akamaihd.net/economy/image/' +
-                    item.icon_url
+                    item.img_url
                   "
                 />
                 <div class="p-1 pb-0" style="font-size: 12px">
@@ -72,7 +72,7 @@
                   style="width: 100%"
                   :src="
                     'https://steamcommunity-a.akamaihd.net/economy/image/' +
-                    item.icon_url
+                    item.img_url
                   "
                 />
                 <div class="p-1 pb-0" style="font-size: 12px">
@@ -134,7 +134,7 @@
                   style="width: 100%"
                   :src="
                     'https://steamcommunity-a.akamaihd.net/economy/image/' +
-                    item.icon_url
+                    item.img_url
                   "
                 />
                 <div class="p-1 pb-0" style="font-size: 12px">
@@ -193,7 +193,7 @@
                   style="width: 100%"
                   :src="
                     'https://steamcommunity-a.akamaihd.net/economy/image/' +
-                    item.icon_url
+                    item.img_url
                   "
                 />
                 <div class="p-1 pb-0" style="font-size: 12px">
@@ -214,6 +214,8 @@
 
 
 <script>
+const api = require('../api.js')
+
 export default {
   name: "ListTrade",
   components: {
@@ -373,11 +375,11 @@ export default {
         return this.getItems;
       }
       let filteredArr = [];
-      this.offerItems.map((item) => {
+      this.getItems.map((item) => {
         if (
           item.itemName
             .toLowerCase()
-            .includes(this.offerItemsSearchInput.toLowerCase())
+            .includes(this.getItemsSearchInput.toLowerCase())
         ) {
           filteredArr.push(item);
         }
@@ -388,13 +390,14 @@ export default {
   },
   methods: {
     selectOfferItems: function (item) {
-      if (!this.offerItemsSelected.map((i) => i._id).includes(item._id)) {
+      if (!this.offerItemsSelected.map((i) => i.itemID).includes(item.itemID)) {
         this.offerItemsSelected.push(item);
       }
       console.log(this.offerItemsSelected);
     },
     selectGetItems: function (item) {
-      if (!this.getItemsSelected.map((i) => i._id).includes(item._id)) {
+      console.log(this.getItemsSelected.map((i) => i._id))
+      if (!this.getItemsSelected.map((i) => i.itemID).includes(item.itemID)) {
         this.getItemsSelected.push(item);
       }
       console.log(this.offerItemsSelected);
@@ -412,10 +415,17 @@ export default {
         this.getItemsSelected = [];
       }
     },
+    getInventoryItems: async function(){
+      let result = await api.getSteamInventory()
+      console.log(result)
+    }
   },
-  // mounted: {
-  //   //call api
-  // },
+  mounted: async function() {
+    //call api
+    // this.getInventoryItems()
+    let items = await api.getItems(730);
+    this.getItems = items.slice(0,100)
+  },
 };
 </script>
 

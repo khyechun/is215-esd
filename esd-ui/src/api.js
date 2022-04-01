@@ -1,5 +1,5 @@
 const axios = require('axios')
-
+// const dev_key = '810A381CF018AA1D7A6C8A99C440AA11';
 
 module.exports = {
     getItems: async function (gameId) {
@@ -20,17 +20,45 @@ module.exports = {
 
     // We need to pass in a GraphQL query for these 2 functions.
 
-    listTrade: function () {
-        axios.post('http://localhost:8092/api/list_trade')
+    // listTrade: async function () {
+    //     const response = await axios.post('http://localhost:8092/api/list_trade')
+    // },
+
+    // getAvailableTrades: async function () {
+    //     const response = await axios.post('http://localhost:8093/api/get_available_trades')
+    // },
+
+    // 
+
+    getSteamInventory: async function () {
+        const response = await axios.get('http://steamcommunity.com/inventory/76561198000003391/730/2?l=english&count=5000', setHeader())
+        console.log(response)
+        return response
     },
 
-    getAvailableTrades: function () {
-        axios.post('http://localhost:8093/api/get_available_trades')
-    }
+
+
+    getUserInfo: async function () {
+        const response = await axios.get('http://localhost:8081/api/user_api/getUserInfo', setHeader())
+        var name = response.data.response.players[0].personaname
+        console.log(name)
+        var profile_img = response.data.response.players[0].avatar
+        console.log(profile_img)
+    },
 
 
 }
 
+
+const setHeader = () => {
+    return {
+        headers: {
+            'Content-Type': 'application/json',
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+        }
+    }
+}
 
 
 

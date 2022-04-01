@@ -22,7 +22,7 @@ async function connect() {
     }
 }
 
-// Putting in data here
+// Putting in data here - Data will come 
 app.get("/send", async (req, res) => {
     const fakedata = {
         name: "Caleb",
@@ -30,7 +30,7 @@ app.get("/send", async (req, res) => {
         time: Date.now()
     };
 
-    await channel.sendToQueue("error", Buffer.from(JSON.stringify(fakedata)));
+    await channel.sendToQueue("error", Buffer.from(JSON.stringify(fakedata))); // -> This is the line where you put it into the different MS
     //await channel.close();
     //await connection.close();
     return res.send("Done");

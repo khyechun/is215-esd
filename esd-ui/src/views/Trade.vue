@@ -18,7 +18,10 @@
                   item.icon_url
                 "
               />
-              <div class="p-1 pb-0" style="font-size: 12px; color: white">
+              <div
+                class="p-1 pb-0"
+                style="font-size: 12px; color: white; word-wrap: break-word"
+              >
                 {{ item.itemName }}
               </div>
             </div>
@@ -57,7 +60,10 @@
                 item.icon_url
               "
             />
-            <div class="p-1 pb-0" style="font-size: 12px; color: white">
+            <div
+              class="p-1 pb-0"
+              style="font-size: 12px; color: white; word-break: break-all"
+            >
               {{ item.itemName }}
             </div>
           </div>
@@ -69,6 +75,8 @@
 
 
 <script>
+const axios = require("axios").default;
+
 export default {
   name: "Trade",
   components: {
@@ -141,6 +149,32 @@ export default {
       ],
     };
   },
+  methods: {
+    redirect() {
+      let self = this;
+      // console.log()
+      axios
+        .get(
+          "http://localhost:8093/api/get_available_trades?items=3600960863,1618266229,3608158181,469548722"
+        )
+        .then(function (response) {
+          // handle success
+          console.log(response);
+          self.trades = response.data;
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
+        .then(function () {
+          // always executed
+        });
+    },
+  },
+  mounted: function () {
+    console.log("hi");
+    this.redirect();
+  },
 };
 </script>
 
@@ -161,6 +195,7 @@ export default {
   width: 150px;
   display: inline-block;
   margin: 10px;
+  white-space: normal;
 }
 
 .item-container:hover {
@@ -173,11 +208,10 @@ export default {
   white-space: nowrap;
 }
 
-
 /* width */
 ::-webkit-scrollbar {
   width: 6px;
-  height:6px;
+  height: 6px;
 }
 
 /* Track */
@@ -196,5 +230,4 @@ export default {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-
 </style>

@@ -2,8 +2,8 @@ const { Kafka } = require("kafkajs");
 
 async function produce() {
     const kafka = new Kafka({
-        clientId: "player-jersey-1",
-        brokers: ["127.0.0.1:9092"],
+        clientId: "X-Producer",
+        brokers: ["localhost:9092"],
     });
 
     //const jerseyNumber = process.argv[2];
@@ -12,30 +12,24 @@ async function produce() {
     await producer.connect();
     console.log("Producer connected");
 
-    const players = {
-        7: "Dhoni",
-        18: "Virat",
-        12: "Yuvraj",
-        10: "Sachin",
-        45: "Rohit",
-    };
+
 
     const producedData = await producer.send({
-        topic: "jersey1",
+        topic: "Error",
         messages: [
             {
                 //value: players[jerseyNumber],
-                value: "HEllo",
+                value: "Error12345",
                 //partition: jerseyNumber <= 10 ? 0 : 1,
             },
         ],
     });
     const producedDatas = await producer.send({
-        topic: "jersey1",
+        topic: "Error",
         messages: [
             {
                 //value: players[jerseyNumber],
-                value: "HElloo",
+                value: "Error123",
                 //partition: jerseyNumber <= 10 ? 0 : 1,
             },
         ],

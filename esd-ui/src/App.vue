@@ -4,7 +4,7 @@
     <router-link to="/about">About</router-link>
   </div> -->
   <Navbar v-bind:loggedIn="loggedIn" v-bind:name="name" v-bind:profileImg="profileImg"/>  
-  <router-view  @loginEvent="setLogin" />
+  <router-view  @loginEvent="initLogin"  v-bind:loggedIn="loggedIn"/>
   <!-- <Loader/> -->
 </template>
 
@@ -28,8 +28,11 @@ export default {
     }
   },
   methods:{
-    setLogin(loggedIn){
-      this.loggedIn = loggedIn
+    initLogin(obj){
+      console.log(obj)
+      this.loggedIn = obj.loggedIn
+      this.name= obj.name
+      this.profileImg = obj.img
       console.log("im called")
     },
     async getUserInfo(id){
@@ -42,7 +45,7 @@ export default {
       this.loggedIn= true;
       
       const response = await this.getUserInfo(localStorage.getItem("token"))
-      console.log(response)
+      // console.log(response)
       this.name= response.name
       this.profileImg = response.img
     }

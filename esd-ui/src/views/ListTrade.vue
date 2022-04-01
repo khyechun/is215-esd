@@ -22,12 +22,23 @@
           <div class="row item-scroll">
             <div
               class="col-3 mb-3"
-              v-for="(item,index) of offerItemsSelected"
+              v-for="(item, index) of offerItemsSelected"
               :key="item._id"
             >
-              <div class="item-container" style="position:relative;" v-bind:style="{ borderBottomColor: '#'+item.rarity_colour }">
-                <button class="btn btn-danger remove-item-btn" style="color:white" @click="removeOfferItem(index)">
-                  <img style="width:10px;" src="../assets/images/logo/icons8-close-48.png">
+              <div
+                class="item-container"
+                style="position: relative"
+                v-bind:style="{ borderBottomColor: '#' + item.rarity_colour }"
+              >
+                <button
+                  class="btn btn-danger remove-item-btn"
+                  style="color: white"
+                  @click="removeOfferItem(index)"
+                >
+                  <img
+                    style="width: 10px"
+                    src="../assets/images/logo/icons8-close-48.png"
+                  />
                 </button>
                 <img
                   style="width: 100%"
@@ -36,8 +47,7 @@
                     item.img_url
                   "
                 />
-                <div class="p-1 pb-0" style="font-size: 12px">
-                  {{ item.itemName }}
+                <div class="p-1 pb-0" style="font-size: 12px" v-html="item.itemName">
                 </div>
               </div>
             </div>
@@ -64,9 +74,20 @@
               v-for="item of getItemsSelected"
               :key="item._id"
             >
-              <div class="item-container" style="position:relative" v-bind:style="{ borderBottomColor: '#'+item.rarity_colour }">
-                <button class="btn btn-danger remove-item-btn" style="color:white" @click="removeGetItem(index)">
-                  <img style="width:10px;" src="../assets/images/logo/icons8-close-48.png">
+              <div
+                class="item-container"
+                style="position: relative"
+                v-bind:style="{ borderBottomColor: '#' + item.rarity_colour }"
+              >
+                <button
+                  class="btn btn-danger remove-item-btn"
+                  style="color: white"
+                  @click="removeGetItem(index)"
+                >
+                  <img
+                    style="width: 10px"
+                    src="../assets/images/logo/icons8-close-48.png"
+                  />
                 </button>
                 <img
                   style="width: 100%"
@@ -75,8 +96,7 @@
                     item.img_url
                   "
                 />
-                <div class="p-1 pb-0" style="font-size: 12px">
-                  {{ item.itemName }}
+                <div class="p-1 pb-0" style="font-size: 12px" v-html="item.itemName">
                 </div>
               </div>
             </div>
@@ -85,7 +105,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-6">
+      <div class="col-6" v-if="loggedIn">
         <div class="custom-container background-secondary btm-container">
           <div class="row mb-4">
             <div class="col-8">
@@ -129,7 +149,11 @@
               v-for="item of filteredOfferItems"
               :key="item._id"
             >
-              <div class="item-container" v-bind:style="{ borderBottomColor: '#'+item.rarity_colour }" @click="selectOfferItems(item)">
+              <div
+                class="item-container"
+                v-bind:style="{ borderBottomColor: '#' + item.rarity_colour }"
+                @click="selectOfferItems(item)"
+              >
                 <img
                   style="width: 100%"
                   :src="
@@ -137,13 +161,53 @@
                     item.img_url
                   "
                 />
-                <div class="p-1 pb-0" style="font-size: 12px">
-                  {{ item.itemName }}
+                <div class="p-1 pb-0" style="font-size: 12px" v-html="item.itemName">
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      <div v-else class="col-6 pt-4" align="center">
+        <img
+          src="../assets/images/logo/icons8-warning-64.png"
+          style="display: block"
+          class="mb-3 mt-5"
+        />
+        Sign in before you can offer items for trade :(
+        <form action="https://steamcommunity.com/openid/login" method="post">
+          <input
+            type="hidden"
+            name="openid.identity"
+            value="http://specs.openid.net/auth/2.0/identifier_select"
+          />
+          <input
+            type="hidden"
+            name="openid.claimed_id"
+            value="http://specs.openid.net/auth/2.0/identifier_select"
+          />
+          <input
+            type="hidden"
+            name="openid.ns"
+            value="http://specs.openid.net/auth/2.0"
+          />
+          <input type="hidden" name="openid.mode" value="checkid_setup" />
+          <input
+            type="hidden"
+            name="openid.return_to"
+            value="http://localhost:8080/redirect"
+          />
+          <button
+            class="mt-3 nav-link active btn primary-btn"
+            style="color: white !important"
+            type="submit"
+          >
+            <img
+              style="width: 30px"
+              src="../assets/images/logo/icons8-steam-96.png"
+            />Sign in through Steam
+          </button>
+        </form>
       </div>
       <div class="col-6">
         <div class="custom-container background-secondary btm-container">
@@ -188,7 +252,11 @@
               v-for="item of filteredGetItems"
               :key="item._id"
             >
-              <div class="item-container" v-bind:style="{ borderBottomColor: '#'+item.rarity_colour }" @click="selectGetItems(item)">
+              <div
+                class="item-container"
+                v-bind:style="{ borderBottomColor: '#' + item.rarity_colour }"
+                @click="selectGetItems(item)"
+              >
                 <img
                   style="width: 100%"
                   :src="
@@ -196,8 +264,7 @@
                     item.img_url
                   "
                 />
-                <div class="p-1 pb-0" style="font-size: 12px">
-                  {{ item.itemName }}
+                <div class="p-1 pb-0" style="font-size: 12px" v-html="item.itemName">
                 </div>
               </div>
             </div>
@@ -206,7 +273,9 @@
       </div>
       <div align="right">
         <button class="btn btn-2">Reset</button
-        ><button class="btn btn-1">List Trade</button>
+        ><button class="btn btn-1" v-bind:disabled="!loggedIn">
+          List Trade
+        </button>
       </div>
     </div>
   </div>
@@ -214,17 +283,23 @@
 
 
 <script>
-const api = require('../api.js')
+const api = require("../api.js");
 
 export default {
   name: "ListTrade",
   components: {
     // HelloWorld,
   },
+  props: {
+    loggedIn: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
-      offerLoading:false,
-      getLoading:false,
+      offerLoading: false,
+      getLoading: false,
       offerItemsSearchInput: "",
       getItemsSearchInput: "",
       offerItems: [
@@ -396,17 +471,17 @@ export default {
       console.log(this.offerItemsSelected);
     },
     selectGetItems: function (item) {
-      console.log(this.getItemsSelected.map((i) => i._id))
+      console.log(this.getItemsSelected.map((i) => i._id));
       if (!this.getItemsSelected.map((i) => i.itemID).includes(item.itemID)) {
         this.getItemsSelected.push(item);
       }
       console.log(this.offerItemsSelected);
     },
-    removeGetItem: function (index){
-      this.getItemsSelected.splice(index, 1)
+    removeGetItem: function (index) {
+      this.getItemsSelected.splice(index, 1);
     },
-    removeOfferItem: function (index){
-      this.offerItemsSelected.splice(index, 1)
+    removeOfferItem: function (index) {
+      this.offerItemsSelected.splice(index, 1);
     },
     clear: function (type) {
       if (type == "offer") {
@@ -415,16 +490,20 @@ export default {
         this.getItemsSelected = [];
       }
     },
-    getInventoryItems: async function(){
-      let result = await api.getSteamInventory()
-      console.log(result)
-    }
+    getInventoryItems: async function () {
+      let result = await api.getSteamInventory(730);
+      console.log(result);
+      return result
+    },
   },
-  mounted: async function() {
+  mounted: async function () {
     //call api
-    // this.getInventoryItems()
-    let items = await api.getItems(730);
-    this.getItems = items.slice(0,100)
+    let myInventory = await this.getInventoryItems()
+    console.log(myInventory)
+    this.offerItems = myInventory
+    console.log(this.offerItems)
+    let getItemsResponse = await api.getItems(730);
+    this.getItems = getItemsResponse.slice(0, 100);
   },
 };
 </script>
@@ -451,18 +530,18 @@ export default {
 }
 
 .item-container {
-  cursor:pointer;
+  cursor: pointer;
   background-color: #3b4248;
   padding: 5px;
   border-radius: 15px 15px 0 15px;
-  border-bottom-width: 8px ;
+  border-bottom-width: 8px;
   border-bottom-style: solid;
-  transition:0.2s;
+  transition: 0.2s;
 }
 
-.item-container:hover{
-  box-shadow: 3px 3px 4px rgba(0,0,0,0.35);
-  transition:0.01s;
+.item-container:hover {
+  box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.35);
+  transition: 0.01s;
 }
 
 .item-scroll {
@@ -507,11 +586,11 @@ export default {
   right:10px;
 } */
 
-.remove-item-btn{
-  border-radius:5px;
-  position:absolute;
-  top:10px;
-  right:10px;
-  padding:0 7px;
+.remove-item-btn {
+  border-radius: 5px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 0 7px;
 }
 </style>

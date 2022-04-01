@@ -30,13 +30,18 @@ module.exports = {
 
     // 
 
-    getSteamInventory: async function () {
-        const response = await axios.get('http://steamcommunity.com/inventory/76561198000003391/730/2?l=english&count=5000', setHeader())
-        console.log(response)
-        return response
+    // getSteamInventory: async function () {
+    //     const response = await axios.get('http://steamcommunity.com/inventory/76561198000003391/730/2?l=english&count=5000', setHeader())
+    //     console.log(response)
+    //     return response
+    // },
+    getSteamInventory: async function (gameId){
+        let steamId = localStorage.getItem("steamId")
+        console.log(steamId)
+        console.log("http://localhost:8088/api/item_api/getInventory/" + steamId + "/" + gameId)
+        const response = await axios.get("http://localhost:8088/api/item_api/getInventory/" + steamId + "/" + gameId)
+        return response.data.items.map(item => { return {...item, "img_url": item["icon_url"]}})
     },
-
-
 
     getUserInfo: async function () {
         const response = await axios.get('http://localhost:8081/api/user_api/getUserInfo', setHeader())

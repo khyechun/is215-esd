@@ -14,7 +14,7 @@ router.get("/authenticateUser", function (req, res) {
     // let steam_id = req.query['openid.identity'].split("/")[5]
     // console.log(steam_id)
     // console.log(req.query)
-    console.log(req)
+    // console.log(req)
     let steam_id = req.query.steamID
     console.log("steam ID : " + steam_id)
     //2. create JWT token using steam id 

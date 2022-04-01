@@ -6,6 +6,8 @@ const amqp = require("amqplib");
 var channel, connection;
 
 connect()
+// connect("activity")
+// connect("error")
 async function connect() {
     try {
         const amqpServer = "amqp://localhost:5672";

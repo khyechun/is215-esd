@@ -55,4 +55,4 @@ kafka.produceError = async function(data){
 }
 
 
-export default kafka;
+exports.kafka;

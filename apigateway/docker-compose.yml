@@ -4,11 +4,11 @@ version: "3.8"
 
 services:
 
-  # game:
-  #   build: ../game 
-  #   # image: bongjj/game:esdproject
-  #   ports:
-  #     - '8083:8083'
+  game:
+    build: ../game 
+    # image: bongjj/game:esdproject
+    ports:
+      - '8083:8083'
 
 
   # trade:
@@ -54,7 +54,7 @@ services:
   #     - '8084:8084'
 
   userlogin:
-    build: ../userLogin
+    build: ../server
     ports:
       - '8090:8090'
 

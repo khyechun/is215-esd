@@ -15,6 +15,7 @@ async function connect() {
 
     channel.consume("email", (data) => {
       //1. retrieve steamID AND TRADE IT from complex microservice
+      /* const {email, tradeID} = data; */
       let userEmail = "cnjk0605@gmail.com";
       let userID = "1234567";
 

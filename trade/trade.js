@@ -37,7 +37,7 @@ app.use('/api/trade', (req,res)=>{
         }
 
         type mutationQuery {
-            createTrade(trade: Trade): Boolean
+            createTrade(trade: Trade): String
             tradeItems(items: [Float]): [Trades]
         }
 
@@ -134,8 +134,8 @@ app.use('/api/trade', (req,res)=>{
             try {
                 
                 const trades = await Trade.insertMany({ userId:steamId, receiveItems, offerItems, "status": false })
-                console.log(trades)
-                return true
+                
+                return trades[0]._id
                 
 
             } catch (err) {

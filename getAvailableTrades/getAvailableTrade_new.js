@@ -20,12 +20,12 @@ const itemURL = 'http://localhost:8088/api/item_api/getItems'
 const tradeURL = 'http://localhost:8085/api/trade/tradeItems'
 app.get("/api/get_available_trades", async (req, res) => {
   var items = req.query.items;
-  
+  items = items.split(",").join(", ")
   try {
     
     
     var data = JSON.stringify({query: `mutation {
-        tradeItems(items: [3608087146, 972330641]) {
+        tradeItems(items: ${items}]) {
           _id
           steamId
           status
@@ -49,8 +49,8 @@ app.get("/api/get_available_trades", async (req, res) => {
       query_arr.push(trade_query);
     }
     var query = query_arr.join("|"); 
-    /* var url = itemURL + `?arr=${query}`; */
-    var url = "http://localhost:8088/api/item_api/getItems?arr=1965347148.638245050,3113472303.4114517977"
+    var url = itemURL + `?arr=${query}`;
+    /* var url = "http://localhost:8088/api/item_api/getItems?arr=1965347148.638245050,3113472303.4114517977" */
     var data = await axios.get(url, setHeader());
     var item = data.data.items;
     console.log(data.data)
@@ -67,8 +67,11 @@ app.get("/api/get_available_trades", async (req, res) => {
 
       
     }
-    
+
+    // AMQP THINGS: TODO
     /* const activity = await kafka.produceActivity(`${steamId} has placed a trade offer.`) */
+    /* 
+        await amqp_function.connect("activity") */
     res.status(200).send(result);
   } catch (err) {
     /* const activity = await kafka.produceError(`ERROR`) */

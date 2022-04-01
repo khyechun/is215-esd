@@ -25,8 +25,8 @@ export default {
     // HelloWorld,
   },
 
-  beforeMount(){
-    hosehapi.getItems(this.gameId);
+  async mounted(){
+    await hosehapi.getUserInfo();
     
   }
 

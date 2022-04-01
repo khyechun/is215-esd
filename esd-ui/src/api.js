@@ -28,29 +28,29 @@ module.exports = {
     //     const response = await axios.post('http://localhost:8093/api/get_available_trades')
     // },
 
-    // getUserInfo: async function() {
-    //     const response = await axios.get('http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=810A381CF018AA1D7A6C8A99C440AA11&steamids=76561198000003391')
-    //     var name = response.data.response.players[0].personaname
-    //     console.log(name)
-    //     var profile_img = response.data.response.players[0].avatar
-    //     console.log(profile_img)
-    // },
+    // 
 
-    
+    getUserInfo: async function() {
+            const response = await axios.get('http://localhost:8081/api/user_api/getUserInfo', setHeader())
+            var name = response.data.response.players[0].personaname
+            console.log(name)
+            var profile_img = response.data.response.players[0].avatar
+            console.log(profile_img)
+        },
 
 
 }
 
 
-// const setHeader = ()=>{
-//     return {
-//       headers:{
-//                 'Content-Type': 'application/json',
-//                 "Access-Control-Allow-Origin": "*",
-//                 "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
-//               }
-//     }
-// }
+const setHeader = ()=>{
+    return {
+      headers:{
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+              }
+    }
+}
 
 
 

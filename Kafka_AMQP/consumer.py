@@ -10,6 +10,3 @@ if __name__ == "__main__":
 
     for message in consumer: 
         print(json.loads(message.value))
-
-
-

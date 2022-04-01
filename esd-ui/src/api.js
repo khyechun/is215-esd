@@ -46,7 +46,11 @@ module.exports = {
         console.log(profile_img)
     },
 
-
+    steamLogin: async function (id) {
+        const response = axios.get("http://localhost:8090/api/steamUserLogin?id=" + id)
+        console.log(response)
+        return response;
+    }
 }
 
 

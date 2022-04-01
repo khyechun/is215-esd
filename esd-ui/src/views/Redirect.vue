@@ -5,37 +5,17 @@
 </template>
 
 <script>
-const axios = require("axios").default;
-
+const api = require("../api");
 export default {
   name: "Redirect",
   methods: {
-    redirect() {
-      const params = new URLSearchParams(window.location.search)
-      let self = this
-      console.log(params)
-      let id = params.get('openid.identity').split("/")[5]
-      // console.log()
-      axios
-        .get("http://localhost:8090/api/steamUserLogin?id=" + id)
-        .then(function (response) {
-          // handle success
-          console.log(response);
-          localStorage.setItem('token', response.data.jwtToken.jwt_token);
-          console.log(self.$parent)
-          // self.$parent.loggedIn = true
-          self.$emit("loginEvent", true)
-          
-          // console.log(self.$parent.loggedIn)
-          self.$router.push({ name: "List Trade"})
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error);
-        })
-        .then(function () {
-          // always executed
-        });
+    async redirect() {
+      const params = new URLSearchParams(window.location.search);
+      let id = params.get("openid.identity").split("/")[5];
+      let response = await api.steamLogin(id);
+      localStorage.setItem("token", response.data.jwtToken.jwt_token);
+      this.$emit("loginEvent", true);
+      this.$router.push({ name: "List Trade" });
     },
   },
   mounted: function () {

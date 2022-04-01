@@ -3,6 +3,6 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 COPY . .
 RUN npm install 
-COPY ./user.js .
-EXPOSE 8081
-CMD [ "node", "./user.js" ]
+COPY ./server.js .
+EXPOSE 8090
+CMD [ "node", "./userLogin.js" ]

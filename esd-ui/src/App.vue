@@ -5,16 +5,18 @@
   </div> -->
   <Navbar />  
   <router-view />
+  <!-- <Loader/> -->
 </template>
 
 <script>
 import Navbar from "@/components/Navbar.vue";  
+// import Loader from "@/components/Loader.vue";
 
 
 export default {
   name: "App",
   components: {
-    Navbar,
+    Navbar
   },
 
 };
@@ -44,7 +46,7 @@ export default {
 }
 
 h1, h2, h3, h4, h5, h6, p,a {
-  color:white;
+  /* color:white; */
   font-family: 'Inter', sans-serif;
 }
 
@@ -55,10 +57,39 @@ h1, h2, h3, h4, h5, h6, p,a {
 }
 
 .background-secondary{
-  background-color:#646464
+  background-color:#c4c4c4
 }
 
 .btn{
   color:white;
 }
+
+
+.btn-1{
+  background-color:#595DB9;
+  color:white;
+  border-radius:25px;
+  margin:10px;
+}
+
+.btn-2{
+  background-color:white;
+  color:#595DB9;
+  border-radius:25px;
+  border:2px solid #595DB9; 
+  margin:10px;
+}
+
+.rotate {
+    animation: rotation 1.5s infinite linear;
+  }
+  
+  @keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }
 </style>

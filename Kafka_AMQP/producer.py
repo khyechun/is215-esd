@@ -19,7 +19,7 @@ if __name__ == "__main__":
         dummy_message = generate_message()
 
         #send it to our 'messages' topic 
-        #print(f'Producing Message @ {datetime.now()} | Message = {str(dummy_message)}')
+        print(f'Producing Message @ {datetime.now()} | Message = {str(dummy_message)}')
         producer.send('message', dummy_message)
 
         #Sleep for a number of seconds 

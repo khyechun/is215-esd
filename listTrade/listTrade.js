@@ -2,14 +2,16 @@ const express = require('express');
 const cors = require('cors')
 const axios = require('axios')
 const http = require('http')
+const { Kafka } = require("kafkajs");
 const {graphqlHTTP} = require('express-graphql');
 const {buildSchema} = require('graphql')
 const {errorName} = require('./constants')
 const {errorType} = require('./constants')
-
+const getErrorCode = errorName =>{
+    return errorType[errorName]
+}
+const kafka = require("./kafka")
 const bodyParser = require('body-parser');
-const trade = require('../trade/model/trade');
-
 
 const app = express();
 var jsonParser = bodyParser.json()
@@ -66,14 +68,17 @@ app.use('/api/list_trade', (req,res)=>{
                       }`})
                       
                     var status = await axios.post(tradeURL, data, setHeader());
+                    const activity = await kafka.produceActivity(`${steamId} has placed a trade offer.`)
+                    
                     res.statusCode = 201
                     res.json({status:true})
                     
                     
             
                 } catch (err) {
-                    
+                    const activity = await kafka.produceError(`ERROR`)
                     throw new Error(errorName.CREATETRADE)
+                    
                 }
                 
             },
@@ -103,4 +108,4 @@ const setHeader = (token)=>{
     }
 }
 
-app.listen(process.env.PORT || 8092, console.log("Running this app on 8085"))
+app.listen(process.env.PORT || 8092, console.log("Running this app on 8092"))

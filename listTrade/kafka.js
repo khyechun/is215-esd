@@ -1,6 +1,7 @@
-const { Kafka } = require("kafkajs");
+const {Kafka} = require("kafkajs")
+var kafka = {}
 
-async function produce() {
+kafka.produceActivity = async function(data){
     const kafka = new Kafka({
         clientId: "player-jersey-1",
         brokers: ["127.0.0.1:9092"],
@@ -12,35 +13,46 @@ async function produce() {
     await producer.connect();
     console.log("Producer connected");
 
-    const players = {
-        7: "Dhoni",
-        18: "Virat",
-        12: "Yuvraj",
-        10: "Sachin",
-        45: "Rohit",
-    };
-
     const producedData = await producer.send({
-        topic: "jersey1",
+        topic: "activity",
         messages: [
             {
                 //value: players[jerseyNumber],
-                value: "HEllo",
+                value: data,
                 //partition: jerseyNumber <= 10 ? 0 : 1,
             },
         ],
     });
-    const producedDatas = await producer.send({
-        topic: "jersey1",
-        messages: [
-            {
-                //value: players[jerseyNumber],
-                value: "HElloo",
-                //partition: jerseyNumber <= 10 ? 0 : 1,
-            },
-        ],
-    });
+    return producedData
     console.log(`Produced data ${JSON.stringify(producedData)}`);
 }
 
-produce();
+kafka.produceError = async function(data){
+    const kafka = new Kafka({
+        clientId: "player-jersey-1",
+        brokers: ["127.0.0.1:9092"],
+    });
+
+    //const jerseyNumber = process.argv[2];
+
+    const producer = kafka.producer();
+    await producer.connect();
+    console.log("Producer connected");
+
+    const producedData = await producer.send({
+        topic: "error",
+        messages: [
+            {
+                //value: players[jerseyNumber],
+                value: data,
+                //partition: jerseyNumber <= 10 ? 0 : 1,
+            },
+        ],
+    });
+    return producedData
+    console.log(`Produced data ${JSON.stringify(producedData)}`);
+
+}
+
+
+exports.kafka;

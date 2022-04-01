@@ -18,7 +18,7 @@
           <li class="nav-item">
             <a class="nav-link active btn primary-btn" aria-current="page" href="#">
               <img style="width:30px;" src="../assets/images/logo/icons8-steam-96.png" />
-              Signin with Steam
+              Sign in with Steam
             </a>
           </li>
         </ul>

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import ListTrade from "../views/ListTrade.vue";
+import Trade from "../views/Trade.vue";
 import Redirect from "../views/Redirect.vue";
 
 const routes = [
@@ -13,6 +14,11 @@ const routes = [
     path: "/list-trade",
     name: "List Trade",
     component: ListTrade,
+  },
+  {
+    path: "/trade",
+    name: "Search Trades",
+    component: Trade,
   },
   {
     path: "/redirect",

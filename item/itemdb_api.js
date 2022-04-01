@@ -12,8 +12,9 @@ MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, as
     if (err) return console.log(err)
     db = database.db('itemDB');
 
-    // populateitemDB(csgo_uri, db, 'csgoitems');
-    populateitemDB(dota_uri, db, 'dotaitems');
+    // populateitemDB(csgo_uri, db, 'gameitems');
+    // populateitemDB(dota_uri, db, 'gameitems');
+    
     console.log("Records are now being inserted into Item Database...")
     
     
@@ -26,6 +27,7 @@ function populateitemDB(url, db, item_table) {
             var game_items = response.data.items_list
             for (item in game_items) {
                 db.collection(item_table).insertOne({
+                    gameID: 570,
                     itemID: game_items[item]["classid"],
                     itemName: game_items[item]["name"],
                     icon_url: game_items[item]["icon_url"],
@@ -42,7 +44,7 @@ function populateitemDB(url, db, item_table) {
 }
 
 // function countRecords() {
-//     axios.get(dota_uri)
+//     axios.get(csgo_uri)
 //         .then(response => {
 //             var arr = [];
 //             var game_items = response.data.items_list
@@ -54,6 +56,8 @@ function populateitemDB(url, db, item_table) {
 //         .catch(error => console.error(error));
     
 // }
+
+// countRecords()
 
 
 

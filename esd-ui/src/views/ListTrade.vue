@@ -5,15 +5,30 @@
         <div class="custom-container background-secondary top-container">
           <div class="row">
             <div class="col-6">You Offer</div>
-            <div class="col-6 text-end"><button class="btn" @click="clear('offer')">Clear</button></div>
+            <div class="col-6 text-end">
+              <button class="btn" @click="clear('offer')">Clear</button>
+            </div>
+          </div>
+          <div
+            v-if="offerItemsSelected.length == 0"
+            class="mt-4"
+            align="center"
+          >
+            <p class="mb-0">What you are offering</p>
+            <small style="color: #ffffff5f"
+              >Add the items you want to trade from your inventory</small
+            >
           </div>
           <div class="row item-scroll">
             <div
-              class="col-4 mt-4"
-              v-for="item of offerItemsSelected"
+              class="col-3 mb-3"
+              v-for="(item,index) of offerItemsSelected"
               :key="item._id"
             >
-              <div class="item-container">
+              <div class="item-container" style="position:relative;" v-bind:style="{ borderBottomColor: '#'+item.rarity_colour }">
+                <button class="btn btn-danger remove-item-btn" style="color:white" @click="removeOfferItem(index)">
+                  <img style="width:10px;" src="../assets/images/logo/icons8-close-48.png">
+                </button>
                 <img
                   style="width: 100%"
                   :src="
@@ -21,7 +36,7 @@
                     item.icon_url
                   "
                 />
-                <div>
+                <div class="p-1 pb-0" style="font-size: 12px">
                   {{ item.itemName }}
                 </div>
               </div>
@@ -33,7 +48,38 @@
         <div class="custom-container background-secondary top-container">
           <div class="row">
             <div class="col-6">You Get</div>
-            <div class="col-6 text-end"><button class="btn" @click="clear('get')">Clear</button></div>
+            <div class="col-6 text-end">
+              <button class="btn" @click="clear('get')">Clear</button>
+            </div>
+          </div>
+          <div v-if="getItemsSelected.length == 0" class="mt-4" align="center">
+            <p class="mb-0">What you are receiving</p>
+            <small style="color: #ffffff5f"
+              >Add the items you want in return</small
+            >
+          </div>
+          <div class="row item-scroll">
+            <div
+              class="col-3 mb-3"
+              v-for="item of getItemsSelected"
+              :key="item._id"
+            >
+              <div class="item-container" style="position:relative" v-bind:style="{ borderBottomColor: '#'+item.rarity_colour }">
+                <button class="btn btn-danger remove-item-btn" style="color:white" @click="removeGetItem(index)">
+                  <img style="width:10px;" src="../assets/images/logo/icons8-close-48.png">
+                </button>
+                <img
+                  style="width: 100%"
+                  :src="
+                    'https://steamcommunity-a.akamaihd.net/economy/image/' +
+                    item.icon_url
+                  "
+                />
+                <div class="p-1 pb-0" style="font-size: 12px">
+                  {{ item.itemName }}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -41,7 +87,7 @@
     <div class="row">
       <div class="col-6">
         <div class="custom-container background-secondary btm-container">
-          <div class="row">
+          <div class="row mb-4">
             <div class="col-8">
               <input
                 v-model="offerItemsSearchInput"
@@ -56,13 +102,17 @@
               />
             </div>
             <div class="col-3" align="right">
-              <button class="btn ms-auto">
-                Filter
+              <!-- <button class="btn ms-auto" style="color: #3b4248">
+                CSGO
                 <img
                   style="width: 25px"
-                  src="../assets/images/logo/icons8-chevron-down-60.png"
+                  src="../assets/images/logo/icons8-chevron-48.png"
                 />
-              </button>
+              </button> -->
+              <select class="form-select custom-select">
+                <option value="csgo" selected>CSGO</option>
+                <option value="dota">DOTA</option>
+              </select>
             </div>
             <div class="col-1">
               <button class="btn">
@@ -75,11 +125,11 @@
           </div>
           <div class="row item-scroll">
             <div
-              class="col-4 mt-4"
+              class="col-3 mb-3"
               v-for="item of filteredOfferItems"
               :key="item._id"
             >
-              <div class="item-container" @click="selectOfferItems(item)">
+              <div class="item-container" v-bind:style="{ borderBottomColor: '#'+item.rarity_colour }" @click="selectOfferItems(item)">
                 <img
                   style="width: 100%"
                   :src="
@@ -87,7 +137,7 @@
                     item.icon_url
                   "
                 />
-                <div>
+                <div class="p-1 pb-0" style="font-size: 12px">
                   {{ item.itemName }}
                 </div>
               </div>
@@ -97,7 +147,7 @@
       </div>
       <div class="col-6">
         <div class="custom-container background-secondary btm-container">
-          <div class="row">
+          <div class="row mb-4">
             <div class="col-8">
               <input
                 v-model="getItemsSearchInput"
@@ -112,13 +162,16 @@
               />
             </div>
             <div class="col-3" align="right">
-              <button class="btn ms-auto">
-                Filter
-                <img
+              <!-- <button class="btn ms-auto" style="color: #3b4248">
+                 <img
                   style="width: 25px"
-                  src="../assets/images/logo/icons8-chevron-down-60.png"
-                />
-              </button>
+                  src="../assets/images/logo/icons8-chevron-48.png"
+                /> 
+              </button> -->
+              <select class="form-select custom-select">
+                <option value="csgo" selected>CSGO</option>
+                <option value="dota">DOTA</option>
+              </select>
             </div>
             <div class="col-1">
               <button class="btn">
@@ -129,7 +182,31 @@
               </button>
             </div>
           </div>
+          <div class="row item-scroll">
+            <div
+              class="col-3 mb-3"
+              v-for="item of filteredGetItems"
+              :key="item._id"
+            >
+              <div class="item-container" v-bind:style="{ borderBottomColor: '#'+item.rarity_colour }" @click="selectGetItems(item)">
+                <img
+                  style="width: 100%"
+                  :src="
+                    'https://steamcommunity-a.akamaihd.net/economy/image/' +
+                    item.icon_url
+                  "
+                />
+                <div class="p-1 pb-0" style="font-size: 12px">
+                  {{ item.itemName }}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+      <div align="right">
+        <button class="btn btn-2">Reset</button
+        ><button class="btn btn-1">List Trade</button>
       </div>
     </div>
   </div>
@@ -144,13 +221,15 @@ export default {
   },
   data() {
     return {
+      offerLoading:false,
+      getLoading:false,
       offerItemsSearchInput: "",
       getItemsSearchInput: "",
       offerItems: [
         {
           _id: "62271514d1835c3341411ee7",
           itemID: "4114517977",
-          itemName: "&#39Blueberries&#39 Buckshot | NSWC SEAL",
+          itemName: "Buckshot | NSWC SEAL",
           icon_url:
             "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
           rarity: "Exceptional",
@@ -192,9 +271,82 @@ export default {
           rarity: "Exceptional",
           rarity_colour: "8847ff",
         },
+        {
+          _id: "62271514d1835c3341411e4e",
+          itemID: "4114517977",
+          itemName: "123123",
+          icon_url:
+            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
+          rarity: "Exceptional",
+          rarity_colour: "8847ff",
+        },
+        {
+          _id: "62271514d1835c3341411e4e",
+          itemID: "4114517977",
+          itemName: "123123",
+          icon_url:
+            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
+          rarity: "Exceptional",
+          rarity_colour: "8847ff",
+        },
+        {
+          _id: "62271514d1835c3341411e4e",
+          itemID: "4114517977",
+          itemName: "123123",
+          icon_url:
+            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
+          rarity: "Exceptional",
+          rarity_colour: "8847ff",
+        },
+        {
+          _id: "62271514d1835c3341411e4e",
+          itemID: "4114517977",
+          itemName: "123123",
+          icon_url:
+            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
+          rarity: "Exceptional",
+          rarity_colour: "8847ff",
+        },
+        {
+          _id: "62271514d1835c3341411e4e",
+          itemID: "4114517977",
+          itemName: "123123",
+          icon_url:
+            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
+          rarity: "Exceptional",
+          rarity_colour: "8847ff",
+        },
+        {
+          _id: "62271514d1835c3341411e4e",
+          itemID: "4114517977",
+          itemName: "123123",
+          icon_url:
+            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
+          rarity: "Exceptional",
+          rarity_colour: "8847ff",
+        },
       ],
       offerItemsSelected: [],
-      getItems: [],
+      getItems: [
+        {
+          _id: "62271514d1835c3341411ee7",
+          itemID: "4114517977",
+          itemName: "Buckshot | NSWC SEAL",
+          icon_url:
+            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
+          rarity: "Exceptional",
+          rarity_colour: "8847ff",
+        },
+        {
+          _id: "62271514d1835c3341411ee1",
+          itemID: "4114517977",
+          itemName: "test 2",
+          icon_url:
+            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
+          rarity: "Exceptional",
+          rarity_colour: "8847ff",
+        },
+      ],
       getItemsSelected: [],
     };
   },
@@ -216,20 +368,50 @@ export default {
       console.log(filteredArr);
       return filteredArr;
     },
+    filteredGetItems: function () {
+      if (this.getItemsSearchInput == "") {
+        return this.getItems;
+      }
+      let filteredArr = [];
+      this.offerItems.map((item) => {
+        if (
+          item.itemName
+            .toLowerCase()
+            .includes(this.offerItemsSearchInput.toLowerCase())
+        ) {
+          filteredArr.push(item);
+        }
+      });
+      console.log(filteredArr);
+      return filteredArr;
+    },
   },
   methods: {
     selectOfferItems: function (item) {
-      this.offerItemsSelected.push(item);
+      if (!this.offerItemsSelected.map((i) => i._id).includes(item._id)) {
+        this.offerItemsSelected.push(item);
+      }
       console.log(this.offerItemsSelected);
     },
-    clear: function(type){
-      if(type == "offer"){
-        this.offerItemsSelected = []
+    selectGetItems: function (item) {
+      if (!this.getItemsSelected.map((i) => i._id).includes(item._id)) {
+        this.getItemsSelected.push(item);
       }
-      else if (type=="get"){
-        this.getItemsSelected = []
+      console.log(this.offerItemsSelected);
+    },
+    removeGetItem: function (index){
+      this.getItemsSelected.splice(index, 1)
+    },
+    removeOfferItem: function (index){
+      this.offerItemsSelected.splice(index, 1)
+    },
+    clear: function (type) {
+      if (type == "offer") {
+        this.offerItemsSelected = [];
+      } else if (type == "get") {
+        this.getItemsSelected = [];
       }
-    }
+    },
   },
   // mounted: {
   //   //call api
@@ -243,22 +425,34 @@ export default {
   margin: 10px 0px;
   color: white;
   border-radius: 10px;
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  /* box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3); */
   text-align: left;
 }
 
 .top-container {
-  height: 25vh;
+  height: 30vh;
 }
 
 .btm-container {
-  height: 55vh;
+  height: 65vh;
+  background-color: transparent !important;
+  /* box-shadow: none; */
+  color: white;
 }
 
 .item-container {
+  cursor:pointer;
   background-color: #3b4248;
   padding: 5px;
-  border-radius: 5px;
+  border-radius: 15px 15px 0 15px;
+  border-bottom-width: 8px ;
+  border-bottom-style: solid;
+  transition:0.2s;
+}
+
+.item-container:hover{
+  box-shadow: 3px 3px 4px rgba(0,0,0,0.35);
+  transition:0.01s;
 }
 
 .item-scroll {
@@ -278,7 +472,7 @@ export default {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: white;
+  background: #848484;
   width: 4px;
   border-radius: 10px;
 }
@@ -286,5 +480,28 @@ export default {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.custom-select {
+  background-color: transparent;
+  border: transparent;
+  width: 100px;
+  max-width: 100%;
+}
+
+/* 
+.add-item-btn{
+  border-radius:5px;
+  position:absolute;
+  top:10px;
+  right:10px;
+} */
+
+.remove-item-btn{
+  border-radius:5px;
+  position:absolute;
+  top:10px;
+  right:10px;
+  padding:0 7px;
 }
 </style>

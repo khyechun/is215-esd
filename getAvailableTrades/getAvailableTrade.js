@@ -25,7 +25,7 @@ app.get("/api/get_available_trades", async (req, res) => {
     
     
     var data = JSON.stringify({query: `mutation {
-        tradeItems(items: ${items}]) {
+        tradeItems(items: [${items}]) {
           _id
           steamId
           status

@@ -172,7 +172,10 @@ router.get('/getInventory/:steamID/:gameID', async (req, res) => {
         for (item of arr) {
             if (item['tradable'] == 1) {
                 var result = await gameitems.find({ itemName: item['market_name']}) 
-                final.push({ itemID: result[0]['itemID'], itemName: result[0]['itemName'], icon_url: result[0]['icon_url'], rarity_colour: result[0]['rarity_colour'] })  
+                if (result.length != 0) {
+                    final.push({ itemID: result[0]['itemID'], itemName: result[0]['itemName'], icon_url: result[0]['icon_url'], rarity_colour: result[0]['rarity_colour'] }) 
+                }
+                
             }
 
         }

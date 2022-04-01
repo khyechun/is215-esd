@@ -3,15 +3,17 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </div> -->
-  <Navbar v-bind:loggedIn="loggedIn"/>  
+  <Navbar v-bind:loggedIn="loggedIn" v-bind:name="name" v-bind:profileImg="profileImg"/>  
   <router-view  @loginEvent="setLogin" />
   <!-- <Loader/> -->
 </template>
 
 <script>
 import Navbar from "@/components/Navbar.vue";  
+// import { response } from 'express';
+// import { getUserInfo } from './api';
 // import Loader from "@/components/Loader.vue";
-
+const api = require("./api")
 
 export default {
   name: "App",
@@ -20,18 +22,29 @@ export default {
   },
   data(){
     return{
-      loggedIn : false
+      loggedIn : false,
+      name:"",
+      profileImg:""
     }
   },
   methods:{
     setLogin(loggedIn){
       this.loggedIn = loggedIn
       console.log("im called")
+    },
+    async getUserInfo(id){
+      const response = await api.getUserInfo(id)
+      return response
     }
   },
-  mounted:function(){
+  mounted: async function(){
     if(localStorage.getItem("token")){
       this.loggedIn= true;
+      
+      const response = await this.getUserInfo(localStorage.getItem("token"))
+      console.log(response)
+      this.name= response.name
+      this.profileImg = response.img
     }
   }
 };

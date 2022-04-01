@@ -66,7 +66,11 @@
             </form>
           </li>
           <li v-else>
-            I'm logged in
+            <div class="row">
+              <div class="col d-flex align-items-center pe-0" style="font-size:14px">{{name}}</div>
+              <div class="col"><img style="border-radius:50%;width:40px;" v-bind:src="profileImg"></div>
+            </div>
+
           </li>
         </ul>
       </div>
@@ -84,7 +88,15 @@ export default {
     loggedIn: {
       type: Boolean,
       default: false
-    }
+    },
+    name: {
+      type: String,
+      default: ""
+    },
+    profileImg: {
+      type: String,
+      default: ""
+    },
   },
   methods:{
     checkLoggedIn(){
@@ -98,6 +110,7 @@ export default {
   },
   mounted:function(){
     this.checkLoggedIn();
+    console.log(this.profileImg)
   }
 };
 </script>

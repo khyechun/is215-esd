@@ -44,6 +44,8 @@ module.exports = {
         console.log(name)
         var profile_img = response.data.response.players[0].avatar
         console.log(profile_img)
+
+        return { name: name, img: profile_img }
     },
 
     steamLogin: async function (id) {

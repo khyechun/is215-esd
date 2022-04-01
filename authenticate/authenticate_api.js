@@ -7,6 +7,9 @@ dotenv.config();
 process.env.TOKEN_SECRET;
 
 
+// Steam Developer API Key: 810A381CF018AA1D7A6C8A99C440AA11
+
+
 
 
 router.get("/authenticateUser", function (req, res) {
@@ -15,6 +18,7 @@ router.get("/authenticateUser", function (req, res) {
     // console.log(steam_id)
     // console.log(req.query)
     console.log(req)
+    console.log(req.query)
     let steam_id = req.query.steamID
     console.log("steam ID : " + steam_id)
     //2. create JWT token using steam id 

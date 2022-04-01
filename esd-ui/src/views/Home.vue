@@ -27,6 +27,7 @@ export default {
 
   beforeMount(){
     hosehapi.getItems(this.gameId);
+    
   }
 
   

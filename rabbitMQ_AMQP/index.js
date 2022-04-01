@@ -11,7 +11,8 @@ async function connect() {
         const amqpServer = "amqp://localhost:5672";
         connection = await amqp.connect(amqpServer);
         channel = await connection.createChannel();
-        await channel.assertQueue("rabbit");
+        // Need to change the queue name to Error or Activity 
+        await channel.assertQueue("error");
 
 
     } catch (err) {
@@ -23,15 +24,16 @@ async function connect() {
 app.get("/send", async (req, res) => {
     const fakedata = {
         name: "Caleb",
-        sex: "Male"
+        sex: "Male",
+        time: Date.now()
     };
 
-    await channel.sendToQueue("rabbit", Buffer.from(JSON.stringify(fakedata)));
+    await channel.sendToQueue("error", Buffer.from(JSON.stringify(fakedata)));
     //await channel.close();
     //await connection.close();
     return res.send("Done");
 });
 
 app.listen(5001, () => {
-    console.log("Server listening at 5001");
+    console.log("PRODUCER - Server listening at 5001");
 });

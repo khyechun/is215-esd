@@ -1,4 +1,4 @@
-//Consumer
+//Consumer - error 
 
 const express = require("express");
 const app = express();
@@ -11,9 +11,9 @@ async function connect() {
         const amqpServer = "amqp://localhost:5672";
         connection = await amqp.connect(amqpServer);
         channel = await connection.createChannel();
-        await channel.assertQueue("rabbit");
+        await channel.assertQueue("error");
 
-        channel.consume("rabbit", data => {
+        channel.consume("error", data => {
             console.log(`Receieved ${Buffer.from(data.content)}`)
         })
     } catch (err) {

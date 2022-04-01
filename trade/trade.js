@@ -23,8 +23,7 @@ app.use(bodyParser.json())
 app.use((req, res, next)=>{
     console.log(`${req.method} - ${req.url}`)
     
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.setHeader('Acess-Control-Allow-Methods', 'POST, GET')
+    
     next()
 })
 
@@ -39,20 +38,20 @@ app.use('/api/trade', (req,res)=>{
 
         type mutationQuery {
             createTrade(trade: Trade): Boolean
-            tradeItems(items: [Int]): [Trades]
+            tradeItems(items: [Float]): [Trades]
         }
 
         input Trade {
-            receiveItems: [Int]
-            offerItems: [Int]
-            steamId: Int
+            receiveItems: [Float]
+            offerItems: [Float]
+            steamId: Float
         }
 
         type Trades {
             _id: String
-            offerItems: [Int]
-            steamId: Int
-            receiveItems: [Int]
+            offerItems: [Float]
+            steamId: Float
+            receiveItems: [Float]
             status: Boolean
             
         }
@@ -64,6 +63,7 @@ app.use('/api/trade', (req,res)=>{
     `),
     rootValue: {
         trades: async ()=>{
+            
             try {
                 
                 var trades = await Trade.find();
@@ -73,6 +73,7 @@ app.use('/api/trade', (req,res)=>{
                     
                     new_trades.push({_id: trade._id, steamId: trade.userId, offerItems: trade.offerItems, receiveItems: trade.receiveItems, status: trade.status})
                 }
+                console.log(new_trades)
                 if (new_trades.length == 0){
                     throw new Error(errorName.NOTRADES)
                 }
@@ -83,14 +84,15 @@ app.use('/api/trade', (req,res)=>{
                 
         
             } catch (err) {
+                console.log(err)
                 
-                throw new Error(errorName.NOTRADES)
             }
             
         },
         tradeItems: async (args)=>{
             
             const {items} = args;
+            console.log(items)
             try {
                 var selectedTrades = []
                 const trades = await Trade.find();
@@ -110,7 +112,7 @@ app.use('/api/trade', (req,res)=>{
                         
                     }
                     if (status){
-                        selectedTrades.push({_id: trade._id, userId: trade.userId, offerItems: trade.offerItems, receiveItems: trade.receiveItems, status: trade.status})
+                        selectedTrades.push({_id: trade._id, steamId: trade.userId, offerItems: trade.offerItems, receiveItems: trade.receiveItems, status: trade.status})
                     }
                 }
                 if (selectedTrades.length == 0){
@@ -131,7 +133,7 @@ app.use('/api/trade', (req,res)=>{
             
             try {
                 
-                const trades = await Trade.insertMany({ steamId, receiveItems, offerItems, "status": false })
+                const trades = await Trade.insertMany({ userId:steamId, receiveItems, offerItems, "status": false })
                 return true
                 
 
@@ -146,11 +148,11 @@ app.use('/api/trade', (req,res)=>{
     customFormatErrorFn: (err)=>{
         
         const error = getErrorCode(err.message);
-        /* return { message: error.message, statusCode: error.statusCode} */
+        
         try {
-            res.status(error.statusCode).send({ message: error.message, statusCode: error.statusCode})
+            res.status(500).send({ message: "WRONG"})
         }catch(err){
-            res.status(error.statusCode).send({ message: error.message, statusCode: error.statusCode})
+            res.status(500).send({ message: error.message, statusCode: error.statusCode})
         }
         
     }
@@ -167,4 +169,4 @@ mongoose.connection.on("connected", () => {
     console.log("Connected to MongoDB")
 })
 
-app.listen(process.env.PORT || 8085, console.log("Running this app on 8085"))
+app.listen(process.env.PORT || 8084, console.log("Running this app on 8084"))

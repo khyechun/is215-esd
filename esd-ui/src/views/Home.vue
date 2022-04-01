@@ -10,10 +10,25 @@
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
 
+const hosehapi = require('../api.js')
+
+
 export default {
   name: "Home",
+  data() {
+    return {
+      gameId: 730
+      // gameId = selected game in search menu
+    }
+  },
   components: {
     // HelloWorld,
   },
-};
+
+  beforeMount(){
+    hosehapi.getItems(this.gameId);
+  }
+
+  
+  };
 </script>

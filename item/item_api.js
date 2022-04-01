@@ -19,25 +19,17 @@ MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, as
 });
 
 
-// 1st API: GET all items (from both CSGO and Dota 2)
-router.get("/getAllItems", async (req, res) => {
+// 1st API: GET all items for specific game
+router.get("/getAllItems/:gameID", async (req, res) => {
+    var id = req.params.gameID
+    console.log(id)
     if (res.statusCode == 200) {
-        var gameId = req.query.gameId
-        if (gameId == 570) {
-            let dotaitems = await db.collection('dotaitems').find().toArray()
-            res.send({
-                "code": res.statusCode,
-                "items": dotaitems
-            }
-            )
-        } else {
-            let csitems = await db.collection('csgoitems').find().toArray()
-            res.send({
-                "code": res.statusCode,
-                "items": csitems
-            }
-            )
+        let gameitems = await db.collection('gameitems').find({gameID: parseInt(id)}).toArray()
+        res.send({
+            "code": res.statusCode,
+            "items": gameitems
         }
+        )   
     } else {
         res.send(
             {
@@ -47,13 +39,13 @@ router.get("/getAllItems", async (req, res) => {
 
     }
     /*  all_items=[];
-     let csitems = await db.collection('csgoitems').find().toArray()
-     let dotaitems = await db.collection('dotaitems').find().toArray()
+     let csitems = await db.collection('gameitems').find().toArray()
+     let gameitems = await db.collection('gameitems').find().toArray()
      
      csitems.forEach(doc=>{
          all_items.push(doc)
      })
-     dotaitems.forEach(doc=>{
+     gameitems.forEach(doc=>{
          all_items.push(doc)
      })
      res.send(all_items); */
@@ -61,40 +53,40 @@ router.get("/getAllItems", async (req, res) => {
 
 // 2nd API: GET specific item 
 
-router.get("/getItem/:itemID", async (req, res) => {
-    if (res.statusCode == 200) {
-        var id = req.params.itemID;
-        console.log(id)
+// router.get("/getItem/:itemID", async (req, res) => {
+//     if (res.statusCode == 200) {
+//         var id = req.params.itemID;
+//         console.log(id)
 
-        db.collection('csgoitems').findOne({ itemID: id }, function (err, result) {
-            console.log(result);
-            if (result == null) {
-                db.collection('dotaitems').findOne({ itemID: id }, function (err, result) {
-                    res.send(
-                    {
-                        "code": res.statusCode,
-                        "item": result
-                    }
+//         db.collection('gameitems').findOne({ itemID: id }, function (err, result) {
+//             console.log(result);
+//             if (result == null) {
+//                 db.collection('gameitems').findOne({ itemID: id }, function (err, result) {
+//                     res.send(
+//                     {
+//                         "code": res.statusCode,
+//                         "item": result
+//                     }
 
-                    )
-                })
-            } else {
-                res.send(
-                    {
-                        "code": res.statusCode,
-                        "item": result
-                    }
-                )
-            }
-        })
-    } else { 
-        res.send(
-            {
-                "code": res.statusCode,
-                "message": `An error: ${res.statusCode} occurred while trying to retrieve the item. Please try again.`
-            })
-    }
-})
+//                     )
+//                 })
+//             } else {
+//                 res.send(
+//                     {
+//                         "code": res.statusCode,
+//                         "item": result
+//                     }
+//                 )
+//             }
+//         })
+//     } else { 
+//         res.send(
+//             {
+//                 "code": res.statusCode,
+//                 "message": `An error: ${res.statusCode} occurred while trying to retrieve the item. Please try again.`
+//             })
+//     }
+// })
 
 
 // 3rd API: GET specific item(s)
@@ -103,46 +95,33 @@ router.get("/getItems", async (req, res) => {
     if (res.statusCode == 200) {
     var ids = req.query.arr;
     var ids = ids.split('|');
-    var result = [];
+    var final = [];
+    const offer_arr = []
+    const receive_arr = []
     for (i = 0; i < ids.length; i++) {
         var items = ids[i];
         var id_arr = items.split(",")
         var offer = id_arr[0]
         var receive = id_arr[1]
-        var offer_arr = []
-        var receive_arr = []
+        // console.log(offer.split('.'))
         for (id of offer.split(".")) {
-            db.collection('csgoitems').findOne({ itemID: id }, function (err, result) {
-                console.log(result);
-                if (result == null) {
-                    db.collection('dotaitems').findOne({ itemID: id }, function (err, result) {
-                        offer_arr.push({ itemID: result.itemID, itemName: result.itemName, icon_url: result.icon_url, rarity_colour: result.rarity_colour });
-                    })
-                } else {
-                    offer_arr.push({ itemID: result.itemID, itemName: result.itemName, icon_url: result.icon_url, rarity_colour: result.rarity_colour });
-                }
+            db.collection('gameitems').findOne({ itemID: id }, function (err, result) {
+                offer_arr.push({ itemID: result['itemID'], itemName: result['itemName'], icon_url: result['icon_url'], rarity_colour: result['rarity_colour'] });
             })
         }
-
+        
         for (id of receive.split(".")) {
-            db.collection('csgoitems').findOne({ itemID: id }, function (err, result) {
-                console.log(result);
-                if (result == null) {
-                    db.collection('dotaitems').findOne({ itemID: id }, function (err, result) {
-                        receive_arr.push({ itemID: result.itemID, itemName: result.itemName, icon_url: result.icon_url, rarity_colour: result.rarity_colour });
-                    })
-                } else {
-                    receive_arr.push({ itemID: result.itemID, itemName: result.itemName, icon_url: result.icon_url, rarity_colour: result.rarity_colour });
-                }
+            db.collection('gameitems').findOne({ itemID: id }, function (err, result) {
+                receive_arr.push({ itemID: result['itemID'], itemName: result['itemName'], icon_url: result['icon_url'], rarity_colour: result['rarity_colour'] });
             })
         }
-        result.push({ offer: offer_arr, receive: receive_arr })
+        final.push({ offer: offer_arr, receive: receive_arr })
 
     }
     res.send(
         {
             "code": res.statusCode,
-            "items": result
+            "items": final
         }
         );
 } else {

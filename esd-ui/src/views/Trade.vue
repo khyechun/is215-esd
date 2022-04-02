@@ -400,6 +400,7 @@ export default {
       for (var trade of this.trades) {
         console.log(trade)
         var userId = trade.steamId;
+        // var userId = '76561198000003391';
         const userInfo = await api.getUserInfo(userId);
         tradeUserInfo.push(userInfo)
       }

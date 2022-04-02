@@ -34,7 +34,7 @@ app.post("/api/list_trade", async (req, res) => {
         /* var steamId = 76561198000003391 */
         var data = JSON.stringify({query: `mutation{
             createTrade(trade: {receiveItems: [${receiveItems.join(", ")}],
-          offerItems: [${offerItems.join(", ")}], steamId: ${steamId}}) 
+          offerItems: [${offerItems.join(", ")}], steamId: ${String(steamId)}}) 
           }`})
         console.log(data)
         var status = await axios.post(tradeURL, data, setHeader());

@@ -195,7 +195,7 @@
                     class="mt-4"
                     align="center"
                   >
-                    <p class="mb-0">Your Searched Items</p>
+                    <p class="mb-0 pt-5">Your Searched Items</p>
                     <small style="color: #ffffff5f"
                       >Add items you want to search for</small
                     >
@@ -242,7 +242,11 @@
               </div>
             </div>
 
-            <div align="right"><button class="btn btn-1">Search</button></div>
+            <div align="right">
+              <button class="btn btn-1" @click="callSearchTrades()">
+                Search
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -252,7 +256,6 @@
 
 
 <script>
-const axios = require("axios").default;
 import Loader from "@/components/Loader.vue";
 const api = require("../api");
 
@@ -334,26 +337,6 @@ export default {
     };
   },
   methods: {
-    redirect() {
-      let self = this;
-      // console.log()
-      axios
-        .get(
-          "http://localhost:8093/api/get_available_trades?items=3600960863,1618266229,3608158181,469548722"
-        )
-        .then(function (response) {
-          // handle success
-          console.log(response);
-          self.trades = response.data;
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error);
-        })
-        .then(function () {
-          // always executed
-        });
-    },
     selectItems(item) {
       if (!this.selectedItems.map((i) => i.itemID).includes(item.itemID)) {
         this.selectedItems.push(item);
@@ -362,13 +345,37 @@ export default {
     removeItem: function (index) {
       this.selectedItems.splice(index, 1);
     },
+    async callSearchTrades() {
+      console.log(this.selectedItems);
+      console.log("hi");
+      const itemIdArr = this.selectedItems.map((i) => i.itemID);
+      console.log(itemIdArr);
+      const stringifyIdArr = itemIdArr.join(",");
+      console.log(stringifyIdArr);
+      const result = await api.searchTrades(stringifyIdArr);
+      console.log(result);
+      if(result != false){
+
+      this.trades = result;
+      }
+      else{
+        alert("no such thing")
+      }
+    },
   },
   mounted: async function () {
     console.log("hi");
-    this.redirect();
 
     const itemResponse = await api.getItems(730);
     this.items = itemResponse.slice(0, 100);
+
+    const tradeSearchResponse = await api.searchTrades(
+      "3600960863,1618266229,3608158181,469548722"
+    );
+    console.log(tradeSearchResponse);
+    if (tradeSearchResponse != false) {
+      this.trades = tradeSearchResponse;
+    }
   },
   computed: {
     filteredItems: function () {

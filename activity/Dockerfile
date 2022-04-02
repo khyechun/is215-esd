@@ -1,6 +1,5 @@
-FROM node:14-slim
+FROM python:3-slim
 WORKDIR /usr/src/app
-COPY . . 
-RUN npm install
-EXPOSE 5003
-CMD [ "node", "./activity.js" ]
+COPY . .
+RUN python -m pip install --no-cache-dir -r reqs.txt
+CMD [ "python", "./activity_kafka.py" ]

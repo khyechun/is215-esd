@@ -17,7 +17,7 @@ app.use((req, res, next)=>{
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const itemURL = 'http://localhost:8088/api/item_api/getItems'
-const tradeURL = 'http://localhost:8085/api/trade/tradeItems'
+const tradeURL = 'http://localhost:8084/api/trade/tradeItems'
 app.get("/api/get_available_trades", async (req, res) => {
   var items = req.query.items;
   items = items.split(",").join(", ")
@@ -70,8 +70,7 @@ app.get("/api/get_available_trades", async (req, res) => {
 
     // AMQP THINGS: TODO
     /* const activity = await kafka.produceActivity(`${steamId} has placed a trade offer.`) */
-    /* 
-        await amqp_function.connect("activity") */
+    
     res.status(200).send(result);
   } catch (err) {
     /* const activity = await kafka.produceError(`ERROR`) */

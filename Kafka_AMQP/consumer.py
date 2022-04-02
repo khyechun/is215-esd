@@ -7,6 +7,7 @@ if __name__ == "__main__":
         bootstrap_servers = 'localhost:9092',
         auto_offset_reset='earliest'
     )
-
+    
     for message in consumer: 
-        print(json.loads(message.value))
+        print(message.value)
+        """  print(json.loads(message.value)) """

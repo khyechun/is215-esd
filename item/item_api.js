@@ -118,9 +118,31 @@ router.get("/getItems", async (req, res) => {
                 console.log(result)
                 result = result[0]
                 offer_arr.push({ itemID: result['itemID'], itemName: result['itemName'], icon_url: result['icon_url'], rarity_colour: result['rarity_colour'] });
+<<<<<<< HEAD
+            }) */
+            var result = await gameitems.find({ itemID: id})
+            console.log(result)
+            if (result.length !== 0){
+                result = result[0]
+                offer_arr.push({ itemID: result['itemID'], itemName: result['itemName'], icon_url: result['icon_url'], rarity_colour: result['rarity_colour'] });
+            }
+            
+        }
+        
+        for (id of receive.split(".")) {
+            console.log(id)
+            var result = await gameitems.find({ itemID: id})
+            if (result.length !== 0){
+                result = result[0]
+                receive_arr.push({ itemID: result['itemID'], itemName: result['itemName'], icon_url: result['icon_url'], rarity_colour: result['rarity_colour'] });
+            }
+            
+            /* db.collection('gameitems').findOne({ itemID: id }, function (err, result) {
+=======
             }
 
             for (id of receive.split(".")) {
+>>>>>>> 62a10448c707dec00a3e421be96de97a43d5129f
                 console.log(id)
                 var result = await gameitems.find({ itemID: id })
                 console.log(result)

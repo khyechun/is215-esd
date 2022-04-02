@@ -112,7 +112,7 @@
     </div>
     <div class="row">
       <div class="col-6" v-if="loggedIn">
-        <div class="custom-container background-secondary btm-container">
+        <div class="custom-container background-secondary btm-container mb-0">
           <div class="row mb-4">
             <div class="col-8">
               <input
@@ -135,9 +135,13 @@
                   src="../assets/images/logo/icons8-chevron-48.png"
                 />
               </button> -->
-              <select class="form-select custom-select">
-                <option value="csgo" selected>CSGO</option>
-                <option value="dota">DOTA</option>
+              <select
+                class="form-select custom-select"
+                @change="changeGame('offer')"
+                v-model="inventoryGameId"
+              >
+                <option value="730" selected>CSGO</option>
+                <option value="570">DOTA</option>
               </select>
             </div>
             <div class="col-1">
@@ -150,7 +154,7 @@
             </div>
           </div>
           <div class="row item-scroll" v-if="!offerLoading">
-            <div 
+            <div
               class="col-3 mb-3"
               v-for="item of filteredOfferItems"
               :key="item._id"
@@ -175,7 +179,13 @@
               </div>
             </div>
           </div>
-          <div class="d-flex align-items-center justify-content-center" style="min-height:300px;" v-else><Loader/></div>
+          <div
+            class="d-flex align-items-center justify-content-center"
+            style="min-height: 300px"
+            v-else
+          >
+            <Loader />
+          </div>
         </div>
       </div>
       <div v-else class="col-6 pt-4" align="center">
@@ -220,7 +230,7 @@
         </form>
       </div>
       <div class="col-6">
-        <div class="custom-container background-secondary btm-container">
+        <div class="custom-container background-secondary btm-container mb-0">
           <div class="row mb-4">
             <div class="col-8">
               <input
@@ -242,9 +252,13 @@
                   src="../assets/images/logo/icons8-chevron-48.png"
                 /> 
               </button> -->
-              <select class="form-select custom-select">
-                <option value="csgo" selected>CSGO</option>
-                <option value="dota">DOTA</option>
+              <select
+                class="form-select custom-select"
+                @change="changeGame('get')"
+                v-model="getGameId"
+              >
+                <option value="730" selected>CSGO</option>
+                <option value="570">DOTA</option>
               </select>
             </div>
             <div class="col-1">
@@ -282,7 +296,13 @@
               </div>
             </div>
           </div>
-          <div class="d-flex align-items-center justify-content-center" style="min-height:300px;" v-else><Loader/></div>
+          <div
+            class="d-flex align-items-center justify-content-center"
+            style="min-height: 300px"
+            v-else
+          >
+            <Loader />
+          </div>
         </div>
       </div>
       <div align="right">
@@ -304,7 +324,7 @@ import Loader from "@/components/Loader.vue";
 export default {
   name: "ListTrade",
   components: {
-    Loader
+    Loader,
   },
   props: {
     loggedIn: {
@@ -314,6 +334,8 @@ export default {
   },
   data() {
     return {
+      getGameId: 730,
+      inventoryGameId: 730,
       offerLoading: false,
       getLoading: false,
       offerItemsSearchInput: "",
@@ -392,20 +414,34 @@ export default {
       console.log(result);
       return result;
     },
+    async changeGame(type) {
+      if (type == "get") {
+        this.getLoading = true
+        let result = await api.getItems(this.getGameId);
+        console.log(result);
+        this.getItems = result.slice(0, 200);
+        this.getLoading = false
+      } else if (type == "offer") {
+        this.offerLoading = true
+        let result = await api.getSteamInventory(this.inventoryGameId);
+        console.log(result);
+        this.offerItems = result.slice(0, 200);
+        this.offerLoading = false
+      }
+    },
   },
   mounted: async function () {
     //call api
     this.offerLoading = true;
     if (this.loggedIn) {
-      this.getLoading= true;
+      this.getLoading = true;
       let myInventory = await this.getInventoryItems();
       // console.log(myInventory);
       this.offerItems = myInventory;
-      this.getLoading=false;
-
+      this.getLoading = false;
     }
     // console.log(this.offerItems);
-    
+
     let getItemsResponse = await api.getItems(730);
     this.getItems = getItemsResponse.slice(0, 100);
     this.offerLoading = false;

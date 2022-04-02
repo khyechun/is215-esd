@@ -1,7 +1,7 @@
 const express = require("express");
 const axios = require('axios')
 const cors = require("cors");
-
+const connect_kafka = require("../Kafka_AMQP/kafka_setup")
 const bodyParser = require("body-parser");
 
 const app = express();
@@ -37,6 +37,7 @@ app.get("/api/get_available_trades", async (req, res) => {
       
      
     var trades = await axios.post(tradeURL, data, setHeader());
+    console.log(trades)
     var trades = trades.data.data.tradeItems
     console.log(trades)
     var query_arr = [];
@@ -69,12 +70,12 @@ app.get("/api/get_available_trades", async (req, res) => {
     }
 
     // AMQP THINGS: TODO
-    /* const activity = await kafka.produceActivity(`${steamId} has placed a trade offer.`) */
+    await connect_kafka.connect('activity', `User has searched for ${items}.`) 
     
     res.status(200).send(result);
   } catch (err) {
-    /* const activity = await kafka.produceError(`ERROR`) */
-
+    await connect_kafka.connect('error', `${items} dont have any trades found`) 
+    res.status(404).send({message: 'No trades found', statusCode: 404})
     console.log(err)
   }
 });

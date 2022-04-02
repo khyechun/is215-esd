@@ -35,12 +35,12 @@ module.exports = {
     //     console.log(response)
     //     return response
     // },
-    getSteamInventory: async function (gameId){
+    getSteamInventory: async function (gameId) {
         let steamId = localStorage.getItem("steamId")
         console.log(steamId)
         console.log("http://localhost:8088/api/item_api/getInventory/" + steamId + "/" + gameId)
         const response = await axios.get("http://localhost:8088/api/item_api/getInventory/" + steamId + "/" + gameId)
-        return response.data.items.map(item => { return {...item, "img_url": item["icon_url"]}})
+        return response.data.items.map(item => { return { ...item, "img_url": item["icon_url"] } })
     },
 
     getUserInfo: async function () {
@@ -59,8 +59,8 @@ module.exports = {
         return response;
     },
 
-    searchTrades: async function (items){
-        const response  = await axios.get("http://localhost:8093/api/get_available_trades?items=" + items)
+    searchTrades: async function (items) {
+        const response = await axios.get("http://localhost:8093/api/get_available_trades?items=" + items)
         return response.data
         // axios
         // .get(
@@ -78,6 +78,22 @@ module.exports = {
         // .then(function () {
         //   // always executed
         // });
+    },
+
+    listTrade: async function ({ receiveItems, offerItems }) {
+        const token = localStorage.getItem("token")
+        console.log(receiveItems)
+        console.log(offerItems)
+        console.log(token)
+        const response = await axios.post("http://localhost:8092/api/list_trade",
+            {
+                receiveItems: receiveItems,
+                offerItems: offerItems,
+                token: token
+            }
+        )
+
+        return response
     }
 }
 

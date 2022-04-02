@@ -307,7 +307,7 @@
       </div>
       <div align="right">
         <button class="btn btn-2">Reset</button
-        ><button class="btn btn-1" v-bind:disabled="!loggedIn">
+        ><button class="btn btn-1" v-bind:disabled="!loggedIn" @click="listTrade()">
           List Trade
         </button>
       </div>
@@ -429,6 +429,17 @@ export default {
         this.offerLoading = false
       }
     },
+
+    async listTrade(){
+      console.log(this.getItemsSelected)
+      console.log(this.offerItemsSelected)
+      const listTradeResponse = await api.listTrade({receiveItems: this.getItemsSelected.map(item => item.itemID), offerItems: this.offerItemsSelected.map(item => item.itemID)})
+      console.log(listTradeResponse)
+      if(listTradeResponse.statusText == "Created"){
+        alert("successfully listed trade :D")
+
+      }
+    }
   },
   mounted: async function () {
     //call api

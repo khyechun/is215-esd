@@ -44,13 +44,13 @@ app.use('/api/trade', (req,res)=>{
         input Trade {
             receiveItems: [Float]
             offerItems: [Float]
-            steamId: Float
+            steamId: String
         }
 
         type Trades {
             _id: String
             offerItems: [Float]
-            steamId: Float
+            steamId: String
             receiveItems: [Float]
             status: Boolean
             
@@ -134,7 +134,7 @@ app.use('/api/trade', (req,res)=>{
             try {
                 
                 const trades = await Trade.insertMany({ userId:steamId, receiveItems, offerItems, "status": false })
-                
+                console.log(steamId)
                 return trades[0]._id
                 
 

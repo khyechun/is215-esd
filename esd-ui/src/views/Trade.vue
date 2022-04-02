@@ -91,7 +91,7 @@
       <h2 class="accordion-header" id="flush-headingOne">
         <button
           style="
-            position: absolute;
+            position: fixed;
             bottom: 0;
             background-color: #595cb9;
             color: white;
@@ -115,7 +115,7 @@
         <div
           class="accordion-body"
           style="
-            position: absolute;
+            position: fixed;
             bottom: 52px;
             height: 380px;
             background-color: white;

@@ -436,8 +436,8 @@ export default {
       const listTradeResponse = await api.listTrade({receiveItems: this.getItemsSelected.map(item => item.itemID), offerItems: this.offerItemsSelected.map(item => item.itemID)})
       console.log(listTradeResponse)
       if(listTradeResponse.statusText == "Created"){
-        alert("successfully listed trade :D")
-
+        // alert("successfully listed trade :D")
+      this.$router.push({ name: "Success" });
       }
     }
   },

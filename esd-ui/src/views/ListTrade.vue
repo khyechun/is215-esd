@@ -47,8 +47,11 @@
                     item.img_url
                   "
                 />
-                <div class="p-1 pb-0" style="font-size: 12px" v-html="item.itemName">
-                </div>
+                <div
+                  class="p-1 pb-0"
+                  style="font-size: 12px"
+                  v-html="item.itemName"
+                ></div>
               </div>
             </div>
           </div>
@@ -96,8 +99,11 @@
                     item.img_url
                   "
                 />
-                <div class="p-1 pb-0" style="font-size: 12px" v-html="item.itemName">
-                </div>
+                <div
+                  class="p-1 pb-0"
+                  style="font-size: 12px"
+                  v-html="item.itemName"
+                ></div>
               </div>
             </div>
           </div>
@@ -143,8 +149,8 @@
               </button>
             </div>
           </div>
-          <div class="row item-scroll">
-            <div
+          <div class="row item-scroll" v-if="!offerLoading">
+            <div 
               class="col-3 mb-3"
               v-for="item of filteredOfferItems"
               :key="item._id"
@@ -161,11 +167,15 @@
                     item.img_url
                   "
                 />
-                <div class="p-1 pb-0" style="font-size: 12px" v-html="item.itemName">
-                </div>
+                <div
+                  class="p-1 pb-0"
+                  style="font-size: 12px"
+                  v-html="item.itemName"
+                ></div>
               </div>
             </div>
           </div>
+          <div class="d-flex align-items-center justify-content-center" style="min-height:300px;" v-else><Loader/></div>
         </div>
       </div>
       <div v-else class="col-6 pt-4" align="center">
@@ -246,7 +256,7 @@
               </button>
             </div>
           </div>
-          <div class="row item-scroll">
+          <div class="row item-scroll" v-if="!getLoading">
             <div
               class="col-3 mb-3"
               v-for="item of filteredGetItems"
@@ -264,11 +274,15 @@
                     item.img_url
                   "
                 />
-                <div class="p-1 pb-0" style="font-size: 12px" v-html="item.itemName">
-                </div>
+                <div
+                  class="p-1 pb-0"
+                  style="font-size: 12px"
+                  v-html="item.itemName"
+                ></div>
               </div>
             </div>
           </div>
+          <div class="d-flex align-items-center justify-content-center" style="min-height:300px;" v-else><Loader/></div>
         </div>
       </div>
       <div align="right">
@@ -285,10 +299,12 @@
 <script>
 const api = require("../api.js");
 
+import Loader from "@/components/Loader.vue";
+
 export default {
   name: "ListTrade",
   components: {
-    // HelloWorld,
+    Loader
   },
   props: {
     loggedIn: {
@@ -302,128 +318,9 @@ export default {
       getLoading: false,
       offerItemsSearchInput: "",
       getItemsSearchInput: "",
-      offerItems: [
-        {
-          _id: "62271514d1835c3341411ee7",
-          itemID: "4114517977",
-          itemName: "Buckshot | NSWC SEAL",
-          icon_url:
-            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-          rarity: "Exceptional",
-          rarity_colour: "8847ff",
-        },
-        {
-          _id: "62271514d1835c3341411ee1",
-          itemID: "4114517977",
-          itemName: "test 2",
-          icon_url:
-            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-          rarity: "Exceptional",
-          rarity_colour: "8847ff",
-        },
-        {
-          _id: "62271514d1835c3341411ee2",
-          itemID: "4114517977",
-          itemName: "asdfasdf",
-          icon_url:
-            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-          rarity: "Exceptional",
-          rarity_colour: "8847ff",
-        },
-        {
-          _id: "62271514d1835c3341411e3e",
-          itemID: "4114517977",
-          itemName: "fffgggg",
-          icon_url:
-            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-          rarity: "Exceptional",
-          rarity_colour: "8847ff",
-        },
-        {
-          _id: "62271514d1835c3341411e4e",
-          itemID: "4114517977",
-          itemName: "123123",
-          icon_url:
-            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-          rarity: "Exceptional",
-          rarity_colour: "8847ff",
-        },
-        {
-          _id: "62271514d1835c3341411e4e",
-          itemID: "4114517977",
-          itemName: "123123",
-          icon_url:
-            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-          rarity: "Exceptional",
-          rarity_colour: "8847ff",
-        },
-        {
-          _id: "62271514d1835c3341411e4e",
-          itemID: "4114517977",
-          itemName: "123123",
-          icon_url:
-            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-          rarity: "Exceptional",
-          rarity_colour: "8847ff",
-        },
-        {
-          _id: "62271514d1835c3341411e4e",
-          itemID: "4114517977",
-          itemName: "123123",
-          icon_url:
-            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-          rarity: "Exceptional",
-          rarity_colour: "8847ff",
-        },
-        {
-          _id: "62271514d1835c3341411e4e",
-          itemID: "4114517977",
-          itemName: "123123",
-          icon_url:
-            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-          rarity: "Exceptional",
-          rarity_colour: "8847ff",
-        },
-        {
-          _id: "62271514d1835c3341411e4e",
-          itemID: "4114517977",
-          itemName: "123123",
-          icon_url:
-            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-          rarity: "Exceptional",
-          rarity_colour: "8847ff",
-        },
-        {
-          _id: "62271514d1835c3341411e4e",
-          itemID: "4114517977",
-          itemName: "123123",
-          icon_url:
-            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-          rarity: "Exceptional",
-          rarity_colour: "8847ff",
-        },
-      ],
+      offerItems: [],
       offerItemsSelected: [],
-      getItems: [
-        {
-          _id: "62271514d1835c3341411ee7",
-          itemID: "4114517977",
-          itemName: "Buckshot | NSWC SEAL",
-          icon_url:
-            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-          rarity: "Exceptional",
-          rarity_colour: "8847ff",
-        },
-        {
-          _id: "62271514d1835c3341411ee1",
-          itemID: "4114517977",
-          itemName: "test 2",
-          icon_url:
-            "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-          rarity: "Exceptional",
-          rarity_colour: "8847ff",
-        },
-      ],
+      getItems: [],
       getItemsSelected: [],
     };
   },
@@ -442,7 +339,7 @@ export default {
           filteredArr.push(item);
         }
       });
-      console.log(filteredArr);
+      // console.log(filteredArr);
       return filteredArr;
     },
     filteredGetItems: function () {
@@ -459,7 +356,7 @@ export default {
           filteredArr.push(item);
         }
       });
-      console.log(filteredArr);
+      // console.log(filteredArr);
       return filteredArr;
     },
   },
@@ -493,17 +390,25 @@ export default {
     getInventoryItems: async function () {
       let result = await api.getSteamInventory(730);
       console.log(result);
-      return result
+      return result;
     },
   },
   mounted: async function () {
     //call api
-    let myInventory = await this.getInventoryItems()
-    console.log(myInventory)
-    this.offerItems = myInventory
-    console.log(this.offerItems)
+    this.offerLoading = true;
+    if (this.loggedIn) {
+      this.getLoading= true;
+      let myInventory = await this.getInventoryItems();
+      // console.log(myInventory);
+      this.offerItems = myInventory;
+      this.getLoading=false;
+
+    }
+    // console.log(this.offerItems);
+    
     let getItemsResponse = await api.getItems(730);
     this.getItems = getItemsResponse.slice(0, 100);
+    this.offerLoading = false;
   },
 };
 </script>

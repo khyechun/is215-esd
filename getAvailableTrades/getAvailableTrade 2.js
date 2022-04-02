@@ -58,7 +58,7 @@ app.get("/api/get_available_trades", async (req, res) => {
     for (let i = 0; i < item.length; i++) {
         
       result.push({
-        steamId: trades[i].steamID,
+        steamId: trades[i].steamId,
         offerItems: item[i].offer,
         receiveItems: item[i].receive,
         status: trades[i].status,

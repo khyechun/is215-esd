@@ -64,6 +64,7 @@ module.exports = {
         // console.log(response)
         try {
             const response = await axios.get("http://localhost:8093/api/get_available_trades?items=" + items)
+            console.log(response.data)
             return response.data
         } catch (error) {
             console.log(error)

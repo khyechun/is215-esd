@@ -1,13 +1,57 @@
 <template>
   <div class="container-fluid" align="left">
     <h3 align="center " class="fw-bold mt-4">Trades</h3>
-    <div class="row" v-for="(trade, index) of trades" :key="index">
-      <div class="col-5 mt-2">
-        <p class="mb-1">Lance offers...</p>
-        <div class="trade-container">
-          <div class="y-scroll-overflow">
+    <div v-if="trades.length != 0">
+      <div class="row" v-for="(trade, index) of trades" :key="index">
+        <div class="col-5 mt-2">
+          <p class="mb-1">Lance offers...</p>
+          <div class="trade-container">
+            <div class="y-scroll-overflow">
+              <div
+                v-for="(item, index_1) of trade.offerItems"
+                :key="index_1"
+                class="item-container"
+                v-bind:style="{ borderBottomColor: '#' + item.rarity_colour }"
+              >
+                <img
+                  style="width: 100%"
+                  :src="
+                    'https://steamcommunity-a.akamaihd.net/economy/image/' +
+                    item.icon_url
+                  "
+                />
+                <div
+                  class="p-1 pb-0"
+                  style="font-size: 12px; color: white; word-wrap: break-word"
+                >
+                  {{ item.itemName }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="col-2 d-flex align-items-end justify-content-center"
+          align="center"
+        >
+          <div>
+            <img
+              src="../assets/images/logo/icons8-left-and-right-arrows-100.png"
+              style="
+                width: 50px;
+                max-width: 100%;
+                display: block;
+                transform: rotate(-45deg);
+              "
+            />
+            <button class="btn btn-1">Trade</button>
+          </div>
+        </div>
+        <div class="col-5">
+          <p>...in return for</p>
+          <div class="trade-container y-scroll-overflow">
             <div
-              v-for="(item, index_1) of trade.offerItems"
+              v-for="(item, index_1) of trade.receiveItems"
               :key="index_1"
               class="item-container"
               v-bind:style="{ borderBottomColor: '#' + item.rarity_colour }"
@@ -21,7 +65,7 @@
               />
               <div
                 class="p-1 pb-0"
-                style="font-size: 12px; color: white; word-wrap: break-word"
+                style="font-size: 12px; color: white; word-break: break-all"
               >
                 {{ item.itemName }}
               </div>
@@ -29,48 +73,17 @@
           </div>
         </div>
       </div>
-      <div
-        class="col-2 d-flex align-items-end justify-content-center"
-        align="center"
-      >
-        <div>
-          <img
-            src="../assets/images/logo/icons8-left-and-right-arrows-100.png"
-            style="
-              width: 50px;
-              max-width: 100%;
-              display: block;
-              transform: rotate(-45deg);
-            "
-          />
-          <button class="btn btn-1">Trade</button>
-        </div>
-      </div>
-      <div class="col-5">
-        <p>...in return for</p>
-        <div class="trade-container y-scroll-overflow">
-          <div
-            v-for="(item, index_1) of trade.receiveItems"
-            :key="index_1"
-            class="item-container"
-            v-bind:style="{ borderBottomColor: '#' + item.rarity_colour }"
-          >
-            <img
-              style="width: 100%"
-              :src="
-                'https://steamcommunity-a.akamaihd.net/economy/image/' +
-                item.icon_url
-              "
-            />
-            <div
-              class="p-1 pb-0"
-              style="font-size: 12px; color: white; word-break: break-all"
-            >
-              {{ item.itemName }}
-            </div>
-          </div>
-        </div>
-      </div>
+    </div>
+    <div v-else align="center">
+      <lottie-player
+        src="https://assets6.lottiefiles.com/packages/lf20_nhv85sha.json"
+        background="transparent"
+        speed="1"
+        style="width: 300px; height: 300px"
+        loop
+        autoplay
+      ></lottie-player>
+      Please open the trade search menu down below to start searching for trades!
     </div>
   </div>
   <div class="accordion accordion-flush" id="accordionFlushExample">
@@ -243,7 +256,15 @@
             </div>
 
             <div align="right">
-              <button class="btn btn-1" @click="callSearchTrades()">
+              <button
+                class="btn btn-1"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseOne"
+                aria-expanded="false"
+                aria-controls="flush-collapseOne"
+                @click="callSearchTrades()"
+              >
                 Search
               </button>
             </div>
@@ -272,67 +293,67 @@ export default {
       selectedItems: [],
       search: "",
       trades: [
-        {
-          _id: "",
-          offerItems: [
-            {
-              itemName: "test 2",
-              icon_url:
-                "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-              rarity_colour: "8847ff",
-            },
-            {
-              itemName: "test 4",
-              icon_url:
-                "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-              rarity_colour: "8847ff",
-            },
-            {
-              itemName: "test 2",
-              icon_url:
-                "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-              rarity_colour: "8847ff",
-            },
-            {
-              itemName: "test 4",
-              icon_url:
-                "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-              rarity_colour: "8847ff",
-            },
-            {
-              itemName: "test 2",
-              icon_url:
-                "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-              rarity_colour: "8847ff",
-            },
-            {
-              itemName: "test 4",
-              icon_url:
-                "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-              rarity_colour: "8847ff",
-            },
-            {
-              itemName: "test 2",
-              icon_url:
-                "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-              rarity_colour: "8847ff",
-            },
-            {
-              itemName: "test 4",
-              icon_url:
-                "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-              rarity_colour: "8847ff",
-            },
-          ],
-          receiveItems: [
-            {
-              itemName: "test 3",
-              icon_url:
-                "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-              rarity_colour: "8847ff",
-            },
-          ],
-        },
+        // {
+        //   _id: "",
+        //   offerItems: [
+        //     {
+        //       itemName: "test 2",
+        //       icon_url:
+        //         "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
+        //       rarity_colour: "8847ff",
+        //     },
+        //     {
+        //       itemName: "test 4",
+        //       icon_url:
+        //         "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
+        //       rarity_colour: "8847ff",
+        //     },
+        //     {
+        //       itemName: "test 2",
+        //       icon_url:
+        //         "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
+        //       rarity_colour: "8847ff",
+        //     },
+        //     {
+        //       itemName: "test 4",
+        //       icon_url:
+        //         "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
+        //       rarity_colour: "8847ff",
+        //     },
+        //     {
+        //       itemName: "test 2",
+        //       icon_url:
+        //         "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
+        //       rarity_colour: "8847ff",
+        //     },
+        //     {
+        //       itemName: "test 4",
+        //       icon_url:
+        //         "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
+        //       rarity_colour: "8847ff",
+        //     },
+        //     {
+        //       itemName: "test 2",
+        //       icon_url:
+        //         "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
+        //       rarity_colour: "8847ff",
+        //     },
+        //     {
+        //       itemName: "test 4",
+        //       icon_url:
+        //         "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
+        //       rarity_colour: "8847ff",
+        //     },
+        //   ],
+        //   receiveItems: [
+        //     {
+        //       itemName: "test 3",
+        //       icon_url:
+        //         "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
+        //       rarity_colour: "8847ff",
+        //     },
+        //   ],
+        // },
       ],
     };
   },
@@ -354,28 +375,26 @@ export default {
       console.log(stringifyIdArr);
       const result = await api.searchTrades(stringifyIdArr);
       console.log(result);
-      if(result != false){
-
-      this.trades = result;
-      }
-      else{
-        alert("no such thing")
+      if (result != false) {
+        this.trades = result;
+      } else {
+        alert("no such thing");
       }
     },
   },
   mounted: async function () {
     console.log("hi");
-
+    this.loading = true;
     const itemResponse = await api.getItems(730);
     this.items = itemResponse.slice(0, 100);
-
-    const tradeSearchResponse = await api.searchTrades(
-      "3600960863,1618266229,3608158181,469548722"
-    );
-    console.log(tradeSearchResponse);
-    if (tradeSearchResponse != false) {
-      this.trades = tradeSearchResponse;
-    }
+    this.loading = false;
+    // const tradeSearchResponse = await api.searchTrades(
+    //   "3600960863,1618266229,3608158181,469548722"
+    // );
+    // console.log(tradeSearchResponse);
+    // if (tradeSearchResponse != false) {
+    //   this.trades = tradeSearchResponse;
+    // }
   },
   computed: {
     filteredItems: function () {

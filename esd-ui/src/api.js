@@ -45,9 +45,12 @@ module.exports = {
 
     getUserInfo: async function (userId) {
         const response = await axios.get('http://localhost:8081/api/user_api/getUserInfo/' + userId, setHeader())
-        var name = response.data.response.players[0]?.personaname
+        // var name = response.data.response.players[0]?.personaname
+        console.log(response)
+        var name = response.data.user_info[0].personaname
         console.log(name)
-        var profile_img = response.data.response.players[0]?.avatar
+        var profile_img = response.data.user_info[0].avatar
+        // var profile_img = response.data.response.players[0]?.avatar
         console.log(profile_img)
 
         return { name: name, img: profile_img }

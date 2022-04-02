@@ -1,5 +1,7 @@
 //const express = require('express');
 //const app = express();
+//for rabbitMQ
+
 const amqp= require("amqplib");
 var connect_amqp = {};
 var channel;

@@ -41,55 +41,58 @@ services:
   activity:
     build: ../activity
     image: activity:hosehtrades
-    ports:
-      - '5003:5003'
+    # ports:
+    #   - '5003:5003'
     depends_on:
       - kafka
     # restart: always
 
 
-  # item:
-  #   build: ../item
-  #   image: item:hosehtrades
-  #   ports:
-  #     - '8088:8088'
-      # restart: always
+  item:
+    build: ../item
+    image: item:hosehtrades
+    ports:
+      - '8088:8088'
+    restart: 
+      "always"
 
-  # authenticate:
-  #   build: ../authenticate
-  #   image: authenticate:hosehtrades
-  #   ports:
-  #     - '8082:8082'
+  authenticate:
+    build: ../authenticate
+    image: authenticate:hosehtrades
+    ports:
+      - '8082:8082'
 
-  # user:
-  #   build: ../user
-  #   image: user:hosehtrades
-  #   ports:
-  #     - '8081:8081'
+  user:
+    build: ../user
+    image: user:hosehtrades
+    ports:
+      - '8081:8081'
 
-  # game:
-  #   build: ../game
-  #   image: game:hosehtrades
-  #   ports:
-  #     - '8083:8083'
+  game:
+    build: ../game
+    image: game:hosehtrades
+    ports:
+      - '8083:8083'
 
-  # trade:
-  #   build: ../trade
-  #   image: trade:hosehtrades
-  #   ports:
-  #     - '8084:8084'
+  trade:
+    build: ../trade
+    image: trade:hosehtrades
+    ports:
+      - '8084:8084'
 
-  # error:
-  #   build: ../error
-  #   image: error:hosehtrades
-  #   ports:
-  #     - '5004:5004'
+  error:
+    build: ../error
+    image: error:hosehtrades
+    ports:
+      - '5004:5004'
 
-  # email:
-  #   build: ../email
-  #   image: email:hosehtrades
-  #   ports:
-  #     - '8085:8085'
+  email:
+    build: ../email
+    image: email:hosehtrades
+    ports:
+      - '8085:8085'
+    restart: 
+      "always"
 
 
 
@@ -98,37 +101,37 @@ services:
 
 
 
-  # userLogin:
-  #   build: ../userlogin
-  #   image: userlogin:hosehtrades
-  #   ports:
-  #     - '8090:8090'
+  userLogin:
+    build: ../userlogin
+    image: userlogin:hosehtrades
+    ports:
+      - '8090:8090'
 
-  # getAvailableTrades:
-  #   build: ../getavailabletrades
-  #   image: getavailabletrades:hosehtrades
-  #   ports:
-  #     - '8093:8093'
+  getAvailableTrades:
+    build: ../getAvailableTrades
+    image: getavailabletrades:hosehtrades
+    ports:
+      - '8093:8093'
 
-  # getItems:
-  #   build: ../getitems
-  #   image: getitems:hosehtrades
-  #   ports:
-  #     - '8094:8094'
-  #   depends_on: 
-  #     - kafka
+  getItems:
+    build: ../getitems
+    image: getitems:hosehtrades
+    ports:
+      - '8094:8094'
+    depends_on: 
+      - kafka
 
 
-  # listTrade:
-  #   build: ../listtrade
-  #   image: listtrade:hosehtrades
-  #   ports:
-  #     - '8092:8092'
+  listTrade:
+    build: ../listtrade
+    image: listtrade:hosehtrades
+    ports:
+      - '8092:8092'
     
-# networks:
-#   default:
-#     external:
-#       name: kong_kong-net
+networks:
+  default:
+    external:
+      name: kong_kong-net
 
 
   

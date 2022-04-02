@@ -145,7 +145,10 @@ router.get('/getUserInfo/:userId', async (req, res)=>
     const userId = req.params.userId;
     const response = await axios.get('http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=810A381CF018AA1D7A6C8A99C440AA11&steamids=' + userId)
     console.log(response)
-    res.send(JSON.stringify(response.data))
+    res.send({
+        "code": res.statusCode,
+        "user_info": response.data.response.players
+    })
 })
 
 

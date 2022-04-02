@@ -6,8 +6,21 @@ services:
 
   userlogin:
     build: ../userLogin
+    image: userlogin/hosehtrades
     ports:
       - '8090:8090'
+
+
+networks:
+  default:
+    external:
+      name: kong_kong-net
+
+
+  # rabbitmq:
+  #   image: rabbitmq:3-management
+  #   ports:
+  #     - '5672:5672'
 
   # zookeeper:
   #   image: 'bitnami/zookeeper:latest'

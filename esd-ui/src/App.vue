@@ -44,7 +44,7 @@ export default {
     if(localStorage.getItem("token")){
       this.loggedIn= true;
       
-      const response = await this.getUserInfo(localStorage.getItem("token"))
+      const response = await this.getUserInfo(localStorage.getItem("steamId"))
       // console.log(response)
       this.name= response.name
       this.profileImg = response.img

@@ -20,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const tradeURL = 'http://localhost:8084/api/trade/createTrade'
 const authenticateURL = "http://localhost:8082/api/authenticate_api/authenticateToken"
+const emailURL = "http://localhost:8082/api/authenticate_api/getUserEmail"
 app.post("/api/list_trade", async (req, res) => {
     /* const {receiveItems, offerItems} = req.body; */
     const {receiveItems, offerItems, token} = req.body;
@@ -39,9 +40,11 @@ app.post("/api/list_trade", async (req, res) => {
         
         
         // AMQP THINGS: TO DO
-        /* const activity = await kafka.produceActivity(`${steamId} has placed a trade offer.`) */
-        /* var data = {email: "HEHHEHE", tradeID: status.data._id}
-        await amqp_function.connect("email", data) */
+        await connect_kafka.connect('activity', `${steamId} has placed a trade offer with trade ID ${status.data._id}.`) 
+        var response = await axios.get(emailURL + `?id=${steamId}`, setHeader(token));
+        var data = {email: response.data.email, tradeID: status.data._id}
+
+        await connect_amqp.connect("email", data)
         res.statusCode = 201
         res.status(201).send({status:true})
         // res.send({status:true})
@@ -49,9 +52,9 @@ app.post("/api/list_trade", async (req, res) => {
         
 
     } catch (err) {
-        /* const activity = await kafka.produceError(`ERROR`) */
+        await connect_kafka.connect('error', `${steamId} has an issue creating a trade.`) 
         console.log(err)
-        
+        res.status(500).send({message: 'Error creating trade', statusCode: 500})
         
     }
 });

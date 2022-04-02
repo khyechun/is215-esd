@@ -15,25 +15,25 @@ async function produce() {
 
 
     const producedData = await producer.send({
-        topic: "Error",
+        topic: "123",
         messages: [
             {
                 //value: players[jerseyNumber],
-                value: "Error12345",
+                value: "2 april 2022",
                 //partition: jerseyNumber <= 10 ? 0 : 1,
             },
         ],
     });
-    const producedDatas = await producer.send({
-        topic: "Error",
-        messages: [
-            {
-                //value: players[jerseyNumber],
-                value: "Error123",
-                //partition: jerseyNumber <= 10 ? 0 : 1,
-            },
-        ],
-    });
+    // const producedDatas = await producer.send({
+    //     topic: "Error",
+    //     messages: [
+    //         {
+    //             //value: players[jerseyNumber],
+    //             value: "Error123",
+    //             //partition: jerseyNumber <= 10 ? 0 : 1,
+    //         },
+    //     ],
+    // });
     console.log(`Produced data ${JSON.stringify(producedData)}`);
 }
 

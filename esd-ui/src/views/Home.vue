@@ -25,7 +25,7 @@ export default {
     // HelloWorld,
   },
 
-  async mounted(){
+  async beforeMount(){
     await hosehapi.getUserInfo();
     
   }

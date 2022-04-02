@@ -3,6 +3,7 @@ import Home from "../views/Home.vue";
 import ListTrade from "../views/ListTrade.vue";
 import Trade from "../views/Trade.vue";
 import Redirect from "../views/Redirect.vue";
+import Success from "../views/Success.vue";
 
 const routes = [
   {
@@ -26,6 +27,11 @@ const routes = [
     component: Redirect,
   },
   {
+    path: "/success",
+    name: "Success",
+    component: Success,
+  },
+  {
     path: "/about",
     name: "About",
     // route level code-splitting
@@ -34,6 +40,7 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
+
 ];
 
 const router = createRouter({

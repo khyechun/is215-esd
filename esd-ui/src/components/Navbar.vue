@@ -27,7 +27,7 @@
           </li>
         </ul>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex">
-          <li class="nav-item">
+          <li class="nav-item" v-if="!loggedIn">
             <form
               action="https://steamcommunity.com/openid/login"
               method="post"
@@ -65,6 +65,13 @@
               </button>
             </form>
           </li>
+          <li v-else>
+            <div class="row">
+              <div class="col d-flex align-items-center pe-0" style="font-size:14px">{{name}}</div>
+              <div class="col"><img style="border-radius:50%;width:40px;" v-bind:src="profileImg"></div>
+            </div>
+
+          </li>
         </ul>
       </div>
     </div>
@@ -77,6 +84,34 @@ export default {
   //   props: {
   //     msg: String,
   //   },
+  props:{
+    loggedIn: {
+      type: Boolean,
+      default: false
+    },
+    name: {
+      type: String,
+      default: ""
+    },
+    profileImg: {
+      type: String,
+      default: ""
+    },
+  },
+  methods:{
+    checkLoggedIn(){
+      console.log(localStorage.getItem("token"))
+      console.log(this.loggedIn)
+      // if(localStorage.getItem("token")){
+      //   this.loggedIn = true
+      // }
+      console.log(this.loggedIn);
+    }
+  },
+  mounted:function(){
+    this.checkLoggedIn();
+    console.log(this.profileImg)
+  }
 };
 </script>
 

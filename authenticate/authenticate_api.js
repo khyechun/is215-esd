@@ -17,6 +17,7 @@ router.get("/authenticateUser", function (req, res) {
     // let steam_id = req.query['openid.identity'].split("/")[5]
     // console.log(steam_id)
     // console.log(req.query)
+    // console.log(req)
     console.log(req)
     console.log(req.query)
     let steam_id = req.query.steamID

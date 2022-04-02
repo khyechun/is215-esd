@@ -2,6 +2,7 @@ const express = require("express");
 const axios = require('axios')
 const cors = require("cors");
 const connect_amqp = require("../rabbitMQ_AMQP/rabbitMQ_AMQP_Setup")
+const connect_kafka = require("../Kafka_AMQP/kafka_setup")
 
 const bodyParser = require("body-parser");
 
@@ -20,34 +21,42 @@ app.use(express.urlencoded({ extended: true }));
 
 const tradeURL = 'http://localhost:8084/api/trade/createTrade'
 const authenticateURL = "http://localhost:8082/api/authenticate_api/authenticateToken"
+const emailURL = "http://localhost:8081/api/user_api/getUserEmail"
 app.post("/api/list_trade", async (req, res) => {
     /* const {receiveItems, offerItems} = req.body; */
     const {receiveItems, offerItems, token} = req.body;
     console.log(req.body)
     try {
-        var res = await axios.get(authenticateURL, setHeader(token));
-        var steamId = res.userId
+        var response = await axios.get(authenticateURL, setHeader(token));
+        console.log(response.data)
+        var steamId = response.data.token_object.userId
         
         /* var steamId = 76561198000003391 */
         var data = JSON.stringify({query: `mutation{
             createTrade(trade: {receiveItems: [${receiveItems.join(", ")}],
-          offerItems: [${offerItems.join(", ")}], steamId: ${steamId}}) 
+          offerItems: [${offerItems.join(", ")}], steamId: "${steamId}"}) 
           }`})
-        console.log(data)
+        
         var status = await axios.post(tradeURL, data, setHeader());
-        
-        
-        // AMQP THINGS: TO DO
-        /* const activity = await kafka.produceActivity(`${steamId} has placed a trade offer.`) */
-        /* var data = {email: "HEHHEHE", tradeID: status.data._id}
-        await amqp_function.connect("email", data) */
         res.statusCode = 201
         res.status(201).send({status:true})
+        
+        // AMQP THINGS: TO DO
+        await connect_kafka.connect('activity', `${steamId} has placed a trade offer with trade ID ${status.data.data.createTrade}.`) 
+        var response = await axios.get(emailURL + `?id=${steamId}`, setHeader(token));
+        console.log(response.data)
+        var data = {email: response.data.email, tradeID: status.data.data.createTrade}
+        
+        console.log(data)
+        await connect_amqp.connect("email", data)
+        
+        // res.send({status:true})
         
         
 
     } catch (err) {
-        /* const activity = await kafka.produceError(`ERROR`) */
+        res.status(500).send({message: 'Error creating trade', statusCode: 500})
+        await connect_kafka.connect('error', `${steamId} has an issue creating a trade.`) 
         console.log(err)
         
         

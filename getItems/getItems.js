@@ -1,9 +1,8 @@
 const express = require('express');
 const cors = require('cors')
 const axios = require('axios')
+const connect_kafka = require("../Kafka_AMQP/kafka_setup")
 
-
-const kafka = require("./kafka")
 const bodyParser = require('body-parser');
 
 
@@ -32,12 +31,13 @@ app.get("/api/getItems", async (req,res)=>{
     var url = itemURL + gameId;
     try {
         var items = await axios.get(url, setHeader());
-        console.log(items)
-        // const activity = await kafka.produceActivity(`${steamId} has placed a trade offer.`)
         res.status(200).send(items.data)
-    } catch (error) {
+        await connect_kafka.connect('activity', `Items retrieved for game ${gameId}`) 
         
-        // const activity = await kafka.produceError(`ERROR`)
+    } catch (error) {
+        res.status(404).send({message: 'No trades found', statusCode: 404})
+        await connect_kafka.connect('error', `Items could not be retrieved for game ${gameId}`) 
+        
     }
     
 })

@@ -11,7 +11,9 @@ router.get("/hosehbo", function (req, res) {
 
 
 router.get("/steamUserLogin", async function (req, res) {
-    let steam_id = req.query['openid.identity'].split("/")[5]
+    // let steam_id = req.query['openid.identity'].split("/")[5]
+    let steam_id = req.query["id"]
+    console.log(steam_id)
 
     // 1. send steam user ID to auth
     const auth_url = "http://localhost:8082/api/authenticate_api/";

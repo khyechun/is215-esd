@@ -25,8 +25,9 @@ app.post("/api/list_trade", async (req, res) => {
     const {receiveItems, offerItems, token} = req.body;
     console.log(req.body)
     try {
-        var res = await axios.get(authenticateURL, setHeader(token));
-        var steamId = res.userId
+        var response = await axios.get(authenticateURL, setHeader(token));
+        console.log(response.data)
+        var steamId = response.data.token_object.userId
         
         /* var steamId = 76561198000003391 */
         var data = JSON.stringify({query: `mutation{
@@ -43,6 +44,7 @@ app.post("/api/list_trade", async (req, res) => {
         await amqp_function.connect("email", data) */
         res.statusCode = 201
         res.status(201).send({status:true})
+        // res.send({status:true})
         
         
 

@@ -37,6 +37,7 @@ app.get("/api/get_available_trades", async (req, res) => {
       
      
     var trades = await axios.post(tradeURL, data, setHeader());
+    console.log(trades)
     var trades = trades.data.data.tradeItems
     console.log(trades)
     var query_arr = [];
@@ -70,11 +71,12 @@ app.get("/api/get_available_trades", async (req, res) => {
 
     // AMQP THINGS: TODO
     /* const activity = await kafka.produceActivity(`${steamId} has placed a trade offer.`) */
-    
+    /* 
+        await amqp_function.connect("activity") */
     res.status(200).send(result);
   } catch (err) {
     /* const activity = await kafka.produceError(`ERROR`) */
-
+    res.send(false)
     console.log(err)
   }
 });

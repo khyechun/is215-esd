@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors')
 const axios = require('axios')
-const connect_kafka = require("../Kafka_AMQP/kafka_setup")
+const connect_kafka = require("./kafka_setup")
 
 const bodyParser = require('body-parser');
 

@@ -1,5 +1,8 @@
+const express = require("express");
+const app = express();
 const amqp = require("amqplib");
 var channel, connection;
+
 
 
 async function connect() {
@@ -18,4 +21,8 @@ async function connect() {
 }
 
 connect()
+
+app.listen(5004, () => {
+    console.log("Server listening at 5004")
+})
 

@@ -1,8 +1,8 @@
 const express = require("express");
 const axios = require('axios')
 const cors = require("cors");
-const connect_amqp = require("../rabbitMQ_AMQP/rabbitMQ_AMQP_Setup")
-const connect_kafka = require("../Kafka_AMQP/kafka_setup")
+const connect_amqp = require("./rabbitMQ_AMQP_Setup")
+const connect_kafka = require("./kafka_setupafka_setup")
 
 const bodyParser = require("body-parser");
 
@@ -34,11 +34,12 @@ app.post("/api/list_trade", async (req, res) => {
         /* var steamId = 76561198000003391 */
         var data = JSON.stringify({query: `mutation{
             createTrade(trade: {receiveItems: [${receiveItems.join(", ")}],
-          offerItems: [${offerItems.join(", ")}], steamId: ${steamId}}) 
+          offerItems: [${offerItems.join(", ")}], steamId: "${steamId}"}) 
           }`})
-        console.log(data)
+        
         var status = await axios.post(tradeURL, data, setHeader());
-        console.log(status.data)
+        res.statusCode = 201
+        res.status(201).send({status:true})
         
         // AMQP THINGS: TO DO
         await connect_kafka.connect('activity', `${steamId} has placed a trade offer with trade ID ${status.data.data.createTrade}.`) 
@@ -48,16 +49,16 @@ app.post("/api/list_trade", async (req, res) => {
         
         console.log(data)
         await connect_amqp.connect("email", data)
-        res.statusCode = 201
-        res.status(201).send({status:true})
+        
         // res.send({status:true})
         
         
 
     } catch (err) {
+        res.status(500).send({message: 'Error creating trade', statusCode: 500})
         await connect_kafka.connect('error', `${steamId} has an issue creating a trade.`) 
         console.log(err)
-        res.status(500).send({message: 'Error creating trade', statusCode: 500})
+        
         
     }
 });

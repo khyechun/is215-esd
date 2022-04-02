@@ -83,7 +83,8 @@
         loop
         autoplay
       ></lottie-player>
-      Please open the trade search menu down below to start searching for trades!
+      Please open the trade search menu down below to start searching for
+      trades!
     </div>
   </div>
   <div class="accordion accordion-flush" id="accordionFlushExample">
@@ -141,9 +142,13 @@
                     />
                   </div>
                   <div class="col-3" align="right">
-                    <select class="form-select custom-select">
-                      <option value="csgo" selected>CSGO</option>
-                      <option value="dota">DOTA</option>
+                    <select
+                      class="form-select custom-select"
+                      @change="changeGame()"
+                      v-model="gameId"
+                    >
+                      <option value="730" selected>CSGO</option>
+                      <option value="570">DOTA</option>
                     </select>
                   </div>
                   <div class="col-1">
@@ -288,6 +293,7 @@ export default {
   },
   data() {
     return {
+      gameId: 730,
       loading: false,
       items: [],
       selectedItems: [],
@@ -378,14 +384,20 @@ export default {
       if (result != false) {
         this.trades = result;
       } else {
-        alert("no such thing");
+        alert("Cannot find trades with these items");
       }
+    },
+    async changeGame() {
+      this.loading = true;
+      const itemResponse = await api.getItems(this.gameId);
+      this.items = itemResponse.slice(0, 100);
+      this.loading = false;
     },
   },
   mounted: async function () {
-    console.log("hi");
+    // console.log("hi");
     this.loading = true;
-    const itemResponse = await api.getItems(730);
+    const itemResponse = await api.getItems(this.gameId);
     this.items = itemResponse.slice(0, 100);
     this.loading = false;
     // const tradeSearchResponse = await api.searchTrades(

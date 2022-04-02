@@ -16,8 +16,7 @@ MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, as
     db = database.db('itemDB');
     console.log("Item microservice is now online")
 
-
-});
+}); 
 
 
 // 1st API: GET all items for specific game

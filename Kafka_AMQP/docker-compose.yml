@@ -1,13 +1,13 @@
 version: "3"
 services:
   zookeeper:
-    image: 'bitnami/zookeeper:latest'
+    image: 'wurstmeister/zookeeper'
     ports:
       - '2181:2181'
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
   kafka:
-    image: 'bitnami/kafka:latest'
+    image: 'wurstmeister/zookeeper'
     container_name: 'kafka'
     ports:
       - '9092:9092'

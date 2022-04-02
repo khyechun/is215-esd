@@ -109,7 +109,7 @@ router.put("/updateUser", async (req,res)=>{
 //4. get user email -> for email microservice
 router.get('/getUserEmail', async (req,res)=> {
 
-    let userID= '12354697'
+    let userID= req.query.id 
     let user = await firestore.collection('Users').doc(userID).get()
 
     if(res.statusCode==200){

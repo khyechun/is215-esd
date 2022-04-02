@@ -4,7 +4,7 @@
     <div v-if="trades.length != 0">
       <div class="row" v-for="(trade, index) of trades" :key="index">
         <div class="col-5 mt-2">
-          <p class="mb-1">Lance offers...</p>
+          <p class="mb-1"><img v-bind:src='this.userInfo[index]?.img'>{{this.userInfo[index]?.name}} offers...</p>
           <div class="trade-container">
             <div class="y-scroll-overflow">
               <div
@@ -298,6 +298,12 @@ export default {
       items: [],
       selectedItems: [],
       search: "",
+      userInfo: [
+        // {
+        //     user_name: "",
+        //     profile_img_url: ""
+        // }
+      ],
       trades: [
         // {
         //   _id: "",
@@ -383,9 +389,23 @@ export default {
       console.log(result);
       if (result != false) {
         this.trades = result;
+        await this.callgetUserInfo();
       } else {
         alert("Cannot find trades with these items");
       }
+    },
+    async callgetUserInfo() {
+      const tradeUserInfo = [];
+      console.log("hi")
+      for (var trade of this.trades) {
+        console.log(trade)
+        var userId = trade.steamId;
+        const userInfo = await api.getUserInfo(userId);
+        tradeUserInfo.push(userInfo)
+      }
+      console.log(tradeUserInfo)
+      this.userInfo = tradeUserInfo;
+      
     },
     async changeGame() {
       this.loading = true;

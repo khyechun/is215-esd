@@ -43,8 +43,8 @@ module.exports = {
         return response.data.items.map(item => { return { ...item, "img_url": item["icon_url"] } })
     },
 
-    getUserInfo: async function () {
-        const response = await axios.get('http://localhost:8081/api/user_api/getUserInfo', setHeader())
+    getUserInfo: async function (userId) {
+        const response = await axios.get('http://localhost:8081/api/user_api/getUserInfo/' + userId, setHeader())
         var name = response.data.response.players[0].personaname
         console.log(name)
         var profile_img = response.data.response.players[0].avatar

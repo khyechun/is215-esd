@@ -139,10 +139,11 @@ router.get('/getUserEmail', async (req,res)=> {
 
 
 // 5th API: Get user steam info
-router.get('/getUserInfo', async (req, res)=>
+router.get('/getUserInfo/:userId', async (req, res)=>
 {
     console.log("HI")
-    const response = await axios.get('http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=810A381CF018AA1D7A6C8A99C440AA11&steamids=76561198000003391')
+    const userId = req.params.userId;
+    const response = await axios.get('http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=810A381CF018AA1D7A6C8A99C440AA11&steamids=' + userId)
     console.log(response)
     res.send(JSON.stringify(response.data))
 })

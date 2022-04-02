@@ -60,24 +60,17 @@ module.exports = {
     },
 
     searchTrades: async function (items) {
-        const response = await axios.get("http://localhost:8093/api/get_available_trades?items=" + items)
-        return response.data
-        // axios
-        // .get(
-        //   "http://localhost:8093/api/get_available_trades?items=3600960863,1618266229,3608158181,469548722"
-        // )
-        // .then(function (response) {
-        //   // handle success
-        //   console.log(response);
-        //   self.trades = response.data;
-        // })
-        // .catch(function (error) {
-        //   // handle error
-        //   console.log(error);
-        // })
-        // .then(function () {
-        //   // always executed
-        // });
+        
+        // console.log(response)
+        try {
+            const response = await axios.get("http://localhost:8093/api/get_available_trades?items=" + items)
+            return response.data
+        } catch (error) {
+            console.log(error)
+            return false
+        }
+ 
+
     },
 
     listTrade: async function ({ receiveItems, offerItems }) {

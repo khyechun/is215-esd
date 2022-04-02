@@ -2,6 +2,7 @@ const express = require("express");
 const axios = require('axios')
 const cors = require("cors");
 const connect_amqp = require("../rabbitMQ_AMQP/rabbitMQ_AMQP_Setup")
+const connect_kafka = require("../Kafka_AMQP/kafka_setup")
 
 const bodyParser = require("body-parser");
 
@@ -20,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const tradeURL = 'http://localhost:8084/api/trade/createTrade'
 const authenticateURL = "http://localhost:8082/api/authenticate_api/authenticateToken"
-const emailURL = "http://localhost:8082/api/authenticate_api/getUserEmail"
+const emailURL = "http://localhost:8081/api/user_api/getUserEmail"
 app.post("/api/list_trade", async (req, res) => {
     /* const {receiveItems, offerItems} = req.body; */
     const {receiveItems, offerItems, token} = req.body;
@@ -37,13 +38,15 @@ app.post("/api/list_trade", async (req, res) => {
           }`})
         console.log(data)
         var status = await axios.post(tradeURL, data, setHeader());
-        
+        console.log(status.data)
         
         // AMQP THINGS: TO DO
-        await connect_kafka.connect('activity', `${steamId} has placed a trade offer with trade ID ${status.data._id}.`) 
+        await connect_kafka.connect('activity', `${steamId} has placed a trade offer with trade ID ${status.data.data.createTrade}.`) 
         var response = await axios.get(emailURL + `?id=${steamId}`, setHeader(token));
-        var data = {email: response.data.email, tradeID: status.data._id}
-
+        console.log(response.data)
+        var data = {email: response.data.email, tradeID: status.data.data.createTrade}
+        
+        console.log(data)
         await connect_amqp.connect("email", data)
         res.statusCode = 201
         res.status(201).send({status:true})

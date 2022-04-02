@@ -14,7 +14,10 @@ connect_amqp.connect = async function(name, data){
         const connection = await amqp.connect(amqpServer);
         channel = await connection.createChannel();
         await channel.assertQueue(name);
+        console.log(data)
         await channel.sendToQueue(name, Buffer.from(JSON.stringify(data)));
+        //await channel.sendToQueue(name, data);
+
     } catch  (err) {
         console.log(err)
         console.log("There is an error sending the error message")

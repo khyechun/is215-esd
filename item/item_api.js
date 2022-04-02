@@ -166,6 +166,7 @@ router.get('/getInventory/:steamID/:gameID', async (req, res) => {
     var final = [];
 
     const response = await axios.get('http://steamcommunity.com/inventory/' + steamID + '/' + gameID + '/2?l=english&count=5000')
+    console.log(response)
     if (res.statusCode == 200) {
         var arr = response.data.descriptions
         for (item of arr) {

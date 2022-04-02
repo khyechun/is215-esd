@@ -15,8 +15,8 @@ async function connect() {
 
     channel.consume("email", (data) => {
       //1. retrieve steamID AND TRADE IT from complex microservice
-      let userEmail = "cnjk0605@gmail.com";
-      let userID = "1234567";
+      let userEmail = data.email;
+      
 
       var transporter = nodemailer.createTransport({
         service: "gmail",
@@ -31,7 +31,7 @@ async function connect() {
         to: userEmail,
         subject: "Request for reset of password",
         html: `
-        <h1> Test </h1>
+        <h1> ${data.tradeID} has been successfully listed </h1>
         `,
       };
 

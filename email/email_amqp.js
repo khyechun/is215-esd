@@ -3,14 +3,13 @@
 var nodemailer = require('nodemailer'); 
 const express = require("express");
 const app = express();
-const amqp = require("amqplib");
-var channel, connection;
+const amqplib = require("amqplib");
+const amqpUrl = process.env.AMQP_URL || 'amqp://localhost:5673';
 
 async function connect() {
   try {
-    const amqpServer = "amqp://localhost:5672";
-    connection = await amqp.connect(amqpServer);
-    channel = await connection.createChannel();
+    const connection = await amqplib.connect(amqpUrl, "heartbeat=60");
+    const channel = await connection.createChannel();
     await channel.assertQueue("email");
 
     channel.consume("email", (data) => {

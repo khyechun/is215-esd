@@ -59,7 +59,7 @@ app.get("/api/get_available_trades", async (req, res) => {
     for (let i = 0; i < item.length; i++) {
         
       result.push({
-        steamId: trades[i].steamID,
+        steamId: trades[i].steamId,
         offerItems: item[i].offer,
         receiveItems: item[i].receive,
         status: trades[i].status,
@@ -73,10 +73,11 @@ app.get("/api/get_available_trades", async (req, res) => {
     /* const activity = await kafka.produceActivity(`${steamId} has placed a trade offer.`) */
     /* 
         await amqp_function.connect("activity") */
+        console.log(result)
     res.status(200).send(result);
   } catch (err) {
     /* const activity = await kafka.produceError(`ERROR`) */
-    res.send(false)
+    res.status(404).send(false)
     console.log(err)
   }
 });

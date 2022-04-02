@@ -51,8 +51,7 @@ app.post("/api/list_trade", async (req, res) => {
     } catch (err) {
         /* const activity = await kafka.produceError(`ERROR`) */
         console.log(err)
-        
-        
+        res.status(500).send(err)
     }
 });
 

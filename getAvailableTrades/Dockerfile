@@ -3,4 +3,4 @@ WORKDIR /usr/src/app
 COPY . . 
 RUN npm install
 EXPOSE 8093
-CMD [ "node", "./getAvailableTrades.js", "./kafka.js" ]
+CMD [ "node", "./getAvailableTrade.js"]

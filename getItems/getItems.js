@@ -31,12 +31,13 @@ app.get("/api/getItems", async (req,res)=>{
     var url = itemURL + gameId;
     try {
         var items = await axios.get(url, setHeader());
-        
-        await connect_kafka.connect('activity', `Items retrieved for game ${gameId}`) 
         res.status(200).send(items.data)
+        await connect_kafka.connect('activity', `Items retrieved for game ${gameId}`) 
+        
     } catch (error) {
-        await connect_kafka.connect('error', `Items could not be retrieved for game ${gameId}`) 
         res.status(404).send({message: 'No trades found', statusCode: 404})
+        await connect_kafka.connect('error', `Items could not be retrieved for game ${gameId}`) 
+        
     }
     
 })

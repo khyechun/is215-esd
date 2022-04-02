@@ -70,12 +70,14 @@ app.get("/api/get_available_trades", async (req, res) => {
     }
 
     // AMQP THINGS: TODO
+    res.status(200).send(result);
     await connect_kafka.connect('activity', `User has searched for ${items}.`) 
     
-    res.status(200).send(result);
+    
   } catch (err) {
-    await connect_kafka.connect('error', `${items} dont have any trades found`) 
     res.status(404).send({message: 'No trades found', statusCode: 404})
+    await connect_kafka.connect('error', `${items} dont have any trades found`) 
+    
     console.log(err)
   }
 });

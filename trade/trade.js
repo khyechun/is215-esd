@@ -130,7 +130,7 @@ app.use('/api/trade', (req,res)=>{
         createTrade: async (args)=>{
             console.log(args)
             const {receiveItems, offerItems, steamId} = args.trade;
-            
+            console.log(steamId)
             try {
                 
                 const trades = await Trade.insertMany({ userId:steamId, receiveItems, offerItems, "status": false })

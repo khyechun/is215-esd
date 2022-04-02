@@ -15,7 +15,7 @@ async function produce() {
 
 
     const producedData = await producer.send({
-        topic: "123",
+        topic: "error",
         messages: [
             {
                 //value: players[jerseyNumber],

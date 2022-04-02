@@ -3,42 +3,82 @@ version: "3.8"
 
 
 services:
+  zookeeper: 
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    ports: 
+      - "2181:2181"
 
-  userlogin:
-    build: ../userLogin
-    image: userlogin/hosehtrades
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    ports: 
+      - "9092:9092"
+    environment: 
+      KAFKA_ADVERTISED_HOST_NAME: localhost 
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+  # userLogin:
+  #   build: ../userlogin
+  #   image: userlogin:hosehtrades
+  #   ports:
+  #     - '8090:8090'
+
+  # item:
+  #   build: ../item
+  #   image: item:hosehtrades
+  #   ports:
+  #     - '8088:8088'
+
+  # authenticate:
+  #   build: ../authenticate
+  #   image: authenticate:hosehtrades
+  #   ports:
+  #     - '8082:8082'
+
+  # user:
+  #   build: ../user
+  #   image: user:hosehtrades
+  #   ports:
+  #     - '8081:8081'
+
+  # game:
+  #   build: ../game
+  #   image: game:hosehtrades
+  #   ports:
+  #     - '8083:8083'
+    
+
+
+
+  
+  # authenticate:
+
+  # getAvailableTrades:
+  #   build: ../getavailabletrades
+  #   image: getavailabletrades:hosehtrades
+  #   ports:
+  #     - '8093:8093'
+
+  getItems:
+    build: ../getitems
+    image: getitems:hosehtrades
     ports:
-      - '8090:8090'
+      - '8094:8094'
+    depends_on: 
+      - kafka
 
 
-networks:
-  default:
-    external:
-      name: kong_kong-net
-
-
-  # rabbitmq:
-  #   image: rabbitmq:3-management
+  # listTrade:
+  #   build: ../listtrade
+  #   image: listtrade:hosehtrades
   #   ports:
-  #     - '5672:5672'
+  #     - '8092:8092'
+    
+# networks:
+#   default:
+#     external:
+#       name: kong_kong-net
 
-  # zookeeper:
-  #   image: 'bitnami/zookeeper:latest'
-  #   ports:
-  #     - '2181:2181'
-  #   environment:
-  #     - ALLOW_ANONYMOUS_LOGIN=yes
-  # kafka:
-  #   image: 'bitnami/kafka:latest'
-  #   container_name: 'kafka'
-  #   ports:
-  #     - '9092:9092'
-  #   environment:
-  #     - KAFKA_BROKER_ID=1
-  #     - KAFKA_LISTENERS=PLAINTEXT://:9092
-  #     - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
-  #     - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-  #     - ALLOW_PLAINTEXT_LISTENER=yes
-  #     - KAFKA_OFFSETS_TOPICS_REPLICATION_FACTOR=1 confluentinc/cp-kafka
-  #   depends_on:
-  #     - zookeeper
+
+  

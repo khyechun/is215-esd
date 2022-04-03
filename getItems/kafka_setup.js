@@ -8,7 +8,8 @@ connect_kafka.connect = async function(name, data){
     try {
         const kafka = new Kafka({
             clientId: "Producer",
-            brokers: ["kafka:9092"]
+            brokers: ["kafka-inter.io:9092"],
+            
         });
 
         producer = kafka.producer();

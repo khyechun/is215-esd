@@ -22,7 +22,7 @@ app.use((req, res, next)=>{
     next()
 })
 
-const itemURL = 'http://localhost:8088/api/item_api/getAllItems/'
+const itemURL = 'http://item:8088/api/item_api/getAllItems/'
 
 
 app.get("/api/getItems", async (req,res)=>{

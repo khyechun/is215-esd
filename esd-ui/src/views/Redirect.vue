@@ -20,7 +20,7 @@ export default {
       let obj = {name:name, img:profileImg, loggedIn: true}
       localStorage.setItem("token", response.data.jwtToken.jwt_token);
       
-      localStorage.setItem("steamId", "76561198000003391");
+      localStorage.setItem("steamId", id);
       this.$emit("loginEvent", obj);
       this.$router.push({ name: "List Trade" });
     },

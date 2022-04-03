@@ -4,7 +4,7 @@ var nodemailer = require('nodemailer');
 const express = require("express");
 const app = express();
 const amqplib = require("amqplib");
-const amqpUrl = process.env.AMQP_URL || 'amqp://localhost:5673';
+const amqpUrl = process.env.AMQP_URL || 'amqp://localhost:5672';
 
 async function connect() {
   try {

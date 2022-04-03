@@ -11,7 +11,7 @@ router.put("/updateUserInfo", async function (req, res) {
     const userEmail = req.body.userEmail;
     const steamTradeID = req.body.steamTradeId;
 
-    const auth_url = "http://localhost:8082/api/authenticate_api/";
+    const auth_url = "http://authenticate:8082/api/authenticate_api/";
     const auth_route = "authenticateToken"
 
     const authRequestConfig = {
@@ -31,7 +31,7 @@ router.put("/updateUserInfo", async function (req, res) {
         res.send("User not valid")
     }
 
-    const user_url = "http://localhost:8081/api/user_api/";
+    const user_url = "http://user:8081/api/user_api/";
     const user_update_route = "updateUser"
     const userUpdateRequestConfig = {
         method: 'put',

@@ -44,7 +44,7 @@
                 transform: rotate(-45deg);
               "
             />
-            <button class="btn btn-1">Trade</button>
+            <a v-bind:href='userInfo[index]?.tradeURL'><button class="btn btn-1" >Trade</button></a>
           </div>
         </div>
         <div class="col-5">

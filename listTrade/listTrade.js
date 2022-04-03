@@ -1,8 +1,8 @@
 const express = require("express");
 const axios = require('axios')
 const cors = require("cors");
-const connect_amqp = require("../rabbitMQ_AMQP/rabbitMQ_AMQP_Setup")
-const connect_kafka = require("../Kafka_AMQP/kafka_setup")
+const connect_amqp = require("./rabbitMQ_AMQP_Setup")
+const connect_kafka = require("./kafka_setup")
 
 const bodyParser = require("body-parser");
 
@@ -13,15 +13,16 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use((req, res, next)=>{
     console.log(`${req.method} - ${req.url}`)
-    
+    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next()
 })
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const tradeURL = 'http://localhost:8084/api/trade/createTrade'
-const authenticateURL = "http://localhost:8082/api/authenticate_api/authenticateToken"
-const emailURL = "http://localhost:8081/api/user_api/getUserEmail"
+const tradeURL = 'http://trade:8084/api/trade/createTrade'
+const authenticateURL = "http://authenticate:8082/api/authenticate_api/authenticateToken"
+const emailURL = "http://user:8081/api/user_api/getUserEmail"
 app.post("/api/list_trade", async (req, res) => {
     /* const {receiveItems, offerItems} = req.body; */
     const {receiveItems, offerItems, token} = req.body;

@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-md navbar-light pt-3">
     <div class="container-fluid">
-      <a class="navbar-brand fw-bold" href="#">Hoseh Trades</a>
+      <a class="navbar-brand fw-bold" href="#"><img src='@/assets/hoseh_logo.png' style="height:80px;"></a>
       <button
         class="navbar-toggler"
         type="button"
@@ -100,6 +100,7 @@ export default {
   },
   methods:{
     checkLoggedIn(){
+      console.log(localStorage.getItem("token"))
       console.log(localStorage.getItem("token"))
       console.log(this.loggedIn)
       // if(localStorage.getItem("token")){

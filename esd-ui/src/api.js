@@ -3,11 +3,12 @@ const axios = require('axios')
 
 module.exports = {
     getItems: async function (gameId) {
-        const response = await axios.get('http://localhost:8094/api/getItems', {
+        const response = await axios.get('http://localhost:8000/api/getItems', {
             params: {
                 gameId: gameId
             }
-        })
+        }, setHeader())
+
         var arr = response.data.items
         var result_arr = []
         for (var item of arr) {
@@ -39,22 +40,27 @@ module.exports = {
         let steamId = localStorage.getItem("steamId")
         console.log(steamId)
         console.log("http://localhost:8088/api/item_api/getInventory/" + steamId + "/" + gameId)
-        const response = await axios.get("http://localhost:8088/api/item_api/getInventory/" + steamId + "/" + gameId)
+        const response = await axios.get("http://localhost:8088/api/item_api/getInventory/" + steamId + "/" + gameId, setHeader())
         return response.data.items.map(item => { return { ...item, "img_url": item["icon_url"] } })
     },
 
     getUserInfo: async function (userId) {
+        
         const response = await axios.get('http://localhost:8081/api/user_api/getUserInfo/' + userId, setHeader())
-        var name = response.data.response.players[0]?.personaname
-        console.log(name)
-        var profile_img = response.data.response.players[0]?.avatar
-        console.log(profile_img)
-
-        return { name: name, img: profile_img }
+        // var name = response.data.response.players[0]?.personaname
+        // console.log(response)
+        var name = response.data.user_info[0].personaname
+        // console.log(name)
+        var profile_img = response.data.user_info[0].avatar
+        // var profile_img = response.data.response.players[0]?.avatar
+        const response_two = await axios.get('http://localhost:8081/api/user_api/getUserTradeURL/' + userId, setHeader())
+        var tradeURL = response_two.data.userInfo.tradeURL
+        
+        return { name: name, img: profile_img, tradeURL: tradeURL }
     },
 
     steamLogin: async function (id) {
-        const response = axios.get("http://localhost:8090/api/steamUserLogin?id=" + id)
+        const response = axios.get("http://localhost:8000/api/steamUserLogin?id=" + id, setHeader())
         console.log(response)
         return response;
     },
@@ -63,28 +69,32 @@ module.exports = {
         
         // console.log(response)
         try {
-            const response = await axios.get("http://localhost:8093/api/get_available_trades?items=" + items)
+            const response = await axios.get("http://localhost:8000/api/get_available_trades?items=" + items, 
+            setHeader())
+
             console.log(response.data)
             return response.data
         } catch (error) {
             console.log(error)
             return false
         }
+        
  
 
     },
 
     listTrade: async function ({ receiveItems, offerItems }) {
         const token = localStorage.getItem("token")
-        console.log(receiveItems)
+        console.log(receiveItems) 
         console.log(offerItems)
         console.log(token)
-        const response = await axios.post("http://localhost:8092/api/list_trade",
+        const response = await axios.post("http://localhost:8000/api/list_trade",
             {
                 receiveItems: receiveItems,
                 offerItems: offerItems,
                 token: token
-            }
+            },
+            setHeader(token)
         )
 
         return response
@@ -97,6 +107,7 @@ const setHeader = () => {
         headers: {
             'Content-Type': 'application/json',
             "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
             "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
         }
     }

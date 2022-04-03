@@ -21,9 +21,10 @@ services:
     container_name: kafka
     ports: 
       - "9092:9092"
+    hostname: kafka
     environment: 
       #KAFKA_ADVERTISED_HOST_NAME: localhost 
-      KAFKA_ADVERTISED_HOST_NAME: kafka-internal.io
+      KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
 
 
@@ -51,8 +52,6 @@ services:
     image: activity:hosehtrades
     ports:
       - '5003:5003'
-    depends_on:
-      - kafka
     restart: always
 
 

@@ -3,7 +3,7 @@ const axios = require('axios')
 
 module.exports = {
     getItems: async function (gameId) {
-        const response = await axios.get('http://localhost:8094/api/getItems', {
+        const response = await axios.get('http://localhost:8000/api/getItems', {
             params: {
                 gameId: gameId
             }

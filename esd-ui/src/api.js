@@ -7,7 +7,8 @@ module.exports = {
             params: {
                 gameId: gameId
             }
-        })
+        }, setHeader())
+
         var arr = response.data.items
         var result_arr = []
         for (var item of arr) {
@@ -39,7 +40,7 @@ module.exports = {
         let steamId = localStorage.getItem("steamId")
         console.log(steamId)
         console.log("http://localhost:8088/api/item_api/getInventory/" + steamId + "/" + gameId)
-        const response = await axios.get("http://localhost:8088/api/item_api/getInventory/" + steamId + "/" + gameId)
+        const response = await axios.get("http://localhost:8088/api/item_api/getInventory/" + steamId + "/" + gameId, setHeader())
         return response.data.items.map(item => { return { ...item, "img_url": item["icon_url"] } })
     },
 
@@ -59,7 +60,7 @@ module.exports = {
     },
 
     steamLogin: async function (id) {
-        const response = axios.get("http://localhost:8000/api/steamUserLogin?id=" + id)
+        const response = axios.get("http://localhost:8000/api/steamUserLogin?id=" + id, setHeader())
         console.log(response)
         return response;
     },
@@ -68,20 +69,23 @@ module.exports = {
         
         // console.log(response)
         try {
-            const response = await axios.get("http://localhost:8000/api/get_available_trades?items=" + items)
+            const response = await axios.get("http://localhost:8000/api/get_available_trades?items=" + items, 
+            setHeader())
+
             console.log(response.data)
             return response.data
         } catch (error) {
             console.log(error)
             return false
         }
+        
  
 
     },
 
     listTrade: async function ({ receiveItems, offerItems }) {
         const token = localStorage.getItem("token")
-        console.log(receiveItems)
+        console.log(receiveItems) 
         console.log(offerItems)
         console.log(token)
         const response = await axios.post("http://localhost:8000/api/list_trade",
@@ -89,7 +93,8 @@ module.exports = {
                 receiveItems: receiveItems,
                 offerItems: offerItems,
                 token: token
-            }
+            },
+            setHeader(token)
         )
 
         return response
@@ -102,6 +107,7 @@ const setHeader = () => {
         headers: {
             'Content-Type': 'application/json',
             "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
             "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
         }
     }

@@ -3,24 +3,22 @@ version: "3.8"
 volumes:
   rabbitmq_data:
 
+
 networks:
-  trades-net:
-    driver: bridge
+  default:
+    external:
+      name: kong_kong-net
 
 services:
   zookeeper: 
     image: wurstmeister/zookeeper
     container_name: zookeeper
-    networks:
-      - trades-net
     ports: 
       - "2181:2181"
 
   kafka:
     image: wurstmeister/kafka
     container_name: kafka
-    networks:
-      - trades-net
     ports: 
       - "9092:9092"
     environment: 
@@ -37,18 +35,11 @@ services:
     image: rabbitmq:3-management 
     hostname: esd-rabbit 
     restart: always 
-    networks:
-      - trades-net
     ports: 
       - "5672:5672" 
       - "15672:15672" 
     volumes: 
       - rabbitmq_data:/var/lib/rabbitmq 
-    healthcheck:
-      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
-      interval: 5s
-      timeout: 15s
-      retries: 10
 
     
 
@@ -57,8 +48,6 @@ services:
   activity:
     build: ../activity
     image: activity:hosehtrades
-    networks:
-      - trades-net
     ports:
       - '5003:5003'
     depends_on:
@@ -69,8 +58,6 @@ services:
   item:
     build: ../item
     image: item:hosehtrades
-    networks:
-      - trades-net
     ports:
       - '8088:8088'
     restart: always
@@ -78,8 +65,6 @@ services:
   authenticate:
     build: ../authenticate
     image: authenticate:hosehtrades
-    networks:
-      - trades-net
     restart: always
     ports:
       - '8082:8082'
@@ -87,8 +72,6 @@ services:
   user:
     build: ../user
     image: user:hosehtrades
-    networks:
-      - trades-net
     restart: always
     ports:
       - '8081:8081'
@@ -96,8 +79,6 @@ services:
   game:
     build: ../game
     image: game:hosehtrades
-    networks:
-      - trades-net
     restart: always
     ports:
       - '8083:8083'
@@ -105,8 +86,6 @@ services:
   trade:
     build: ../trade
     image: trade:hosehtrades
-    networks:
-      - trades-net
     restart: always
     ports:
       - '8084:8084'
@@ -114,8 +93,6 @@ services:
   error:
     build: ../error
     image: error:hosehtrades
-    networks:
-      - trades-net
     restart: always
     ports:
       - '5004:5004'
@@ -123,8 +100,6 @@ services:
   email:
     build: ../email
     image: email:hosehtrades
-    networks:
-      - trades-net
     restart: always 
     depends_on:
       - "rabbitmq"
@@ -145,8 +120,7 @@ services:
   userLogin:
     build: ../userlogin
     image: userlogin:hosehtrades
-    networks:
-      - trades-net
+
     restart: always
     ports:
       - '8090:8090'
@@ -154,8 +128,6 @@ services:
   getAvailableTrades:
     build: ../getAvailableTrades
     image: getavailabletrades:hosehtrades
-    networks:
-      - trades-net
     restart: always
     ports:
       - '8093:8093'
@@ -163,8 +135,6 @@ services:
   getItems:
     build: ../getitems
     image: getitems:hosehtrades
-    networks:
-      - trades-net
     restart: always
     ports:
       - '8094:8094'
@@ -175,13 +145,8 @@ services:
   listTrade:
     build: ../listtrade
     image: listtrade:hosehtrades
-    networks:
-      - trades-net
     restart: always
     ports:
       - '8092:8092'
     
 
-
-
-  

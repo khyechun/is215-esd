@@ -58,7 +58,7 @@ module.exports = {
     },
 
     steamLogin: async function (id) {
-        const response = axios.get("http://localhost:8090/api/steamUserLogin?id=" + id)
+        const response = axios.get("http://localhost:8000/api/steamUserLogin?id=" + id)
         console.log(response)
         return response;
     },
@@ -67,7 +67,7 @@ module.exports = {
         
         // console.log(response)
         try {
-            const response = await axios.get("http://localhost:8093/api/get_available_trades?items=" + items)
+            const response = await axios.get("http://localhost:8000/api/get_available_trades?items=" + items)
             console.log(response.data)
             return response.data
         } catch (error) {
@@ -83,7 +83,7 @@ module.exports = {
         console.log(receiveItems)
         console.log(offerItems)
         console.log(token)
-        const response = await axios.post("http://localhost:8092/api/list_trade",
+        const response = await axios.post("http://localhost:8000/api/list_trade",
             {
                 receiveItems: receiveItems,
                 offerItems: offerItems,

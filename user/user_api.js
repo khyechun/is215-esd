@@ -14,8 +14,9 @@ router.get("/getAllUsers", async (req, res) => {
 
     if(res.statusCode==200){
         users.forEach(doc=>{
-            all_users.push(doc.data())
+            all_users.push([doc.id, '=>', doc.data()])
         })
+
     
         res.send({
             "code": res.statusCode,

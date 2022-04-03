@@ -1,6 +1,5 @@
-FROM node:14-slim
+FROM python:3-slim
 WORKDIR /usr/src/app
 COPY . .
-RUN npm install 
-EXPOSE 5004
-CMD [ "node", "./error.js" ]
+RUN python -m pip install --no-cache-dir -r reqs.txt
+CMD [ "python", "./error_kafka.py" ]

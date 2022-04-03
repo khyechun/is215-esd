@@ -1,6 +1,8 @@
 FROM node:14-slim
 WORKDIR /usr/src/app
-COPY . . 
-RUN npm install
-EXPOSE 8094
-CMD [ "node", "./getItems.js" ]
+COPY package*.json ./
+COPY . .
+RUN npm install 
+COPY ./getItems.js .
+EXPOSE 8081
+CMD [ "node", "getItems" ]

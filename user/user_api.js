@@ -113,7 +113,7 @@ router.get('/getUserEmail', async (req,res)=> {
     let user = await firestore.collection('Users').doc(userID).get()
 
     if(res.statusCode==200){
-        if(user.exists){
+        if(user.exists){    
             res.send({
                 "code": res.statusCode,
                 "email": user.data().email

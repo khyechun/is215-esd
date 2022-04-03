@@ -4,10 +4,6 @@ const router = express.Router();
 const axios = require('axios');
 
 
-router.get("/hosehbo", function (req, res) {
-    res.send("hosehbo")
-})
-
 
 
 router.get("/steamUserLogin", async function (req, res) {

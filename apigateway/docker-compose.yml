@@ -19,13 +19,16 @@ services:
   kafka:
     image: wurstmeister/kafka
     container_name: kafka
+    hostname: kafka
     ports: 
       - "9092:9092"
-    hostname: kafka
     environment: 
-      #KAFKA_ADVERTISED_HOST_NAME: localhost 
-      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ADVERTISED_HOST_NAME: kafka 
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_OFFSETS_TOPIC_REPLCIATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_SOCKET_REQUEST_MAX_BYTES: 1347375956
 
 
     
@@ -53,6 +56,8 @@ services:
     ports:
       - '5003:5003'
     restart: always
+    environment: 
+      PYTHONUNBUFFERED: 1
 
 
   item:
@@ -96,6 +101,8 @@ services:
     restart: always
     ports:
       - '5004:5004'
+    environment: 
+      PYTHONUNBUFFERED: 1
 
   email:
     build: ../email
@@ -107,6 +114,7 @@ services:
       - '5005:5005'
     environment: 
       AMQP_URL: amqp://guest:guest@rabbitmq:5672
+      PYTHONUNBUFFERED: 1
     
     
 

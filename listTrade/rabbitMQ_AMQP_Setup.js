@@ -10,13 +10,16 @@ var channel;
 
 connect_amqp.connect = async function(name, data){
     try {
-        const amqpServer = "amqp://amqp:5672";
+        console.log(data)
+        const amqpServer = "amqp://rabbitmq:5672";
         const connection = await amqp.connect(amqpServer);
         channel = await connection.createChannel();
         await channel.assertQueue(name);
-        console.log(data)
         await channel.sendToQueue(name, Buffer.from(JSON.stringify(data)));
-        //await channel.sendToQueue(name, data);
+        
+        // channel.assertExchange("email_topic", 'topic', {durable: true});
+        // channel.publish("email_topic", "user.error", Buffer.from(JSON.stringify(data)));
+
 
     } catch  (err) {
         console.log(err)

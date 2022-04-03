@@ -44,6 +44,13 @@ services:
       - "15672:15672" 
     volumes: 
       - rabbitmq_data:/var/lib/rabbitmq 
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 5s
+      timeout: 15s
+      retries: 10
+
+    
 
     
 

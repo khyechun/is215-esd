@@ -1,4 +1,4 @@
-import json 
+import json
 from kafka import KafkaConsumer
 
 if __name__ == "__main__":

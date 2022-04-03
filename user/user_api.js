@@ -153,7 +153,7 @@ router.get('/getUserInfo/:userId', async (req, res)=>
 })
 
 
-
+//6th API: Get user's tradeURL from user db 
 router.get('/getUserTradeURL/:userID', async (req, res) => {
     const userID = req.params.userID
     let user = await firestore.collection('Users').doc(userID).get();

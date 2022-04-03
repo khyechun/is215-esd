@@ -101,6 +101,7 @@ export default {
   methods:{
     checkLoggedIn(){
       console.log(localStorage.getItem("token"))
+      console.log(localStorage.getItem("token"))
       console.log(this.loggedIn)
       // if(localStorage.getItem("token")){
       //   this.loggedIn = true

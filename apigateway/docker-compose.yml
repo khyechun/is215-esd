@@ -3,6 +3,12 @@ version: "3.8"
 volumes:
   rabbitmq_data:
 
+
+networks:
+  default:
+    external:
+      name: kong_kong-net
+
 services:
   zookeeper: 
     image: wurstmeister/zookeeper
@@ -25,15 +31,17 @@ services:
 ####################################
 # RabbitMQ: The messaging broker   
 ####################################
-  rabbitmq:
-    image: rabbitmq:3-management
-    hostname: esd-rabbit
-    restart: always
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+  rabbitmq: 
+    image: rabbitmq:3-management 
+    hostname: esd-rabbit 
+    restart: always 
+    ports: 
+      - "5672:5672" 
+      - "15672:15672" 
     volumes: 
-      - rabbitmq_data:/var/lib/rabbitmq
+      - rabbitmq_data:/var/lib/rabbitmq 
+
+    
 
     
 
@@ -44,7 +52,7 @@ services:
       - '5003:5003'
     depends_on:
       - kafka
-    # restart: always
+    restart: always
 
 
   item:
@@ -52,48 +60,55 @@ services:
     image: item:hosehtrades
     ports:
       - '8088:8088'
-    restart: 
-      "always"
+    restart: always
 
   authenticate:
     build: ../authenticate
     image: authenticate:hosehtrades
+    restart: always
     ports:
       - '8082:8082'
 
   user:
     build: ../user
     image: user:hosehtrades
+    restart: always
     ports:
       - '8081:8081'
 
   game:
     build: ../game
     image: game:hosehtrades
+    restart: always
     ports:
       - '8083:8083'
 
   trade:
     build: ../trade
     image: trade:hosehtrades
+    restart: always
     ports:
       - '8084:8084'
 
   error:
     build: ../error
     image: error:hosehtrades
+    restart: always
     ports:
       - '5004:5004'
 
   email:
     build: ../email
     image: email:hosehtrades
-    ports:
-      - '8085:8085'
-    # restart: 
-    #   "always"
+    restart: always 
     depends_on:
       - "rabbitmq"
+    ports:
+      - '5005:5005'
+    environment: 
+      AMQP_URL: amqp://guest:guest@rabbitmq:5672
+    
+    
 
 
 
@@ -105,18 +120,22 @@ services:
   userLogin:
     build: ../userlogin
     image: userlogin:hosehtrades
+
+    restart: always
     ports:
       - '8090:8090'
 
   getAvailableTrades:
     build: ../getAvailableTrades
     image: getavailabletrades:hosehtrades
+    restart: always
     ports:
       - '8093:8093'
 
   getItems:
     build: ../getitems
     image: getitems:hosehtrades
+    restart: always
     ports:
       - '8094:8094'
     depends_on: 
@@ -126,13 +145,8 @@ services:
   listTrade:
     build: ../listtrade
     image: listtrade:hosehtrades
+    restart: always
     ports:
       - '8092:8092'
     
-networks:
-  default:
-    external:
-      name: kong_kong-net
 
-
-  

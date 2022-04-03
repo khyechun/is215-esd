@@ -10,7 +10,7 @@ var channel;
 
 connect_amqp.connect = async function(name, data){
     try {
-        const amqpServer = "amqp://localhost:5672";
+        const amqpServer = "amqp://amqp:5672";
         const connection = await amqp.connect(amqpServer);
         channel = await connection.createChannel();
         await channel.assertQueue(name);

@@ -49,11 +49,8 @@ app.post("/api/list_trade", async (req, res) => {
         var data = {email: response.data.email, tradeID: status.data.data.createTrade}
         
         console.log(data)
-        await connect_amqp.connect("email", data)
-        
-        // res.send({status:true})
-        
-        
+        await connect_amqp.connect("Email", data)
+                
 
     } catch (err) {
         res.status(500).send({message: 'Error creating trade', statusCode: 500})

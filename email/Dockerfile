@@ -1,5 +1,5 @@
-FROM node:14-slim
+FROM python:3-slim
 WORKDIR /usr/src/app
 COPY . .
-RUN npm install 
-CMD [ "node", "./email_amqp.js" ]
+RUN python -m pip install --no-cache-dir -r reqs.txt
+CMD [ "python", "./email_amqp.py" ]

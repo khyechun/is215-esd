@@ -14,7 +14,7 @@ router.get("/getAllUsers", async (req, res) => {
 
     if(res.statusCode==200){
         users.forEach(doc=>{
-            all_users.push([doc.id, '=>', doc.data()])
+            all_users.push({userid: doc.id, info: doc.data()})
         })
 
     
@@ -42,7 +42,7 @@ router.get("/getUser", async (req,res)=> {
 
     let data={
         email:'',
-        tradeID:''
+        tradeURL:''
     }
 
     if(res.statusCode==200){
@@ -151,6 +151,17 @@ router.get('/getUserInfo/:userId', async (req, res)=>
         "user_info": response.data.response.players
     })
 })
+
+
+
+router.get('/getUserTradeURL/:userID', async (req, res) => {
+    const userID = req.params.userID
+    let user = await firestore.collection('Users').doc(userID).get();
+    let tradeURL = user._fieldsProto.tradeURL.stringValue
+    var userInfo = {"userID": user.id, "tradeURL": tradeURL}
+    res.send({"code": res.statusCode, "userInfo": userInfo})
+    }
+)
 
 
 

@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const tradeURL = 'http://trade:8084/api/trade/createTrade'
-const authenticateURL = "http://authenticate:8082/api/authenticate_api/authenticateToken"
+const authenticateURL = "http://authentication:8082/api/authenticate_api/authenticateToken"
 const emailURL = "http://user:8081/api/user_api/getUserEmail"
 app.post("/api/list_trade", async (req, res) => {
     /* const {receiveItems, offerItems} = req.body; */

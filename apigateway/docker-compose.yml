@@ -57,10 +57,7 @@ services:
     volumes: 
       - rabbitmq_data:/var/lib/rabbitmq 
 
-    
-
-    
-
+  
   activity:
     build: ../activity
     image: activity:hosehtrades

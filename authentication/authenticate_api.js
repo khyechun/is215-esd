@@ -7,7 +7,6 @@ dotenv.config();
 process.env.TOKEN_SECRET;
 
 
-// Steam Developer API Key: 810A381CF018AA1D7A6C8A99C440AA11
 
 
 
@@ -88,9 +87,6 @@ function authenticateToken(req, res, next) {
     })
 }
 
-//   router.get("/hosehbo", authenticateToken, function (req,res){
-//     res.send("hosehbo")
-// })
 
 
 module.exports = router;

@@ -66,6 +66,6 @@ img {
 }
 
 button {
-  background-color: #7289da;
+  background-color: #595db9;
 }
 </style>

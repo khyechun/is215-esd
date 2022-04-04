@@ -2,12 +2,12 @@ version: "3.8"
 
 volumes:
   rabbitmq_data:
+  kafka_data:
 
 
 networks:
   default:
-    external:
-      name: kong_kong-net
+    name: kong_kong-net
 
 services:
   zookeeper: 
@@ -16,16 +16,31 @@ services:
     ports: 
       - "2181:2181"
 
+  # kafka:
+  #   image: wurstmeister/kafka
+  #   container_name: kafka
+  #   ports: 
+  #     - "9092:9092"
+  #   hostname: kafka
+  #   environment: 
+  #     #KAFKA_ADVERTISED_HOST_NAME: localhost 
+  #     KAFKA_ADVERTISED_HOST_NAME: kafka
+  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
   kafka:
     image: wurstmeister/kafka
-    container_name: kafka
-    ports: 
+    ports:
       - "9092:9092"
-    hostname: kafka
-    environment: 
-      #KAFKA_ADVERTISED_HOST_NAME: localhost 
+    links:
+      - zookeeper
+    environment:
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_DELETE_TOPIC_ENABLE: 'true'
+      KAFKA_CREATE_TOPICS: "activity:1:1,error:1:1"
+    volumes:
+      - kafka_data:/var/run/docker.sock:/var/run/docker.sock
 
 
     

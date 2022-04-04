@@ -66,6 +66,12 @@ services:
     restart: always
     environment: 
       PYTHONUNBUFFERED: 1
+    depends_on:
+      - kafka
+      - getAvailableTrades
+      - userLogin
+      - getItems
+      - listTrade
 
 
   item:
@@ -111,18 +117,26 @@ services:
       - '5004:5004'
     environment: 
       PYTHONUNBUFFERED: 1
+    depends_on:
+      - kafka
+      - getAvailableTrades
+      - userLogin
+      - getItems
+      - listTrade
 
   email:
     build: ../email
     image: email:hosehtrades
     restart: always 
     depends_on:
-      - "rabbitmq"
+      - rabbitmq
+      - listTrade
     ports:
       - '5005:5005'
     environment: 
       AMQP_URL: amqp://guest:guest@rabbitmq:5672
       PYTHONUNBUFFERED: 1
+      
     
     
 

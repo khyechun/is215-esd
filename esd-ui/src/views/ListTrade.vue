@@ -309,7 +309,6 @@
         <button class="btn btn-2">Reset</button
         ><button
           class="btn btn-1"
-          v-bind:disabled="!loggedIn"
           @click="listTrade()"
         >
           List Trade

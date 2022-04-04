@@ -31,7 +31,7 @@ def processEmailLog(details):
     msg = EmailMessage()
     user_email= details['email'] 
     trade_id= details['tradeID']
-    msg['Subject'] = f'(Trade {trade_id} created!)'
+    msg['Subject'] = f'(New Trade created!)'
     msg['From'] = EMAIL_ADDRESS 
     msg['To'] = user_email
 

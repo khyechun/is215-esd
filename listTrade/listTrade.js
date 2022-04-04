@@ -50,7 +50,7 @@ app.post("/api/list_trade", async (req, res) => {
         res.status(201).send({status:true})
         
         // AMQP THINGS: TO DO
-        await connect_kafka.connect('activity', `${steamId} has placed a trade offer with trade ID ${status.data.data.createTrade}.`) 
+        await connect_kafka.connect('activity', `${steamId} has placed a trade offer with trade ID ${status.data.data.createTrade}. Time: ${new Date().toDateString()}`) 
         var response = await axios.get(emailURL + `?id=${steamId}`, setHeader(token));
         console.log(response.data)
         var data = {email: response.data.email, tradeID: status.data.data.createTrade}
@@ -61,7 +61,7 @@ app.post("/api/list_trade", async (req, res) => {
 
     } catch (err) {
         res.status(500).send({message: 'Error creating trade', statusCode: 500})
-        await connect_kafka.connect('error', `${steamId} has an issue creating a trade.`) 
+        await connect_kafka.connect('error', `${steamId} has an issue creating a trade. Time: ${new Date().toDateString()}`) 
         console.log(err)
         
         

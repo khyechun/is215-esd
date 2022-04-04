@@ -143,6 +143,8 @@ services:
     restart: always
     ports:
       - '8090:8090'
+    depends_on: 
+      - kafka
 
   getAvailableTrades:
     build: ../getAvailableTrades
@@ -150,6 +152,8 @@ services:
     restart: always
     ports:
       - '8093:8093'
+    depends_on: 
+      - kafka
 
   getItems:
     build: ../getitems
@@ -167,5 +171,7 @@ services:
     restart: always
     ports:
       - '8092:8092'
+    depends_on: 
+      - kafka
     
 

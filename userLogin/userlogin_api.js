@@ -41,9 +41,9 @@ router.get("/steamUserLogin", async function (req, res) {
         }
         res.send(responseObj)
 
-        await connect_kafka.connect('activity', `${steam_id} successful login. Time: ${new Date().toDateString()}.`)
+        await connect_kafka.connect('activity', `${steam_id} successful login. Time: ${new Date().toString()}.`)
     } catch(err) {
-        await connect_kafka.connect('error', `${steam_id} login failed. Time: ${new Date().toDateString()}.`)
+        await connect_kafka.connect('error', `${steam_id} login failed. Time: ${new Date().toString()}.`)
     }
 })
 

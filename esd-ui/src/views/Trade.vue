@@ -298,76 +298,12 @@ export default {
       gameId: 730,
       loading: false,
       items: [],
+      allItems:[],
       selectedItems: [],
       search: "",
       userInfo: [
-        // {
-        //     user_name: "",
-        //     profile_img_url: ""
-        // }
       ],
       trades: [
-        // {
-        //   _id: "",
-        //   offerItems: [
-        //     {
-        //       itemName: "test 2",
-        //       icon_url:
-        //         "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-        //       rarity_colour: "8847ff",
-        //     },
-        //     {
-        //       itemName: "test 4",
-        //       icon_url:
-        //         "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-        //       rarity_colour: "8847ff",
-        //     },
-        //     {
-        //       itemName: "test 2",
-        //       icon_url:
-        //         "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-        //       rarity_colour: "8847ff",
-        //     },
-        //     {
-        //       itemName: "test 4",
-        //       icon_url:
-        //         "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-        //       rarity_colour: "8847ff",
-        //     },
-        //     {
-        //       itemName: "test 2",
-        //       icon_url:
-        //         "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-        //       rarity_colour: "8847ff",
-        //     },
-        //     {
-        //       itemName: "test 4",
-        //       icon_url:
-        //         "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-        //       rarity_colour: "8847ff",
-        //     },
-        //     {
-        //       itemName: "test 2",
-        //       icon_url:
-        //         "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-        //       rarity_colour: "8847ff",
-        //     },
-        //     {
-        //       itemName: "test 4",
-        //       icon_url:
-        //         "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-        //       rarity_colour: "8847ff",
-        //     },
-        //   ],
-        //   receiveItems: [
-        //     {
-        //       itemName: "test 3",
-        //       icon_url:
-        //         "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA6Q1NL4kmrAlOA0_FVPCi2t_fUkRxNztUoreaOBM27OXJYzRD4si82tOIxq_3N-yDl2hXuZQhibuUpN2jjQPtqRc5Z2zxd9DDclRqaArW_wWggbC4Uzmy7rk",
-        //       rarity_colour: "8847ff",
-        //     },
-        //   ],
-        // },
       ],
     };
   },
@@ -413,6 +349,7 @@ export default {
     async changeGame() {
       this.loading = true;
       const itemResponse = await api.getItems(this.gameId);
+      this.allItems = itemResponse
       this.items = itemResponse.slice(0, 100);
       this.loading = false;
     },
@@ -437,7 +374,7 @@ export default {
         return this.items;
       }
       let filteredArr = [];
-      this.items.map((item) => {
+      this.allItems.map((item) => {
         if (item.itemName.toLowerCase().includes(this.search.toLowerCase())) {
           filteredArr.push(item);
         }

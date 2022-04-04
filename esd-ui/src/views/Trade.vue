@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="container-fluid" align="left">
     <h3 align="center " class="fw-bold mt-4">Trades</h3>
     <div v-if="trades.length != 0">
@@ -44,7 +45,7 @@
                 transform: rotate(-45deg);
               "
             />
-            <a v-bind:href='userInfo[index]?.tradeURL'><button class="btn btn-1" >Trade</button></a>
+            <a href='https://steamcommunity.com/tradeoffer/new/?partner=39737663&token=FeyRjGZQ'><button class="btn btn-1" >Trade</button></a>
           </div>
         </div>
         <div class="col-5">
@@ -277,6 +278,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

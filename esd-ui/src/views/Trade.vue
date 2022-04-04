@@ -358,6 +358,7 @@ export default {
     // console.log("hi");
     this.loading = true;
     const itemResponse = await api.getItems(this.gameId);
+    this.allItems = itemResponse;
     this.items = itemResponse.slice(0, 100);
     this.loading = false;
     // const tradeSearchResponse = await api.searchTrades(

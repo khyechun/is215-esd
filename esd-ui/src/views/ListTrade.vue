@@ -307,7 +307,11 @@
       </div>
       <div align="right">
         <button class="btn btn-2">Reset</button
-        ><button class="btn btn-1" v-bind:disabled="!loggedIn" @click="listTrade()">
+        ><button
+          class="btn btn-1"
+          v-bind:disabled="!loggedIn"
+          @click="listTrade()"
+        >
           List Trade
         </button>
       </div>
@@ -344,6 +348,8 @@ export default {
       offerItemsSelected: [],
       getItems: [],
       getItemsSelected: [],
+      fullGetItems: [],
+      fullOfferItems:[]
     };
   },
   computed: {
@@ -352,7 +358,7 @@ export default {
         return this.offerItems;
       }
       let filteredArr = [];
-      this.offerItems.map((item) => {
+      this.fullOfferItems.map((item) => {
         if (
           item.itemName
             .toLowerCase()
@@ -369,7 +375,7 @@ export default {
         return this.getItems;
       }
       let filteredArr = [];
-      this.getItems.map((item) => {
+      this.fullGetItems.map((item) => {
         if (
           item.itemName
             .toLowerCase()
@@ -416,30 +422,35 @@ export default {
     },
     async changeGame(type) {
       if (type == "get") {
-        this.getLoading = true
+        this.getLoading = true;
         let result = await api.getItems(this.getGameId);
         console.log(result);
-        this.getItems = result.slice(0, 200);
-        this.getLoading = false
+        this.fullGetItems = result
+        this.getItems = result.slice(0, 150);
+        this.getLoading = false;
       } else if (type == "offer") {
-        this.offerLoading = true
+        this.offerLoading = true;
         let result = await api.getSteamInventory(this.inventoryGameId);
         console.log(result);
-        this.offerItems = result.slice(0, 200);
-        this.offerLoading = false
+        this.fullOfferItems = result
+        this.offerItems = result.slice(0, 150);
+        this.offerLoading = false;
       }
     },
 
-    async listTrade(){
-      console.log(this.getItemsSelected)
-      console.log(this.offerItemsSelected)
-      const listTradeResponse = await api.listTrade({receiveItems: this.getItemsSelected.map(item => item.itemID), offerItems: this.offerItemsSelected.map(item => item.itemID)})
+    async listTrade() {
+      console.log(this.getItemsSelected);
+      console.log(this.offerItemsSelected);
+      const listTradeResponse = await api.listTrade({
+        receiveItems: this.getItemsSelected.map((item) => item.itemID),
+        offerItems: this.offerItemsSelected.map((item) => item.itemID),
+      });
       // console.log(listTradeResponse)
-      if(listTradeResponse.statusText == "Created"){
+      if (listTradeResponse.statusText == "Created") {
         // alert("successfully listed trade :D")
-      this.$router.push({ name: "Success" });
+        this.$router.push({ name: "Success" });
       }
-    }
+    },
   },
   mounted: async function () {
     //call api
@@ -449,13 +460,13 @@ export default {
       let myInventory = await this.getInventoryItems();
       // console.log(myInventory);
       this.offerItems = myInventory;
-      this.getLoading = false;
     }
     // console.log(this.offerItems);
 
     let getItemsResponse = await api.getItems(730);
     this.getItems = getItemsResponse.slice(0, 100);
     this.offerLoading = false;
+    this.getLoading = false;
   },
 };
 </script>

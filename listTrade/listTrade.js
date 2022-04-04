@@ -32,6 +32,13 @@ app.post("/api/list_trade", async (req, res) => {
         console.log(response.data)
         var steamId = response.data.token_object.userId
         
+        if(offerItems.length == 0 || offerItems.length == 0){
+            res.status(200).send({statusCode: 200, message:"Please select both items you are offering and receiving"})    
+        }
+        if(steamId == undefined){
+            res.status(200).send({statusCode: 200, message:"User must be logged in"})    
+        }
+        
         /* var steamId = 76561198000003391 */
         var data = JSON.stringify({query: `mutation{
             createTrade(trade: {receiveItems: [${receiveItems.join(", ")}],

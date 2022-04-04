@@ -449,6 +449,8 @@ export default {
       if (listTradeResponse.statusText == "Created") {
         // alert("successfully listed trade :D")
         this.$router.push({ name: "Success" });
+      }else{
+        alert(listTradeResponse.data.message)
       }
     },
   },

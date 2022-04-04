@@ -430,10 +430,10 @@ export default {
         this.getLoading = false;
       } else if (type == "offer") {
         this.offerLoading = true;
-        let result = await api.getSteamInventory(this.inventoryGameId);
-        console.log(result);
-        this.fullOfferItems = result
-        this.offerItems = result.slice(0, 150);
+        let result_2 = await api.getSteamInventory(this.inventoryGameId);
+        console.log(result_2);
+        this.fullOfferItems = result_2
+        this.offerItems = result_2.slice(0, 150);
         this.offerLoading = false;
       }
     },
@@ -464,6 +464,7 @@ export default {
     // console.log(this.offerItems);
 
     let getItemsResponse = await api.getItems(730);
+    this.fullGetItems = getItemsResponse
     this.getItems = getItemsResponse.slice(0, 100);
     this.offerLoading = false;
     this.getLoading = false;

@@ -14,7 +14,7 @@ router.get("/steamUserLogin", async function (req, res) {
         // console.log(steam_id)
         // console.log("HI")
         // 1. send steam user ID to auth
-        const auth_url = "http://authenticate:8082/api/authenticate_api/";
+        const auth_url = "http://authentication:8082/api/authenticate_api/";
         const auth_route = "AuthenticateUser"
         const jwtTokenRequest = await axios.get(auth_url + auth_route, {
             params: {

@@ -57,10 +57,7 @@ services:
     volumes: 
       - rabbitmq_data:/var/lib/rabbitmq 
 
-    
-
-    
-
+  
   activity:
     build: ../activity
     image: activity:hosehtrades
@@ -78,9 +75,9 @@ services:
       - '8088:8088'
     restart: always
 
-  authenticate:
-    build: ../authenticate
-    image: authenticate:hosehtrades
+  authentication:
+    build: ../authentication
+    image: authentication:hosehtrades
     restart: always
     ports:
       - '8082:8082'

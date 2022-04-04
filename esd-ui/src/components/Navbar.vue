@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-md navbar-light pt-3">
     <div class="container-fluid">
-      <a class="navbar-brand fw-bold" href="#"><img src='@/assets/hoseh_logo.png' style="height:80px;"></a>
+      <router-link class="navbar-brand fw-bold" to="/"><img src='@/assets/hoseh_logo.png' style="height:80px;"></router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -107,7 +107,8 @@ export default {
       //   this.loggedIn = true
       // }
       console.log(this.loggedIn);
-    }
+    },
+
   },
   mounted:function(){
     this.checkLoggedIn();

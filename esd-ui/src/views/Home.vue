@@ -12,7 +12,7 @@
 
           <br />
 
-          <button class="btn btn-1 px-5 py-2">Try Now</button>
+          <button class="btn btn-1 px-5 py-2" @click="redirect()"> Try Now</button>
         </div>
       </div>
 
@@ -31,12 +31,20 @@
 
 //const hosehapi = require("../api.js");
 
+
+
 export default {
   name: "Home",
 
   components: {
     // HelloWorld,
   },
+
+  methods:{
+    redirect: function(){
+      this.$router.push("list-trade")
+    }
+  }
 };
 </script>
 
@@ -58,6 +66,6 @@ img {
 }
 
 button {
-  background-color: indigo;
+  background-color: #7289da;
 }
 </style>

@@ -25,7 +25,7 @@ docker-compose up -d
 
 ## Installation for Kong API Gateway
 
-Navigate the command prompt to the directory of the apigateway, kong folder
+Navigate the command prompt to the directory of the apigateway/kong folder
 
 ```bash
 cd apigateway/kong

@@ -2,10 +2,10 @@
 <div>
   <div class="container-fluid" align="left">
     <h3 align="center " class="fw-bold mt-4">Trades</h3>
-    <div v-if="trades.length != 0">
+    <div v-if="trades.length != 0" style="padding:70px;">
       <div class="row" v-for="(trade, index) of trades" :key="index">
         <div class="col-5 mt-2">
-          <p class="mb-1"><img v-bind:src='this.userInfo[index]?.img'>{{this.userInfo[index]?.name}} offers...</p>
+          <p class="mb-1"><img style="border-radius:50%;margin:5px" v-bind:src='this.userInfo[index]?.img'>{{this.userInfo[index]?.name}} offers...</p>
           <div class="trade-container">
             <div class="y-scroll-overflow">
               <div
@@ -49,7 +49,7 @@
           </div>
         </div>
         <div class="col-5">
-          <p>...in return for</p>
+          <p class="mb-1" style="margin-top:28px;">...in return for</p>
           <div class="trade-container y-scroll-overflow">
             <div
               v-for="(item, index_1) of trade.receiveItems"

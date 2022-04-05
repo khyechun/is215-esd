@@ -69,3 +69,8 @@ Running the docker-compose.yml
 docker compose up
 ```
 
+
+## Kong Step-by-Step Configuration 
+
+![image](https://user-images.githubusercontent.com/89075648/161684307-e78aafec-f58f-4751-a11d-040ee118a434.png)
+

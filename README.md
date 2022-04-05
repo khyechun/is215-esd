@@ -10,7 +10,7 @@ Therefore, we have decided to develop HosehTrades, a one stop platform that faci
 Navigate the command prompt to the directory of the apigateway folder
 
 ```bash
-cd apigateway
+cd apigateway/
 ```
 Running the docker-compose.yml
 ```bash

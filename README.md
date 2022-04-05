@@ -31,8 +31,7 @@ Navigate the command prompt to the directory of the apigateway folder
 cd apigateway/kong
 ```
 
-## Running the docker-compose.yml 
-
+Running the docker-compose.yml
 ```bash
 docker-compose up -d
 ```
@@ -65,7 +64,7 @@ Navigate the command prompt to the directory of the apigateway folder
 ```bash
 cd apigateway
 ```
-## Running the docker-compose.yml 
+Running the docker-compose.yml
 ```bash
 docker compose up
 ```

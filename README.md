@@ -1,4 +1,4 @@
-# [UT BUDDY](https://main.d3gzi5eplp517x.amplifyapp.com/#/)
+# [HosehTrades]
 
 
 **Steam** is a video game digital distribution service and storefront developed by Valve. It is a one stop platform for users to play, discuss and create new games. It is currently one of the most popular gaming platforms, boasting over 25 million monthly active users. Despite being one of the biggest gaming platforms, we realised that there was no **dedicated feature/platform** within Steam for users to trade in-game items with one another.

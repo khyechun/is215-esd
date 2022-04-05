@@ -23,21 +23,6 @@ docker-compose up -d
 
 ****
 
-## Installation for Kong API Gateway
-
-Navigate the command prompt to the directory of the apigateway/kong folder
-
-```bash
-cd apigateway/kong
-```
-
-Running the docker-compose.yml
-```bash
-docker-compose up -d
-```
-
-****
-
 ## Installation for Web Page
 
 Navigate the command prompt to the directory of the apigateway folder
@@ -69,6 +54,20 @@ Running the docker-compose.yml
 docker compose up
 ```
 
+## Installation for Kong API Gateway
+
+Navigate the command prompt to the directory of the apigateway/kong folder
+
+```bash
+cd apigateway/kong
+```
+
+Running the docker-compose.yml
+```bash
+docker-compose up -d
+```
+
+****
 
 ## Kong Gateway Step-by-Step Configuration 
 1.	Run docker compose up at /is215-esd/apigateway/kong 

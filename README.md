@@ -6,19 +6,15 @@
 Therefore, we have decided to develop HosehTrades, a one stop platform that facilitates trading of Steam items between users. In addition, to prevent bots from using our website, all users must be authenticated with their Steam account before being allowed to post a trade on our platform. The following are the 3 user scenarios we will be covering:
 
 
-
-## Installation for docker-compose
-
+## Start up the microservices 
 Navigate the command prompt to the directory of the apigateway folder
 
 ```bash
-cd apigateway/ 
+cd apigateway
 ```
-
-## Running the docker-compose.yml 
-
+Running the docker-compose.yml
 ```bash
-docker-compose up -d
+docker compose up
 ```
 
 ****
@@ -42,17 +38,6 @@ npm run serve
 ```
 
 ****
-
-## Start up the microservices 
-Navigate the command prompt to the directory of the apigateway folder
-
-```bash
-cd apigateway
-```
-Running the docker-compose.yml
-```bash
-docker compose up
-```
 
 ## Installation for Kong API Gateway
 

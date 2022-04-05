@@ -22,7 +22,7 @@ docker compose up
 
 ## Installation for Web Page
 
-Navigate the command prompt to the directory of the apigateway folder
+Navigate the command prompt to the directory of esd-ui folder
 
 ```bash
 cd esd-ui/

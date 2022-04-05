@@ -1,12 +1,9 @@
 # [UT BUDDY](https://main.d3gzi5eplp517x.amplifyapp.com/#/)
 
 
+**Steam** is a video game digital distribution service and storefront developed by Valve. It is a one stop platform for users to play, discuss and create new games. It is currently one of the most popular gaming platforms, boasting over 25 million monthly active users. Despite being one of the biggest gaming platforms, we realised that there was no **dedicated feature/platform** within Steam for users to trade in-game items with one another.
 
-**UT Buddy** is an utilities Super App that allows a user to access several services from one single web application. It is also an integrated utility tracker for appliances at home that includes bill payments and live-tracking of the appliances. Currently, there is shortage of integrated utility apps and users will need to pay utility bills separately which can be a huge hassle. Moreover, the utilities bill only comes once a month, and users do not have the visibility over their consumption rate, which makes tracking of the bills difficult. 
-
-
-
-**UT buddy** is therefore established to over the existing limitations, by offering different functionalities integrated seamlessly under 1 application. **UT Buddy** aims to offer the user greater visibility over their consumption behaviour, and  we believe that with greater oversights of their consumption habit, **UT buddy** can encourage the users to be more mindful of their consumption behaviour and help the users save on their utilities. **UT Buddy** consists of 4 main pages, namely the **Dashboard Page**, **Bills Page**, **Community Page**, **Live-Tracking Page** and **Profile Page**
+Therefore, we have decided to develop HosehTrades, a one stop platform that facilitates trading of Steam items between users. In addition, to prevent bots from using our website, all users must be authenticated with their Steam account before being allowed to post a trade on our platform. The following are the 3 user scenarios we will be covering:
 
 
 

@@ -72,7 +72,10 @@ docker compose up
 
 ## Kong Gateway Step-by-Step Configuration 
 1.	Run docker compose up at /is215-esd/apigateway/kong 
-2.	Head over to Konga to set up the routes for the complex microservices: 
+2.	Head over to Konga(http://localhost:1337), create an account and sign in. Connect Konga to Kong by creating a new connection
+    Name: default
+    Kong Admin URL: http://kong:8001
+4.	Set up the routes for the complex microservices: 
   a.	 getItems -> Port 8094
   b.	listTrade -> Port 8092
   c.	getAvailableTrades -> Port 8093

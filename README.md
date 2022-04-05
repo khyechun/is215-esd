@@ -57,3 +57,13 @@ npm install
 npm run serve
 ```
 
+## Start up microservices 
+Navigate the command prompt to the directory of the apigateway folder
+
+```bash
+cd apigateway
+```
+```bash
+docker compose up
+```
+

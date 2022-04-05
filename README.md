@@ -50,7 +50,7 @@ The **Profile Page** allows user to update their Profile Picture and their perso
 
 
 
-## Installation
+## Installation for docker-compose
 
 Navigate the command prompt to the directory of the apigateway folder
 
@@ -62,5 +62,23 @@ cd apigateway/
 
 ```bash
 docker-compose up -d
+```
+
+## Installation for Webpage
+
+Navigate the command prompt to the directory of the apigateway folder
+
+```bash
+cd esd-ui/
+```
+
+```bash
+npm install
+```
+
+## Running the application
+
+```bash
+npm run serve
 ```
 

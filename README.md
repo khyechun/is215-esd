@@ -13,6 +13,7 @@ Navigate the command prompt to the directory of the apigateway folder
 cd apigateway/
 ```
 Running the docker-compose.yml
+
 ```bash
 docker compose up
 ```
@@ -26,6 +27,7 @@ Navigate the command prompt to the directory of the apigateway folder
 ```bash
 cd esd-ui/
 ```
+Install the relevant dependencies
 
 ```bash
 npm install
